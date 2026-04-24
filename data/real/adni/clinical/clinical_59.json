@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_059",
+  "age": 80,
+  "gender": "Female",
+  "education": 16,
+  "mmse_score": 15.5,
+  "cdr_score": 2.0,
+  "diagnosis": "AD",
+  "visit_date": "2023-060-15"
+}

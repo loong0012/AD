@@ -1,0 +1,29 @@
+{
+  "patient_id": "DEMO_AD",
+  "demographics": {
+    "age": 78,
+    "gender": "female",
+    "education_years": 10,
+    "apoe_genotype": "ε4/ε4",
+    "race": "Asian",
+    "height_cm": 158,
+    "weight_kg": 58,
+    "bmi": 23.1
+  },
+  "medical_history": {
+    "family_history_ad": true,
+    "hypertension": true,
+    "diabetes": true,
+    "depression_history": true,
+    "stroke_history": true,
+    "heart_disease": true,
+    "smoking_status": "former",
+    "alcohol_use": "none"
+  },
+  "vital_signs": {
+    "systolic_bp": 145,
+    "diastolic_bp": 90,
+    "heart_rate": 80,
+    "temperature": 36.7
+  }
+}

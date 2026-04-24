@@ -1,0 +1,14 @@
+{
+  "patient_id": "PAT_003",
+  "age": 75,
+  "gender": "male",
+  "education": "初中",
+  "clinical_history": "高血压病史10年，高血脂病史5年",
+  "family_history": "母亲患有阿尔茨海默病",
+  "mmse_score": 20,
+  "cdr_score": 1,
+  "apoe_genotype": "ε4/ε4",
+  "blood_pressure": "150/95",
+  "cholesterol": 240,
+  "diagnosis_date": "2024-03-10"
+}

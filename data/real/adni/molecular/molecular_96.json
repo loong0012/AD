@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_096",
+  "csf_abeta42": 550,
+  "csf_ptau181": 45,
+  "csf_abeta_ratio": 0.12,
+  "plasma_nfl": 12,
+  "plasma_gfap": 80,
+  "diagnosis": "CN",
+  "collection_date": "2023-097-15"
+}

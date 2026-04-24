@@ -1,0 +1,15 @@
+{
+  "patient_id": "PAT_003",
+  "exercise_frequency": 1,
+  "exercise_type": ["偶尔散步"],
+  "sleep_duration": 5.5,
+  "diet_health": "low",
+  "diet_details": "偏好高脂肪、高糖分的食物，很少食用蔬菜水果",
+  "social_activities": 1,
+  "social_details": ["每周一次家庭聚会"],
+  "smoking_status": "past",
+  "alcohol_consumption": "regular",
+  "cognitive_activities": ["看电视", "打牌"],
+  "medication": ["降压药", "降脂药"],
+  "daily_routine": "不规律的作息，经常熬夜，早上起床时间不固定"
+}

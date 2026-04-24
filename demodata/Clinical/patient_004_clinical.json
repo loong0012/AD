@@ -1,0 +1,14 @@
+{
+  "patient_id": "PAT_004",
+  "age": 65,
+  "gender": "female",
+  "education": "研究生",
+  "clinical_history": "无重大病史",
+  "family_history": "无家族病史",
+  "mmse_score": 29,
+  "cdr_score": 0,
+  "apoe_genotype": "ε2/ε3",
+  "blood_pressure": "120/80",
+  "cholesterol": 180,
+  "diagnosis_date": "2024-04-05"
+}

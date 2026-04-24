@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_192",
+  "physical_activity": 8,
+  "social_activity": 9,
+  "smoking_status": 0,
+  "diet_quality": 9,
+  "sleep_quality": 8,
+  "diagnosis": "CN",
+  "assessment_date": "2023-0193-15"
+}

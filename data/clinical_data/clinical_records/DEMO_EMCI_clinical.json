@@ -1,0 +1,29 @@
+{
+  "patient_id": "DEMO_EMCI",
+  "demographics": {
+    "age": 70,
+    "gender": "male",
+    "education_years": 14,
+    "apoe_genotype": "ε3/ε4",
+    "race": "Asian",
+    "height_cm": 172,
+    "weight_kg": 70,
+    "bmi": 23.8
+  },
+  "medical_history": {
+    "family_history_ad": true,
+    "hypertension": true,
+    "diabetes": false,
+    "depression_history": true,
+    "stroke_history": false,
+    "heart_disease": false,
+    "smoking_status": "former",
+    "alcohol_use": "moderate"
+  },
+  "vital_signs": {
+    "systolic_bp": 130,
+    "diastolic_bp": 85,
+    "heart_rate": 75,
+    "temperature": 36.5
+  }
+}

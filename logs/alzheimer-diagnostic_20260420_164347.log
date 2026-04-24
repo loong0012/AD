@@ -1,0 +1,38 @@
+2026-04-20 16:44:36,412 - alzheimer-diagnostic - INFO - Retrieving system statistics...
+2026-04-20 16:44:36,439 - alzheimer-diagnostic - INFO - Statistics retrieved successfully: 28 patients, 22 reports, 56 analyses
+2026-04-20 16:44:36,442 - alzheimer-diagnostic - INFO - 获取目录结构
+2026-04-20 16:44:36,442 - alzheimer-diagnostic - INFO - 诊断引擎初始化完成
+2026-04-20 16:44:36,442 - alzheimer-diagnostic - INFO - 数据处理器初始化完成
+2026-04-20 16:44:36,443 - alzheimer-diagnostic - INFO - 报告生成器初始化完成
+2026-04-20 16:44:36,444 - alzheimer-diagnostic - INFO - API处理器初始化完成
+2026-04-20 16:44:41,623 - alzheimer-diagnostic - INFO - Processing demo data request (category: None)...
+2026-04-20 16:44:41,624 - alzheimer-diagnostic - INFO - 
+Starting 阿尔兹海默症诊断系统 v3.0.0
+2026-04-20 16:44:41,624 - alzheimer-diagnostic - INFO - Release date: 2024-01-01
+2026-04-20 16:44:41,624 - alzheimer-diagnostic - INFO - 数据处理器初始化完成
+2026-04-20 16:44:41,625 - alzheimer-diagnostic - INFO - 多模态数据管理器初始化完成
+2026-04-20 16:44:41,625 - alzheimer-diagnostic - INFO - 诊断引擎初始化完成
+2026-04-20 16:44:41,625 - alzheimer-diagnostic - INFO - 数据处理器初始化完成
+2026-04-20 16:44:41,626 - alzheimer-diagnostic - INFO - 报告生成器初始化完成
+2026-04-20 16:44:41,626 - alzheimer-diagnostic - INFO - PDF报告生成器初始化完成
+2026-04-20 16:44:41,626 - alzheimer-diagnostic - INFO - 诊断引擎初始化完成
+2026-04-20 16:44:41,627 - alzheimer-diagnostic - INFO - 数据处理器初始化完成
+2026-04-20 16:44:41,627 - alzheimer-diagnostic - INFO - 报告生成器初始化完成
+2026-04-20 16:44:41,628 - alzheimer-diagnostic - INFO - API处理器初始化完成
+2026-04-20 16:44:41,628 - alzheimer-diagnostic - INFO - System initialization completed
+2026-04-20 16:44:41,628 - alzheimer-diagnostic - INFO - 
+Starting data analysis (patient ID: None, demo mode: True, demo category: None)
+2026-04-20 16:44:41,628 - alzheimer-diagnostic - INFO - 创建演示数据成功: None
+2026-04-20 16:44:41,629 - alzheimer-diagnostic - INFO - 加载患者数据成功: DEMO_CN
+2026-04-20 16:44:41,629 - alzheimer-diagnostic - INFO - 诊断引擎初始化完成
+2026-04-20 16:44:41,637 - alzheimer-diagnostic - INFO - 使用ADNI真实图像: ./data/augmented_balanced_ADNI_v3\LMCI\21 (9).jpg
+2026-04-20 16:44:41,993 - alzheimer-diagnostic - INFO - 使用ADNI真实图像: ./data/augmented_balanced_ADNI_v3\LMCI\aug_0_2976.jpg
+2026-04-20 16:44:42,021 - alzheimer-diagnostic - WARNING - 未找到任何可用图像
+2026-04-20 16:44:42,042 - alzheimer-diagnostic - INFO - 使用ADNI真实图像生成热力图: ./data/augmented_balanced_ADNI_v3\LMCI\21 (18).jpg
+2026-04-20 16:44:44,926 - alzheimer-diagnostic - INFO - Analysis results saved to: ./results/individual/DEMO_CN_20260420_164444\analysis_result.json
+2026-04-20 16:44:44,926 - alzheimer-diagnostic - INFO - Demo data analysis completed, diagnosis result: LMCI
+2026-04-20 16:44:47,009 - alzheimer-diagnostic - INFO - Processing PDF generation request...
+2026-04-20 16:44:49,627 - alzheimer-diagnostic - INFO - PDF报告生成成功: reports\diagnosis_report_张三_20260420_164447.pdf
+2026-04-20 16:44:49,631 - alzheimer-diagnostic - INFO - PDF generation successful: diagnosis_report_张三_20260420_164447.pdf
+2026-04-20 16:44:49,732 - alzheimer-diagnostic - INFO - Retrieving report list...
+2026-04-20 16:44:49,740 - alzheimer-diagnostic - INFO - Found 36 reports

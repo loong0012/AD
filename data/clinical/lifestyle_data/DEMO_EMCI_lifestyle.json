@@ -1,0 +1,35 @@
+{
+  "physical_activity": {
+    "minutes_per_week": 180,
+    "type": [
+      "walking",
+      "light exercise"
+    ],
+    "intensity": "moderate",
+    "sedentary_hours": 6
+  },
+  "diet": {
+    "mediterranean_diet_score": 6,
+    "omega3_intake": "moderate",
+    "antioxidant_rich_foods": true,
+    "processed_foods": "moderate",
+    "sugar_intake": "moderate"
+  },
+  "cognitive_activities": {
+    "reading_frequency": "weekly",
+    "puzzle_solving": "weekly",
+    "social_engagement": "moderate",
+    "learning_new_skills": "monthly"
+  },
+  "sleep": {
+    "hours_per_night": 6.5,
+    "quality": "fair",
+    "sleep_disorders": "mild insomnia"
+  },
+  "stress_and_mental_health": {
+    "stress_level": "moderate",
+    "depression_symptoms": "mild",
+    "anxiety_level": "moderate",
+    "social_support": "good"
+  }
+}

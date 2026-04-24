@@ -1,0 +1,29 @@
+{
+  "patient_id": "DEMO_CN",
+  "demographics": {
+    "age": 72,
+    "gender": "male",
+    "education_years": 12,
+    "apoe_genotype": "ε4/ε4",
+    "race": "Asian",
+    "height_cm": 170,
+    "weight_kg": 75,
+    "bmi": 25.9
+  },
+  "medical_history": {
+    "family_history_ad": true,
+    "hypertension": true,
+    "diabetes": false,
+    "depression_history": false,
+    "stroke_history": false,
+    "heart_disease": false,
+    "smoking_status": "former",
+    "alcohol_use": "moderate"
+  },
+  "vital_signs": {
+    "systolic_bp": 135,
+    "diastolic_bp": 85,
+    "heart_rate": 72,
+    "temperature": 36.5
+  }
+}

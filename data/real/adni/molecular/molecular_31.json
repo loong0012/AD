@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_031",
+  "csf_abeta42": 200,
+  "csf_ptau181": 145,
+  "csf_abeta_ratio": 0.05,
+  "plasma_nfl": 35,
+  "plasma_gfap": 200,
+  "diagnosis": "AD",
+  "collection_date": "2023-032-15"
+}

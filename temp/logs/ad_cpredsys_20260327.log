@@ -1,0 +1,323 @@
+2026-03-27 17:46:53,765 - AD-CPredSys - INFO - ✅ 目录已存在: ./uploaded_img
+2026-03-27 17:46:53,766 - AD-CPredSys - INFO - ✅ 目录已存在: ./demodata
+2026-03-27 17:46:53,767 - AD-CPredSys - INFO - ✅ 目录已存在: ./models
+2026-03-27 17:46:53,767 - AD-CPredSys - INFO - ✅ 目录已存在: ./static
+2026-03-27 17:46:53,768 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/images
+2026-03-27 17:46:53,768 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/css
+2026-03-27 17:46:53,769 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/js
+2026-03-27 17:46:53,769 - AD-CPredSys - INFO - ✅ 目录已存在: ./grad_cam_results
+2026-03-27 17:46:53,770 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data
+2026-03-27 17:46:53,770 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/clinical_records
+2026-03-27 17:46:53,771 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/molecular_data
+2026-03-27 17:46:53,771 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/lifestyle_data
+2026-03-27 17:46:53,772 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/neuropsychological
+2026-03-27 17:46:53,772 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps
+2026-03-27 17:46:53,773 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/regional_risk
+2026-03-27 17:46:53,773 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/progression_maps
+2026-03-27 17:46:53,774 - AD-CPredSys - INFO - ✅ 目录已存在: ./results
+2026-03-27 17:46:53,774 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/individual
+2026-03-27 17:46:53,775 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/batch_results
+2026-03-27 17:46:53,775 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/statistics
+2026-03-27 17:46:53,776 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports
+2026-03-27 17:46:53,776 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/summary_reports
+2026-03-27 17:46:53,777 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/comparative_reports
+2026-03-27 17:46:53,778 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/timeline_reports
+2026-03-27 17:46:53,779 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp
+2026-03-27 17:46:53,779 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/tmp_uploads
+2026-03-27 17:46:53,780 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/cache
+2026-03-27 17:46:53,780 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/logs
+2026-03-27 17:46:53,783 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:46:53,783 - AD-CPredSys - INFO - 🎉 基于深度学习的阿尔兹海默症分类与进展预测系统
+2026-03-27 17:46:53,784 - AD-CPredSys - INFO - 🔍 DL-AD-CPredSys v3.0.0
+2026-03-27 17:46:53,784 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:46:53,784 - AD-CPredSys - INFO - 
+🚀 启动 基于深度学习的阿尔兹海默症分类与进展预测系统 v3.0.0
+2026-03-27 17:46:53,784 - AD-CPredSys - INFO - 📅 发布日期: 2025年10月
+2026-03-27 17:46:53,891 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:46:53,891 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:46:53,892 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:46:53,997 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:46:53,997 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:46:53,998 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:46:53,998 - AD-CPredSys - INFO - API处理器初始化完成
+2026-03-27 17:46:53,998 - AD-CPredSys - INFO - ✅ 系统初始化完成
+2026-03-27 17:46:55,018 - AD-CPredSys - INFO - 
+🌐 Web服务器启动成功
+2026-03-27 17:46:55,019 - AD-CPredSys - INFO - 📍 访问地址: http://localhost:6009
+2026-03-27 17:46:55,020 - AD-CPredSys - INFO - 🌐 网络访问: http://192.168.31.160:6009
+2026-03-27 17:46:55,020 - AD-CPredSys - INFO - 📂 静态文件目录: d:\Desktop\Alzheimer-diagnostic system
+2026-03-27 17:46:55,022 - AD-CPredSys - INFO - 🖥️  请使用浏览器访问上述地址
+2026-03-27 17:46:55,022 - AD-CPredSys - INFO - 📱 系统提供现代化的Web界面，无需命令行操作
+2026-03-27 17:46:55,022 - AD-CPredSys - INFO - 📊 多模态数据支持：影像、临床、分子、生活方式
+2026-03-27 17:46:55,023 - AD-CPredSys - INFO - 📄 PDF报告自动生成：完整诊断报告，包含所有分析结果
+2026-03-27 17:46:55,023 - AD-CPredSys - INFO - 🔧 按 Ctrl+C 停止服务器
+2026-03-27 17:46:55,024 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:46:57,672 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:46:57,732 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:47:02,023 - AD-CPredSys - INFO - 📊 处理演示数据请求 (类别: None)...
+2026-03-27 17:47:02,024 - AD-CPredSys - INFO - 
+🚀 启动 基于深度学习的阿尔兹海默症分类与进展预测系统 v3.0.0
+2026-03-27 17:47:02,024 - AD-CPredSys - INFO - 📅 发布日期: 2025年10月
+2026-03-27 17:47:02,025 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:47:02,025 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:47:02,026 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:47:02,149 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:47:02,150 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:47:02,151 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:47:02,152 - AD-CPredSys - INFO - API处理器初始化完成
+2026-03-27 17:47:02,152 - AD-CPredSys - INFO - ✅ 系统初始化完成
+2026-03-27 17:47:02,153 - AD-CPredSys - INFO - 
+📊 开始分析数据 (患者ID: None, 演示模式: True, 演示类别: None)
+2026-03-27 17:47:04,284 - AD-CPredSys - INFO - ✅ 分析结果已保存: ./results/individual/DEMO_CN_results.json
+2026-03-27 17:47:04,285 - AD-CPredSys - INFO - ✅ 演示数据分析完成，诊断结果: CN
+2026-03-27 17:52:44,700 - AD-CPredSys - INFO - ✅ 目录已存在: ./uploaded_img
+2026-03-27 17:52:44,700 - AD-CPredSys - INFO - ✅ 目录已存在: ./demodata
+2026-03-27 17:52:44,701 - AD-CPredSys - INFO - ✅ 目录已存在: ./models
+2026-03-27 17:52:44,701 - AD-CPredSys - INFO - ✅ 目录已存在: ./static
+2026-03-27 17:52:44,701 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/images
+2026-03-27 17:52:44,702 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/css
+2026-03-27 17:52:44,702 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/js
+2026-03-27 17:52:44,702 - AD-CPredSys - INFO - ✅ 目录已存在: ./grad_cam_results
+2026-03-27 17:52:44,703 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data
+2026-03-27 17:52:44,703 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/clinical_records
+2026-03-27 17:52:44,703 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/molecular_data
+2026-03-27 17:52:44,704 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/lifestyle_data
+2026-03-27 17:52:44,704 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/neuropsychological
+2026-03-27 17:52:44,705 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps
+2026-03-27 17:52:44,705 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/regional_risk
+2026-03-27 17:52:44,706 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/progression_maps
+2026-03-27 17:52:44,707 - AD-CPredSys - INFO - ✅ 目录已存在: ./results
+2026-03-27 17:52:44,707 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/individual
+2026-03-27 17:52:44,708 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/batch_results
+2026-03-27 17:52:44,709 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/statistics
+2026-03-27 17:52:44,711 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports
+2026-03-27 17:52:44,712 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/summary_reports
+2026-03-27 17:52:44,713 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/comparative_reports
+2026-03-27 17:52:44,714 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/timeline_reports
+2026-03-27 17:52:44,714 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp
+2026-03-27 17:52:44,715 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/tmp_uploads
+2026-03-27 17:52:44,715 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/cache
+2026-03-27 17:52:44,716 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/logs
+2026-03-27 17:52:44,718 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:52:44,719 - AD-CPredSys - INFO - 🎉 基于深度学习的阿尔兹海默症分类与进展预测系统
+2026-03-27 17:52:44,719 - AD-CPredSys - INFO - 🔍 DL-AD-CPredSys v3.0.0
+2026-03-27 17:52:44,719 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:52:44,720 - AD-CPredSys - INFO - 
+🚀 启动 基于深度学习的阿尔兹海默症分类与进展预测系统 v3.0.0
+2026-03-27 17:52:44,721 - AD-CPredSys - INFO - 📅 发布日期: 2025年10月
+2026-03-27 17:52:44,813 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:52:44,814 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:52:44,816 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:52:44,972 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:52:44,973 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:52:44,973 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:52:44,974 - AD-CPredSys - INFO - API处理器初始化完成
+2026-03-27 17:52:44,974 - AD-CPredSys - INFO - ✅ 系统初始化完成
+2026-03-27 17:52:44,975 - AD-CPredSys - WARNING - 端口 6009 已被占用，寻找可用端口...
+2026-03-27 17:52:45,980 - AD-CPredSys - INFO - ✅ 使用端口: 6010
+2026-03-27 17:52:46,001 - AD-CPredSys - INFO - 
+🌐 Web服务器启动成功
+2026-03-27 17:52:46,002 - AD-CPredSys - INFO - 📍 访问地址: http://localhost:6010
+2026-03-27 17:52:46,003 - AD-CPredSys - INFO - 🌐 网络访问: http://192.168.31.160:6010
+2026-03-27 17:52:46,003 - AD-CPredSys - INFO - 📂 静态文件目录: D:\Desktop\Alzheimer-diagnostic system
+2026-03-27 17:52:46,003 - AD-CPredSys - INFO - 🖥️  请使用浏览器访问上述地址
+2026-03-27 17:52:46,004 - AD-CPredSys - INFO - 📱 系统提供现代化的Web界面，无需命令行操作
+2026-03-27 17:52:46,004 - AD-CPredSys - INFO - 📊 多模态数据支持：影像、临床、分子、生活方式
+2026-03-27 17:52:46,004 - AD-CPredSys - INFO - 📄 PDF报告自动生成：完整诊断报告，包含所有分析结果
+2026-03-27 17:52:46,005 - AD-CPredSys - INFO - 🔧 按 Ctrl+C 停止服务器
+2026-03-27 17:52:46,005 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:52:48,391 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:52:48,475 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:53:23,073 - AD-CPredSys - INFO - ✅ 目录已存在: ./uploaded_img
+2026-03-27 17:53:23,073 - AD-CPredSys - INFO - ✅ 目录已存在: ./demodata
+2026-03-27 17:53:23,074 - AD-CPredSys - INFO - ✅ 目录已存在: ./models
+2026-03-27 17:53:23,074 - AD-CPredSys - INFO - ✅ 目录已存在: ./static
+2026-03-27 17:53:23,075 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/images
+2026-03-27 17:53:23,075 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/css
+2026-03-27 17:53:23,075 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/js
+2026-03-27 17:53:23,076 - AD-CPredSys - INFO - ✅ 目录已存在: ./grad_cam_results
+2026-03-27 17:53:23,076 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data
+2026-03-27 17:53:23,076 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/clinical_records
+2026-03-27 17:53:23,077 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/molecular_data
+2026-03-27 17:53:23,077 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/lifestyle_data
+2026-03-27 17:53:23,078 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/neuropsychological
+2026-03-27 17:53:23,079 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps
+2026-03-27 17:53:23,079 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/regional_risk
+2026-03-27 17:53:23,080 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/progression_maps
+2026-03-27 17:53:23,080 - AD-CPredSys - INFO - ✅ 目录已存在: ./results
+2026-03-27 17:53:23,081 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/individual
+2026-03-27 17:53:23,081 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/batch_results
+2026-03-27 17:53:23,081 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/statistics
+2026-03-27 17:53:23,082 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports
+2026-03-27 17:53:23,082 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/summary_reports
+2026-03-27 17:53:23,083 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/comparative_reports
+2026-03-27 17:53:23,084 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/timeline_reports
+2026-03-27 17:53:23,084 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp
+2026-03-27 17:53:23,085 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/tmp_uploads
+2026-03-27 17:53:23,085 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/cache
+2026-03-27 17:53:23,086 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/logs
+2026-03-27 17:53:23,090 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:53:23,091 - AD-CPredSys - INFO - 🎉 基于深度学习的阿尔兹海默症分类与进展预测系统
+2026-03-27 17:53:23,091 - AD-CPredSys - INFO - 🔍 DL-AD-CPredSys v3.0.0
+2026-03-27 17:53:23,091 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:53:23,092 - AD-CPredSys - INFO - 
+🚀 启动 基于深度学习的阿尔兹海默症分类与进展预测系统 v3.0.0
+2026-03-27 17:53:23,092 - AD-CPredSys - INFO - 📅 发布日期: 2025年10月
+2026-03-27 17:53:23,143 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:53:23,143 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:53:23,144 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:53:23,271 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 17:53:23,272 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 17:53:23,273 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 17:53:23,273 - AD-CPredSys - INFO - API处理器初始化完成
+2026-03-27 17:53:23,273 - AD-CPredSys - INFO - ✅ 系统初始化完成
+2026-03-27 17:53:23,274 - AD-CPredSys - WARNING - 端口 6009 已被占用，寻找可用端口...
+2026-03-27 17:53:24,307 - AD-CPredSys - INFO - ✅ 使用端口: 6011
+2026-03-27 17:53:24,323 - AD-CPredSys - INFO - 
+🌐 Web服务器启动成功
+2026-03-27 17:53:24,324 - AD-CPredSys - INFO - 📍 访问地址: http://localhost:6011
+2026-03-27 17:53:24,325 - AD-CPredSys - INFO - 🌐 网络访问: http://192.168.31.160:6011
+2026-03-27 17:53:24,326 - AD-CPredSys - INFO - 📂 静态文件目录: D:\Desktop\Alzheimer-diagnostic system
+2026-03-27 17:53:24,326 - AD-CPredSys - INFO - 🖥️  请使用浏览器访问上述地址
+2026-03-27 17:53:24,326 - AD-CPredSys - INFO - 📱 系统提供现代化的Web界面，无需命令行操作
+2026-03-27 17:53:24,327 - AD-CPredSys - INFO - 📊 多模态数据支持：影像、临床、分子、生活方式
+2026-03-27 17:53:24,327 - AD-CPredSys - INFO - 📄 PDF报告自动生成：完整诊断报告，包含所有分析结果
+2026-03-27 17:53:24,327 - AD-CPredSys - INFO - 🔧 按 Ctrl+C 停止服务器
+2026-03-27 17:53:24,327 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 17:53:26,786 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:53:26,859 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:53:38,381 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:53:38,478 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:54:38,404 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:54:38,555 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:56:32,179 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:56:32,245 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:58:17,104 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:58:17,199 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 17:58:17,514 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 17:58:17,604 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 9 报告, 4 分析
+2026-03-27 18:02:45,338 - AD-CPredSys - INFO - 🔬 处理文件分析请求...
+2026-03-27 18:02:45,338 - AD-CPredSys - INFO - 
+🚀 启动 基于深度学习的阿尔兹海默症分类与进展预测系统 v3.0.0
+2026-03-27 18:02:45,339 - AD-CPredSys - INFO - 📅 发布日期: 2025年10月
+2026-03-27 18:02:45,339 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 18:02:45,339 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 18:02:45,341 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 18:02:45,460 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 18:02:45,460 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 18:02:45,461 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 18:02:45,462 - AD-CPredSys - INFO - API处理器初始化完成
+2026-03-27 18:02:45,462 - AD-CPredSys - INFO - ✅ 系统初始化完成
+2026-03-27 18:02:45,463 - AD-CPredSys - INFO - 
+📊 开始分析数据 (患者ID: None, 演示模式: False, 演示类别: None)
+2026-03-27 18:02:47,327 - AD-CPredSys - INFO - ✅ 分析结果已保存: ./results/individual/UNKNOWN_results.json
+2026-03-27 18:02:47,343 - AD-CPredSys - INFO - ✅ 文件分析完成，诊断结果: EMCI
+2026-03-27 18:03:00,303 - AD-CPredSys - INFO - 📄 处理PDF生成请求...
+2026-03-27 18:03:00,318 - AD-CPredSys - INFO - 
+📄 生成PDF报告...
+2026-03-27 18:03:00,446 - AD-CPredSys - INFO - ✅ PDF报告已生成: ./reports/UNKNOWN_report_20260327_180300.pdf
+2026-03-27 18:03:00,447 - AD-CPredSys - INFO - ✅ PDF生成成功: UNKNOWN_report_20260327_180300.pdf
+2026-03-27 18:03:00,782 - AD-CPredSys - INFO - 📋 获取报告列表...
+2026-03-27 18:03:00,786 - AD-CPredSys - INFO - ✅ 找到 10 个报告
+2026-03-27 18:07:57,188 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:07:57,263 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 10 报告, 4 分析
+2026-03-27 18:08:13,980 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:08:14,094 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 10 报告, 4 分析
+2026-03-27 18:08:15,220 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:08:15,296 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 10 报告, 4 分析
+2026-03-27 18:10:58,176 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:10:58,266 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 10 报告, 4 分析
+2026-03-27 18:11:55,322 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:11:55,434 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 10 报告, 4 分析
+2026-03-27 18:11:56,113 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:11:56,208 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 10 报告, 4 分析
+2026-03-27 18:13:16,433 - AD-CPredSys - INFO - 🔬 处理文件分析请求...
+2026-03-27 18:13:16,492 - AD-CPredSys - INFO - 
+📊 开始分析数据 (患者ID: None, 演示模式: False, 演示类别: None)
+2026-03-27 18:13:18,461 - AD-CPredSys - INFO - ✅ 分析结果已保存: ./results/individual/UNKNOWN_results.json
+2026-03-27 18:13:18,469 - AD-CPredSys - INFO - ✅ 文件分析完成，诊断结果: LMCI
+2026-03-27 18:13:26,033 - AD-CPredSys - INFO - 📄 处理PDF生成请求...
+2026-03-27 18:13:26,046 - AD-CPredSys - INFO - 
+📄 生成PDF报告...
+2026-03-27 18:13:26,158 - AD-CPredSys - INFO - ✅ PDF报告已生成: ./reports/UNKNOWN_report_20260327_181326.pdf
+2026-03-27 18:13:26,159 - AD-CPredSys - INFO - ✅ PDF生成成功: UNKNOWN_report_20260327_181326.pdf
+2026-03-27 18:13:26,482 - AD-CPredSys - INFO - 📋 获取报告列表...
+2026-03-27 18:13:26,485 - AD-CPredSys - INFO - ✅ 找到 11 个报告
+2026-03-27 18:14:13,840 - AD-CPredSys - INFO - 🔬 处理文件分析请求...
+2026-03-27 18:14:13,908 - AD-CPredSys - INFO - 
+📊 开始分析数据 (患者ID: None, 演示模式: False, 演示类别: None)
+2026-03-27 18:14:15,431 - AD-CPredSys - INFO - ✅ 分析结果已保存: ./results/individual/UNKNOWN_results.json
+2026-03-27 18:14:15,440 - AD-CPredSys - INFO - ✅ 文件分析完成，诊断结果: LMCI
+2026-03-27 18:14:19,944 - AD-CPredSys - INFO - 📄 处理PDF生成请求...
+2026-03-27 18:14:19,961 - AD-CPredSys - INFO - 
+📄 生成PDF报告...
+2026-03-27 18:14:20,032 - AD-CPredSys - INFO - ✅ PDF报告已生成: ./reports/UNKNOWN_report_20260327_181419.pdf
+2026-03-27 18:14:20,032 - AD-CPredSys - INFO - ✅ PDF生成成功: UNKNOWN_report_20260327_181419.pdf
+2026-03-27 18:14:20,360 - AD-CPredSys - INFO - 📋 获取报告列表...
+2026-03-27 18:14:20,364 - AD-CPredSys - INFO - ✅ 找到 12 个报告
+2026-03-27 18:17:08,204 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 18:17:08,292 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 12 报告, 4 分析
+2026-03-27 19:01:46,878 - AD-CPredSys - INFO - ✅ 目录已存在: ./uploaded_img
+2026-03-27 19:01:46,879 - AD-CPredSys - INFO - ✅ 目录已存在: ./demodata
+2026-03-27 19:01:46,879 - AD-CPredSys - INFO - ✅ 目录已存在: ./models
+2026-03-27 19:01:46,880 - AD-CPredSys - INFO - ✅ 目录已存在: ./static
+2026-03-27 19:01:46,882 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/images
+2026-03-27 19:01:46,883 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/css
+2026-03-27 19:01:46,883 - AD-CPredSys - INFO - ✅ 目录已存在: ./static/js
+2026-03-27 19:01:46,883 - AD-CPredSys - INFO - ✅ 目录已存在: ./grad_cam_results
+2026-03-27 19:01:46,884 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data
+2026-03-27 19:01:46,884 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/clinical_records
+2026-03-27 19:01:46,885 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/molecular_data
+2026-03-27 19:01:46,885 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/lifestyle_data
+2026-03-27 19:01:46,885 - AD-CPredSys - INFO - ✅ 目录已存在: ./clinical_data/neuropsychological
+2026-03-27 19:01:46,886 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps
+2026-03-27 19:01:46,887 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/regional_risk
+2026-03-27 19:01:46,887 - AD-CPredSys - INFO - ✅ 目录已存在: ./risk_maps/progression_maps
+2026-03-27 19:01:46,888 - AD-CPredSys - INFO - ✅ 目录已存在: ./results
+2026-03-27 19:01:46,889 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/individual
+2026-03-27 19:01:46,889 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/batch_results
+2026-03-27 19:01:46,890 - AD-CPredSys - INFO - ✅ 目录已存在: ./results/statistics
+2026-03-27 19:01:46,890 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports
+2026-03-27 19:01:46,891 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/summary_reports
+2026-03-27 19:01:46,891 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/comparative_reports
+2026-03-27 19:01:46,892 - AD-CPredSys - INFO - ✅ 目录已存在: ./reports/timeline_reports
+2026-03-27 19:01:46,892 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp
+2026-03-27 19:01:46,893 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/tmp_uploads
+2026-03-27 19:01:46,893 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/cache
+2026-03-27 19:01:46,894 - AD-CPredSys - INFO - ✅ 目录已存在: ./temp/logs
+2026-03-27 19:01:46,896 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 19:01:46,897 - AD-CPredSys - INFO - 🎉 基于深度学习的阿尔兹海默症分类与进展预测系统
+2026-03-27 19:01:46,897 - AD-CPredSys - INFO - 🔍 DL-AD-CPredSys v3.0.0
+2026-03-27 19:01:46,898 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 19:01:46,898 - AD-CPredSys - INFO - 
+🚀 启动 基于深度学习的阿尔兹海默症分类与进展预测系统 v3.0.0
+2026-03-27 19:01:46,898 - AD-CPredSys - INFO - 📅 发布日期: 2025年10月
+2026-03-27 19:01:46,968 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 19:01:46,968 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 19:01:46,969 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 19:01:47,096 - AD-CPredSys - INFO - 诊断引擎初始化完成
+2026-03-27 19:01:47,096 - AD-CPredSys - INFO - 数据处理器初始化完成
+2026-03-27 19:01:47,098 - AD-CPredSys - INFO - 报告生成器初始化完成
+2026-03-27 19:01:47,098 - AD-CPredSys - INFO - API处理器初始化完成
+2026-03-27 19:01:47,098 - AD-CPredSys - INFO - ✅ 系统初始化完成
+2026-03-27 19:01:47,099 - AD-CPredSys - WARNING - 端口 6009 已被占用，寻找可用端口...
+2026-03-27 19:01:48,114 - AD-CPredSys - INFO - ✅ 使用端口: 6012
+2026-03-27 19:01:48,155 - AD-CPredSys - INFO - 
+🌐 Web服务器启动成功
+2026-03-27 19:01:48,156 - AD-CPredSys - INFO - 📍 访问地址: http://localhost:6012
+2026-03-27 19:01:48,157 - AD-CPredSys - INFO - 🌐 网络访问: http://192.168.31.160:6012
+2026-03-27 19:01:48,157 - AD-CPredSys - INFO - 📂 静态文件目录: D:\Desktop\Alzheimer-diagnostic system
+2026-03-27 19:01:48,158 - AD-CPredSys - INFO - 🖥️  请使用浏览器访问上述地址
+2026-03-27 19:01:48,158 - AD-CPredSys - INFO - 📱 系统提供现代化的Web界面，无需命令行操作
+2026-03-27 19:01:48,159 - AD-CPredSys - INFO - 📊 多模态数据支持：影像、临床、分子、生活方式
+2026-03-27 19:01:48,159 - AD-CPredSys - INFO - 📄 PDF报告自动生成：完整诊断报告，包含所有分析结果
+2026-03-27 19:01:48,159 - AD-CPredSys - INFO - 🔧 按 Ctrl+C 停止服务器
+2026-03-27 19:01:48,160 - AD-CPredSys - INFO - ================================================================================
+2026-03-27 19:01:51,407 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 19:01:51,519 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 12 报告, 4 分析
+2026-03-27 19:01:58,379 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 19:01:58,508 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 12 报告, 4 分析
+2026-03-27 19:01:58,827 - AD-CPredSys - INFO - 📊 获取系统统计...
+2026-03-27 19:01:58,936 - AD-CPredSys - INFO - ✅ 统计获取成功: 2 患者, 12 报告, 4 分析
+2026-03-27 19:02:50,745 - AD-CPredSys - INFO - 📋 获取报告列表...
+2026-03-27 19:02:50,755 - AD-CPredSys - INFO - ✅ 找到 12 个报告

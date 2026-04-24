@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_037",
+  "physical_activity": 6,
+  "social_activity": 7,
+  "smoking_status": 1,
+  "diet_quality": 7,
+  "sleep_quality": 6,
+  "diagnosis": "EMCI",
+  "assessment_date": "2023-038-15"
+}

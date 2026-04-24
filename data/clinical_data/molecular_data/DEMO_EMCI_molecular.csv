@@ -1,0 +1,8 @@
+biomarker,value,unit,reference_range,status
+Aβ42,620,pg/mL,>600,borderline
+p-tau217,38.5,pg/mL,<40,borderline
+t-tau,55.3,pg/mL,<80,normal
+NfL,18.2,pg/mL,<16,abnormal
+GFAP,95,pg/mL,<90,abnormal
+Aβ42/Aβ40,0.35,ratio,0.2-0.4,normal
+ApoE4,1,copies,0-2,positive

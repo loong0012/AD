@@ -1,0 +1,2 @@
+2026-04-19 19:59:50,786 - alzheimer-diagnostic - INFO - PDF报告生成器初始化完成
+2026-04-19 19:59:51,789 - alzheimer-diagnostic - ERROR - PDF报告生成失败: Flowable <Image at 0x1c47e8b74d0 frame=normal filename=d:\Desktop\Alzheimer-diagnostic system\uploaded_img\阿尔兹海默症封面图.png>(595 x 842) too large on page 2 in frame 'normal'(439.27559055118115 x 685.8897637795277*) of template 'Later'

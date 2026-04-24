@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_053",
+  "age": 70,
+  "gender": "Female",
+  "education": 16,
+  "mmse_score": 24.5,
+  "cdr_score": 0.5,
+  "diagnosis": "EMCI",
+  "visit_date": "2023-054-15"
+}

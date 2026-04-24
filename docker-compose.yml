@@ -1,0 +1,122 @@
+# 阿尔兹海默症诊断系统 - Docker Compose编排文件
+# 支持开发、测试和生产环境
+
+version: '3.8'
+
+services:
+  # 应用服务
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alzheimer-app
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./alzheimer.db}
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+      - ./uploaded_img:/app/uploaded_img
+      - ./results:/app/results
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./alzheimer.db:/app/alzheimer.db
+    networks:
+      - alzheimer-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+  # Nginx反向代理服务
+  nginx:
+    image: nginx:alpine
+    container_name: alzheimer-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deployment/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deployment/ssl:/etc/nginx/ssl:ro
+      - ./static:/app/static:ro
+      - ./uploaded_img:/app/uploaded_img:ro
+      - ./reports:/app/reports:ro
+    depends_on:
+      - app
+    networks:
+      - alzheimer-network
+    profiles:
+      - production
+
+  # Gunicorn WSGI服务器（生产环境）
+  gunicorn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alzheimer-gunicorn
+    restart: unless-stopped
+    command: gunicorn -c /app/gunicorn_config.py src.app:app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./alzheimer.db}
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - WORKERS=${WORKERS:-4}
+      - TIMEOUT=${TIMEOUT:-120}
+    volumes:
+      - ./data:/app/data
+      - ./uploaded_img:/app/uploaded_img
+      - ./results:/app/results
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./alzheimer.db:/app/alzheimer.db
+    networks:
+      - alzheimer-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+    profiles:
+      - production
+
+networks:
+  alzheimer-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+volumes:
+  data:
+    driver: local
+  uploaded_img:
+    driver: local
+  results:
+    driver: local
+  reports:
+    driver: local
+  logs:
+    driver: local

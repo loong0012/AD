@@ -1,0 +1,73 @@
+# 阿尔兹海默症诊断系统 - Python依赖包
+
+# 基础依赖
+numpy==1.26.4
+pandas==2.2.1
+scikit-learn==1.4.2
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# Web框架
+fastapi==0.110.0
+uvicorn[standard]==0.28.0
+gunicorn==21.2.0
+starlette==0.36.3
+
+# 数据库
+sqlalchemy==2.0.28
+pymysql==1.1.0
+psycopg2-binary==2.9.9
+alembic==1.13.1
+
+# Redis缓存（可选）
+redis==5.0.1
+django-redis==5.4.0
+
+# 安全
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+cryptography==42.0.2
+
+# 图像处理
+Pillow==10.3.0
+opencv-python==4.9.0.80
+imageio==2.34.0
+
+# 科学计算
+sciPy==1.12.0
+
+# 配置管理
+python-dotenv==1.0.1
+pyyaml==6.0.1
+
+# 日志
+loguru==0.7.2
+colorlog==6.8.0
+
+# 工具
+requests==2.31.0
+python-dateutil==2.9.0.post0
+httpx==0.26.0
+
+# 深度学习（可选）
+torch==2.2.2
+torchvision==0.17.2
+torchaudio==2.2.2
+
+# 医学影像处理（可选）
+nibabel==5.2.1
+nilearn==0.10.4
+pydicom==2.4.4
+
+# 生产环境依赖
+# 监控
+prometheus-client==0.19.0
+psutil==5.9.8
+
+# 报告生成
+reportlab==4.1.0
+
+# 数据验证
+pydantic==2.6.1
+email-validator==2.1.0.post1

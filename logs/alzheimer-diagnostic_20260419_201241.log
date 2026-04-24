@@ -1,0 +1,2 @@
+2026-04-19 20:12:53,568 - alzheimer-diagnostic - INFO - PDF报告生成器初始化完成
+2026-04-19 20:12:53,999 - alzheimer-diagnostic - ERROR - PDF报告生成失败: PageTemplate.__init__() got an unexpected keyword argument 'name'

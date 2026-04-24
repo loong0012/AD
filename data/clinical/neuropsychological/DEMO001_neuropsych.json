@@ -1,0 +1,29 @@
+{
+  "mmse": {
+    "score": 25,
+    "max_score": 30,
+    "interpretation": "mild_impairment"
+  },
+  "cdr": {
+    "score": 0.5,
+    "interpretation": "questionable_dementia"
+  },
+  "adni_mem": {
+    "score": 0.8,
+    "interpretation": "impaired"
+  },
+  "clock_drawing_test": {
+    "score": 3,
+    "max_score": 5,
+    "interpretation": "abnormal"
+  },
+  "trail_making_test": {
+    "part_a_seconds": 45,
+    "part_b_seconds": 120,
+    "interpretation": "impaired"
+  },
+  "verbal_fluency": {
+    "animals_count": 12,
+    "interpretation": "mild_impairment"
+  }
+}

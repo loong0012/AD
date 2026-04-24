@@ -1,0 +1,116 @@
+{
+  "success": true,
+  "results": {
+    "pred_label": "CN",
+    "confidence": 0.9640202573689896,
+    "risk_score": 0.07264909139872007,
+    "monthly_risk": [
+      {
+        "month": 1,
+        "risk": 0.0725935264279624
+      },
+      {
+        "month": 2,
+        "risk": 0.08216175122640552
+      },
+      {
+        "month": 3,
+        "risk": 0.051252981170058366
+      },
+      {
+        "month": 4,
+        "risk": 0.09331320128450091
+      },
+      {
+        "month": 5,
+        "risk": 0.07850092120831331
+      },
+      {
+        "month": 6,
+        "risk": 0.10974852092158019
+      },
+      {
+        "month": 7,
+        "risk": 0.0972121829982571
+      },
+      {
+        "month": 8,
+        "risk": 0.09822219402781418
+      },
+      {
+        "month": 9,
+        "risk": 0.09688513746684584
+      },
+      {
+        "month": 10,
+        "risk": 0.08469445574510111
+      },
+      {
+        "month": 11,
+        "risk": 0.10034999878632556
+      },
+      {
+        "month": 12,
+        "risk": 0.09350581960763653
+      }
+    ],
+    "risk_indicators": {
+      "Aβ42": {
+        "value": 0.1136464153763106,
+        "risk_level": "低"
+      },
+      "p-tau217": {
+        "value": 0.877579804411117,
+        "risk_level": "低"
+      },
+      "t-tau": {
+        "value": 0.11489890892993415,
+        "risk_level": "低"
+      },
+      "BMI": {
+        "value": 0.9249247132404997,
+        "risk_level": "高"
+      },
+      "Hypertension": {
+        "value": 0.7127766558308818,
+        "risk_level": "高"
+      }
+    },
+    "recommendations": [
+      "保持规律的体育锻炼",
+      "保持健康的饮食习惯",
+      "保持社交活动",
+      "定期进行认知训练",
+      "定期复诊"
+    ]
+  },
+  "patient_info": {
+    "patient_id": "DEMO_CN",
+    "demographics": {
+      "age": 72,
+      "gender": "male",
+      "education_years": 12,
+      "apoe_genotype": "ε4/ε4",
+      "race": "Asian",
+      "height_cm": 170,
+      "weight_kg": 75,
+      "bmi": 25.9
+    },
+    "medical_history": {
+      "family_history_ad": true,
+      "hypertension": true,
+      "diabetes": false,
+      "depression_history": false,
+      "stroke_history": false,
+      "heart_disease": false,
+      "smoking_status": "former",
+      "alcohol_use": "moderate"
+    },
+    "vital_signs": {
+      "systolic_bp": 135,
+      "diastolic_bp": 85,
+      "heart_rate": 72,
+      "temperature": 36.5
+    }
+  }
+}

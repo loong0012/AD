@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_074",
+  "csf_abeta42": 300,
+  "csf_ptau181": 105,
+  "csf_abeta_ratio": 0.07,
+  "plasma_nfl": 25,
+  "plasma_gfap": 160,
+  "diagnosis": "LMCI",
+  "collection_date": "2023-075-15"
+}

@@ -1,0 +1,121 @@
+# 阿尔兹海默症诊断系统 - 生产环境Docker Compose配置
+
+version: '3.8'
+
+services:
+  # 应用服务
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: alzheimer-app-prod
+    restart: unless-stopped
+    expose:
+      - "8888"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=false
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - REDIS_URL=${REDIS_URL:-}
+    volumes:
+      - app_data:/app/data
+      - app_uploaded_img:/app/uploaded_img
+      - app_results:/app/results
+      - app_reports:/app/reports
+      - app_logs:/app/logs
+    networks:
+      - alzheimer-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+    depends_on:
+      - redis
+
+  # Nginx反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: alzheimer-nginx-prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deployment/nginx.production.conf:/etc/nginx/nginx.conf:ro
+      - ./deployment/ssl:/etc/nginx/ssl:ro
+      - ./static:/app/static:ro
+      - ./uploaded_img:/app/uploaded_img:ro
+      - ./reports:/app/reports:ro
+    depends_on:
+      - app
+    networks:
+      - alzheimer-network
+    profiles:
+      - with-nginx
+
+  # Redis缓存服务（可选）
+  redis:
+    image: redis:alpine
+    container_name: alzheimer-redis-prod
+    restart: unless-stopped
+    expose:
+      - "6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - alzheimer-network
+    command: redis-server --appendonly yes
+    profiles:
+      - with-redis
+
+  # PostgreSQL数据库（可选，生产环境推荐）
+  postgres:
+    image: postgres:15-alpine
+    container_name: alzheimer-postgres-prod
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-alzheimer_diagnostic}
+      - POSTGRES_USER=${POSTGRES_USER:-alzheimer_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - alzheimer-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - with-postgres
+
+networks:
+  alzheimer-network:
+    driver: bridge
+
+volumes:
+  app_data:
+    driver: local
+  app_uploaded_img:
+    driver: local
+  app_results:
+    driver: local
+  app_reports:
+    driver: local
+  app_logs:
+    driver: local
+  redis_data:
+    driver: local
+  postgres_data:
+    driver: local

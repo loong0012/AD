@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_025",
+  "csf_abeta42": 400,
+  "csf_ptau181": 75,
+  "csf_abeta_ratio": 0.09,
+  "plasma_nfl": 18,
+  "plasma_gfap": 120,
+  "diagnosis": "EMCI",
+  "collection_date": "2023-026-15"
+}

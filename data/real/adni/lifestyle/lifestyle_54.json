@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_054",
+  "physical_activity": 4,
+  "social_activity": 5,
+  "smoking_status": 2,
+  "diet_quality": 5,
+  "sleep_quality": 4,
+  "diagnosis": "LMCI",
+  "assessment_date": "2023-055-15"
+}

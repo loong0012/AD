@@ -1,0 +1,15 @@
+{
+  "patient_id": "PAT_001",
+  "exercise_frequency": 3,
+  "exercise_type": ["散步", "太极拳"],
+  "sleep_duration": 7.5,
+  "diet_health": "medium",
+  "diet_details": "每天食用蔬菜和水果，每周食用鱼类2-3次",
+  "social_activities": 4,
+  "social_details": ["社区活动", "家庭聚会", "老年俱乐部"],
+  "smoking_status": "never",
+  "alcohol_consumption": "occasional",
+  "cognitive_activities": ["阅读", "下棋", "学习书法"],
+  "medication": ["降压药", "降糖药"],
+  "daily_routine": "规律作息，每天早上6:30起床，晚上10:00睡觉"
+}

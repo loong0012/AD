@@ -1,0 +1,35 @@
+2026-03-26 18:47:44,583 - AD-CPredSys - ERROR - 系统初始化失败: name 'DiagnosisEngine' is not defined
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 729, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ^^^^^^^^^^^^^^^
+NameError: name 'DiagnosisEngine' is not defined
+2026-03-26 19:27:16,239 - AD-CPredSys - ERROR - API GET error: 'AlzheimerDiagnosticSystem' object has no attribute 'data_manager'
+2026-03-26 19:30:04,112 - AD-CPredSys - ERROR - PDF报告生成失败: 'AlzheimerDiagnosticSystem' object has no attribute 'pdf_generator'
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 966, in generate_pdf_report
+    output_path = self.pdf_generator.generate_report(results_data, patient_info)
+                  ^^^^^^^^^^^^^^^^^^
+AttributeError: 'AlzheimerDiagnosticSystem' object has no attribute 'pdf_generator'. Did you mean: 'report_generator'?
+2026-03-26 19:30:04,116 - AD-CPredSys - ERROR - PDF文件生成失败
+2026-03-26 19:30:05,891 - AD-CPredSys - ERROR - PDF报告生成失败: 'AlzheimerDiagnosticSystem' object has no attribute 'pdf_generator'
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 966, in generate_pdf_report
+    output_path = self.pdf_generator.generate_report(results_data, patient_info)
+                  ^^^^^^^^^^^^^^^^^^
+AttributeError: 'AlzheimerDiagnosticSystem' object has no attribute 'pdf_generator'. Did you mean: 'report_generator'?
+2026-03-26 19:30:05,898 - AD-CPredSys - ERROR - PDF文件生成失败
+2026-03-26 19:32:19,252 - AD-CPredSys - ERROR - 生成PDF失败: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 408, in handle_generate_pdf_request
+    data = json.loads(post_data.decode('utf-8'))
+  File "E:\Anaconda\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "E:\Anaconda\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Anaconda\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)

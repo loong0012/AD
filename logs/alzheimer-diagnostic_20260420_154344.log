@@ -1,0 +1,7 @@
+2026-04-20 15:43:54,499 - alzheimer-diagnostic - INFO - Retrieving system statistics...
+2026-04-20 15:43:54,529 - alzheimer-diagnostic - INFO - Statistics retrieved successfully: 28 patients, 22 reports, 56 analyses
+2026-04-20 15:43:54,532 - alzheimer-diagnostic - INFO - 获取目录结构
+2026-04-20 15:43:54,532 - alzheimer-diagnostic - INFO - 诊断引擎初始化完成
+2026-04-20 15:43:54,532 - alzheimer-diagnostic - INFO - 数据处理器初始化完成
+2026-04-20 15:43:54,533 - alzheimer-diagnostic - INFO - 报告生成器初始化完成
+2026-04-20 15:43:54,535 - alzheimer-diagnostic - INFO - API处理器初始化完成

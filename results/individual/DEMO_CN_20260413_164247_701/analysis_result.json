@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "results": {
+    "pred_label": "LMCI",
+    "confidence": 0.8187007645239299,
+    "risk_score": 0.5815808797966225,
+    "monthly_risk": [
+      {
+        "month": 1,
+        "risk": 0.5400770851017375
+      },
+      {
+        "month": 2,
+        "risk": 0.6642267754918573
+      },
+      {
+        "month": 3,
+        "risk": 0.7090183465070506
+      },
+      {
+        "month": 4,
+        "risk": 0.6182294821717034
+      },
+      {
+        "month": 5,
+        "risk": 0.6560581424183489
+      },
+      {
+        "month": 6,
+        "risk": 0.8181929367078877
+      },
+      {
+        "month": 7,
+        "risk": 0.8535437701386772
+      },
+      {
+        "month": 8,
+        "risk": 0.872420654858777
+      },
+      {
+        "month": 9,
+        "risk": 0.8885167859398307
+      },
+      {
+        "month": 10,
+        "risk": 0.8662805362273185
+      },
+      {
+        "month": 11,
+        "risk": 0.9725265061699051
+      },
+      {
+        "month": 12,
+        "risk": 0.9817761737073636
+      }
+    ],
+    "risk_indicators": {
+      "海马体萎缩": {
+        "value": 0.41984544351761166,
+        "risk_level": "低"
+      },
+      "p-tau217浓度": {
+        "value": 0.051707805382483873,
+        "risk_level": "高"
+      },
+      "Aβ42/Aβ40比率": {
+        "value": 0.8952947425235941,
+        "risk_level": "低"
+      },
+      "脑葡萄糖代谢率": {
+        "value": 0.8403052565521331,
+        "risk_level": "低"
+      },
+      "白质高信号": {
+        "value": 0.6727097766904792,
+        "risk_level": "低"
+      },
+      "脑体积减少率": {
+        "value": 0.5777140320680493,
+        "risk_level": "高"
+      }
+    },
+    "recommendations": [
+      "保持规律的体育锻炼",
+      "保持健康的饮食习惯",
+      "保持社交活动",
+      "定期进行认知训练",
+      "定期复诊"
+    ]
+  },
+  "patient_info": {
+    "patient_id": "DEMO_CN",
+    "demographics": {
+      "age": 72,
+      "gender": "male",
+      "education_years": 12,
+      "apoe_genotype": "ε4/ε4",
+      "race": "Asian",
+      "height_cm": 170,
+      "weight_kg": 75,
+      "bmi": 25.9
+    },
+    "medical_history": {
+      "family_history_ad": true,
+      "hypertension": true,
+      "diabetes": false,
+      "depression_history": false,
+      "stroke_history": false,
+      "heart_disease": false,
+      "smoking_status": "former",
+      "alcohol_use": "moderate"
+    },
+    "vital_signs": {
+      "systolic_bp": 135,
+      "diastolic_bp": 85,
+      "heart_rate": 72,
+      "temperature": 36.5
+    }
+  }
+}

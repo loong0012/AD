@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_116",
+  "age": 65,
+  "gender": "Male",
+  "education": 16,
+  "mmse_score": 28.5,
+  "cdr_score": 0.0,
+  "diagnosis": "CN",
+  "visit_date": "2023-0117-15"
+}

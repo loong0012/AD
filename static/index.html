@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD-CPredSys | 基于深度学习的阿尔兹海默症分类与进展预测系统</title> <!-- 修改标题 -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+</head>
+<body>
+    <!-- 医学主题装饰元素 -->
+    <div class="medical-decoration brain"><i class="fas fa-brain"></i></div>
+    <div class="medical-decoration stethoscope"><i class="fas fa-stethoscope"></i></div>
+    <div class="medical-decoration dna"><i class="fas fa-dna"></i></div>
+    <div class="medical-decoration heart"><i class="fas fa-heartbeat"></i></div>
+    
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                        <div class="logo-network">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                    </div>
+                </div>
+                <span>AD-CPredSys</span> <!-- 修改系统名称 -->
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a>
+                <a href="#diagnosis" class="nav-link"><i class="fas fa-stethoscope"></i> 诊断</a>
+                <a href="#multimodal" class="nav-link"><i class="fas fa-database"></i> 多模态数据</a>
+                <a href="#reports" class="nav-link"><i class="fas fa-file-pdf"></i> PDF报告</a>
+                <a href="#technology" class="nav-link"><i class="fas fa-microscope"></i> 技术</a>
+                <a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> 关于</a>
+            </div>
+            <div class="nav-auth">
+                <button id="login-btn" class="btn btn-outline">
+                    <i class="fas fa-user-circle"></i> 登录
+                </button>
+                <button id="register-btn" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> 注册
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <main id="main-content">
+        <!-- 首页 -->
+        <section id="home" class="page-section active">
+            <div class="hero-section">
+                <div class="hero-background">
+                    <div class="brain-animation"></div>
+                </div>
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <div class="logo-container hero-logo">
+                            <div class="logo-icon">
+                                <i class="fas fa-brain"></i>
+                                <div class="logo-network">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                            </div>
+                        </div>
+                        AD-CPredSys <!-- 修改系统名称 -->
+                    </h1>
+                    <h2 class="hero-subtitle">基于深度学习的阿尔兹海默症分类与进展预测系统</h2>
+                    <p class="hero-description">
+                        基于深度学习技术，整合多模态医疗数据，提供精准的阿尔兹海默症早期筛查、风险评估和进展预测
+                    </p>
+                    <div class="hero-stats">
+                        <button class="btn btn-primary btn-large stat-card stat-card-accuracy">
+                            <div class="stat-number">94.8%</div>
+                            <div class="stat-label">诊断准确率</div>
+                        </button>
+                        <button class="btn btn-primary btn-large stat-card stat-card-modality">
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">模态融合</div>
+                        </button>
+                        <button class="btn btn-primary btn-large stat-card stat-card-progress">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">月进展预测</div>
+                        </button>
+                        <button class="btn btn-primary btn-large stat-card stat-card-risk">
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">风险等级</div>
+                        </button>
+                    </div>
+                    <div class="hero-actions">
+                        <button id="start-demo" class="btn btn-primary btn-large">
+                            <i class="fas fa-play-circle"></i> 快速演示
+                        </button>
+                        <button id="start-diagnosis" class="btn btn-success btn-large">
+                            <i class="fas fa-upload"></i> 上传诊断
+                        </button>
+                        <button id="view-reports" class="btn btn-outline btn-large">
+                            <i class="fas fa-file-pdf"></i> 查看报告
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 多模态数据展示 -->
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-database"></i> 多模态数据融合</h2>
+                <div class="modalities-grid">
+                    <div class="modality-card">
+                        <div class="modality-icon">
+                            <i class="fas fa-magnet"></i>
+                        </div>
+                        <h3 class="modality-title">影像数据</h3>
+                        <p class="modality-desc">结构MRI、功能MRI、PET、DTI等多模态影像</p>
+                        <div class="modality-formats">
+                            <span class="format-badge">NIfTI</span>
+                            <span class="format-badge">DICOM</span>
+                            <span class="format-badge">NPY</span>
+                        </div>
+                    </div>
+                    <div class="modality-card">
+                        <div class="modality-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3 class="modality-title">临床数据</h3>
+                        <p class="modality-desc">人口统计学、病史、神经心理学评估</p>
+                        <div class="modality-formats">
+                            <span class="format-badge">JSON</span>
+                            <span class="format-badge">CSV</span>
+                        </div>
+                    </div>
+                    <div class="modality-card">
+                        <div class="modality-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3 class="modality-title">分子数据</h3>
+                        <p class="modality-desc">脑脊液生物标志物、血液检测、遗传学</p>
+                        <div class="modality-formats">
+                            <span class="format-badge">CSV</span>
+                            <span class="format-badge">Excel</span>
+                        </div>
+                    </div>
+                    <div class="modality-card">
+                        <div class="modality-icon">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <h3 class="modality-title">生活方式</h3>
+                        <p class="modality-desc">饮食、运动、睡眠、认知活动等</p>
+                        <div class="modality-formats">
+                            <span class="format-badge">JSON</span>
+                            <span class="format-badge">调查表</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 诊断类别展示 -->
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-hospital"></i> 诊断类别体系</h2>
+                <div class="diagnosis-categories">
+                    <div class="category-card cn">
+                        <div class="category-icon"></div>
+                        <div class="category-title">CN</div>
+                        <div class="category-desc">认知正常</div>
+                        <div class="category-risk">低风险</div>
+                    </div>
+                    <div class="category-card emci">
+                        <div class="category-icon"></div>
+                        <div class="category-title">EMCI</div>
+                        <div class="category-desc">早期轻度认知障碍</div>
+                        <div class="category-risk">中风险</div>
+                    </div>
+                    <div class="category-card lmci">
+                        <div class="category-icon"></div>
+                        <div class="category-title">LMCI</div>
+                        <div class="category-desc">晚期轻度认知障碍</div>
+                        <div class="category-risk">高风险</div>
+                    </div>
+                    <div class="category-card ad">
+                        <div class="category-icon"></div>
+                        <div class="category-title">AD</div>
+                        <div class="category-desc">阿尔兹海默病</div>
+                        <div class="category-risk">极高风险</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 诊断页面 -->
+        <section id="diagnosis" class="page-section">
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-stethoscope"></i> 智能诊断</h2>
+                <div class="diagnosis-container">
+                    <div class="diagnosis-left">
+                        <div class="upload-area" id="upload-area">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <h3 class="upload-title">上传多模态数据</h3>
+                            <p class="upload-desc">支持多种数据格式，可选择上传部分或全部模态</p>
+                            
+                            <div class="upload-options">
+                                <div class="upload-option">
+                                    <input type="checkbox" id="upload-mri" checked>
+                                    <label for="upload-mri">MRI影像 (.nii, .nii.gz)</label>
+                                </div>
+                                <div class="upload-option">
+                                    <input type="checkbox" id="upload-clinical" checked>
+                                    <label for="upload-clinical">临床数据 (.json, .csv)</label>
+                                </div>
+                                <div class="upload-option">
+                                    <input type="checkbox" id="upload-molecular" checked>
+                                    <label for="upload-molecular">分子数据 (.csv)</label>
+                                </div>
+                                <div class="upload-option">
+                                    <input type="checkbox" id="upload-lifestyle" checked>
+                                    <label for="upload-lifestyle">生活方式数据 (.json)</label>
+                                </div>
+                            </div>
+                            
+                            <input type="file" id="file-input" multiple style="display: none;">
+                            <button id="browse-files" class="btn btn-primary">
+                                <i class="fas fa-folder-open"></i> 选择文件
+                            </button>
+                            <button id="start-analysis" class="btn btn-success" disabled>
+                                <i class="fas fa-play"></i> 开始诊断
+                            </button>
+                            <div class="file-info" id="file-info"></div>
+                        </div>
+
+                        <div class="patient-info-section">
+                            <h4><i class="fas fa-user"></i> 患者基本信息</h4>
+                            <div class="patient-form">
+                                <input type="text" id="patient-id" placeholder="患者ID (可选)" class="form-input">
+                                <input type="number" id="patient-age" placeholder="年龄" class="form-input">
+                                <select id="patient-gender" class="form-input">
+                                    <option value="">选择性别</option>
+                                    <option value="male">男性</option>
+                                    <option value="female">女性</option>
+                                </select>
+                                <input type="text" id="patient-education" placeholder="教育程度" class="form-input">
+                                <textarea id="patient-history" placeholder="主要病史" rows="2" class="form-input"></textarea>
+                                <textarea id="patient-family" placeholder="家族史" rows="2" class="form-input"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="lifestyle-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4><i class="fas fa-heartbeat"></i> 生活方式信息</h4>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <span id="save-status">
+                                        <i class="fas fa-save"></i> 自动保存中...
+                                    </span>
+                                    <button id="clear-form" class="btn btn-outline btn-sm">
+                                        <i class="fas fa-trash-alt"></i> 清空表单
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="lifestyle-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="exercise-frequency">每周运动次数</label>
+                                        <input type="number" id="exercise-frequency" name="exercise_frequency" placeholder="0-7" min="0" max="7" class="form-input" required>
+                                        <small style="color: var(--text-muted); font-size: 0.8rem;">建议：每周至少3-5次</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sleep-duration">每晚睡眠时长(小时)</label>
+                                        <input type="number" id="sleep-duration" name="sleep_duration" placeholder="4-12" min="4" max="12" step="0.5" class="form-input" required>
+                                        <small style="color: var(--text-muted); font-size: 0.8rem;">建议：7-8小时</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="diet-health">健康饮食频率</label>
+                                        <select id="diet-health" name="diet_health" class="form-input" required>
+                                            <option value="">选择频率</option>
+                                            <option value="high">高 (几乎每天)</option>
+                                            <option value="medium">中 (3-5天/周)</option>
+                                            <option value="low">低 (少于3天/周)</option>
+                                        </select>
+                                        <small style="color: var(--text-muted); font-size: 0.8rem;">建议：多摄入蔬菜水果</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="social-activities">每周社交活动次数</label>
+                                        <input type="number" id="social-activities" name="social_activities" placeholder="0-10" min="0" max="10" class="form-input" required>
+                                        <small style="color: var(--text-muted); font-size: 0.8rem;">建议：每周至少2-3次</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="smoking-status">吸烟状况</label>
+                                        <select id="smoking-status" name="smoking_status" class="form-input" required>
+                                            <option value="">选择状况</option>
+                                            <option value="never">从不吸烟</option>
+                                            <option value="past">曾经吸烟</option>
+                                            <option value="current">当前吸烟</option>
+                                        </select>
+                                        <small style="color: var(--text-muted); font-size: 0.8rem;">吸烟会增加认知障碍风险</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="alcohol-consumption">饮酒频率</label>
+                                        <select id="alcohol-consumption" name="alcohol_consumption" class="form-input" required>
+                                            <option value="">选择频率</option>
+                                            <option value="never">从不饮酒</option>
+                                            <option value="occasional">偶尔饮酒</option>
+                                            <option value="regular">经常饮酒</option>
+                                        </select>
+                                        <small style="color: var(--text-muted); font-size: 0.8rem;">过量饮酒会影响认知功能</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="cognitive-activities">认知活动</label>
+                                        <select id="cognitive-activities" name="cognitive_activities" class="form-input" required>
+                                            <option value="">选择活动类型</option>
+                                            <option value="reading">阅读</option>
+                                            <option value="puzzles">益智游戏</option>
+                                            <option value="learning">学习新技能</option>
+                                            <option value="social">社交互动</option>
+                                            <option value="other">其他</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cognitive-frequency">认知活动频率</label>
+                                        <select id="cognitive-frequency" name="cognitive_frequency" class="form-input" required>
+                                            <option value="">选择频率</option>
+                                            <option value="daily">每天</option>
+                                            <option value="weekly">每周几次</option>
+                                            <option value="monthly">每月几次</option>
+                                            <option value="rarely">很少</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group full-width">
+                                        <label for="cognitive-details">认知活动详情</label>
+                                        <textarea id="cognitive-details" name="cognitive_details" placeholder="请详细描述您的认知活动，如阅读类型、学习内容等 (可选)" rows="3" class="form-input"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="stress-level">压力水平</label>
+                                        <select id="stress-level" name="stress_level" class="form-input" required>
+                                            <option value="">选择水平</option>
+                                            <option value="low">低</option>
+                                            <option value="medium">中</option>
+                                            <option value="high">高</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="physical-activity">体力活动强度</label>
+                                        <select id="physical-activity" name="physical_activity" class="form-input" required>
+                                            <option value="">选择强度</option>
+                                            <option value="low">低强度</option>
+                                            <option value="moderate">中等强度</option>
+                                            <option value="high">高强度</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-section">
+                            <h4><i class="fas fa-vial"></i> 或使用示例数据</h4>
+                            <div class="demo-selection">
+                                <div class="form-group">
+                                    <label for="demo-category">选择诊断类别:</label>
+                                    <select id="demo-category" class="form-control">
+                                        <option value="">随机生成</option>
+                                        <option value="CN">CN - 认知正常</option>
+                                        <option value="EMCI">EMCI - 早期轻度认知障碍</option>
+                                        <option value="LMCI">LMCI - 晚期轻度认知障碍</option>
+                                        <option value="AD">AD - 阿尔兹海默病</option>
+                                    </select>
+                                </div>
+                                <button id="use-demo" class="btn btn-outline">
+                                    <i class="fas fa-vial"></i> 使用示例数据演示
+                                </button>
+                            </div>
+                            <p class="demo-desc">将使用完整的4模态演示数据进行全面分析</p>
+                        </div>
+
+                        <div class="analysis-progress" id="analysis-progress" style="display: none;">
+                            <h4><i class="fas fa-cogs"></i> 正在分析中...</h4>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-steps">
+                                <div class="step active">数据预处理</div>
+                                <div class="step">多模态融合</div>
+                                <div class="step">深度学习分析</div>
+                                <div class="step">风险预测</div>
+                                <div class="step">报告生成</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="diagnosis-right">
+                        <div class="results-placeholder" id="results-placeholder">
+                            <div class="placeholder-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>诊断结果将在此显示</h3>
+                            <p>请上传数据或使用示例数据开始分析</p>
+                            <div class="placeholder-features">
+                                <div class="feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>多模态数据融合</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>深度学习分析</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>风险热力图可视化</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>PDF报告生成</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="results-container" id="results-container" style="display: none;">
+                            <!-- 结果将动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 多模态数据管理页面 -->
+        <section id="multimodal" class="page-section">
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-database"></i> 多模态数据管理</h2>
+                
+                <div class="data-management">
+                    <div class="data-structure">
+                        <h3><i class="fas fa-folder-tree"></i> 数据目录结构</h3>
+                        <div class="directory-tree" id="dynamic-directory-tree">
+                            <!-- 目录结构将通过JavaScript动态生成 -->
+                            <div class="loading-indicator">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span>加载目录结构中...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="data-stats">
+                        <h3><i class="fas fa-chart-pie"></i> 数据统计</h3>
+                        <div class="stats-content">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-user"></i></div>
+                                    <div class="stat-value" id="total-patients">0</div>
+                                    <div class="stat-label">患者总数</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                                    <div class="stat-value" id="total-reports">0</div>
+                                    <div class="stat-label">生成报告</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="stat-value" id="analysis-count">0</div>
+                                    <div class="stat-label">诊断分析次数</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon"><i class="fas fa-database"></i></div>
+                                    <div class="stat-value" id="data-size">0 GB</div>
+                                    <div class="stat-label">数据总量</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stats-charts">
+                                <div class="chart-container">
+                                    <canvas id="diagnosisChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="refresh-stats" class="btn btn-outline">
+                            <i class="fas fa-sync-alt"></i> 刷新统计
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 患者数据管理 -->
+                <div class="patient-management">
+                    <h3><i class="fas fa-user-md"></i> 患者数据管理</h3>
+                    <div class="patient-search">
+                        <div class="search-controls">
+                            <input type="text" id="patient-search" placeholder="搜索患者ID、姓名或诊断结果..." class="form-input">
+                            <select id="patient-filter" class="form-input">
+                                <option value="">所有诊断结果</option>
+                                <option value="CN">CN - 认知正常</option>
+                                <option value="EMCI">EMCI - 早期轻度认知障碍</option>
+                                <option value="LMCI">LMCI - 晚期轻度认知障碍</option>
+                                <option value="AD">AD - 阿尔兹海默病</option>
+                            </select>
+                            <button id="search-patients" class="btn btn-primary">
+                                <i class="fas fa-search"></i> 搜索
+                            </button>
+                            <button id="clear-search" class="btn btn-outline">
+                                <i class="fas fa-times"></i> 清除
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="patient-list">
+                        <div class="list-header">
+                            <div class="header-cell">患者ID</div>
+                            <div class="header-cell">年龄</div>
+                            <div class="header-cell">性别</div>
+                            <div class="header-cell">诊断结果</div>
+                            <div class="header-cell">分析时间</div>
+                            <div class="header-cell">操作</div>
+                        </div>
+                        <div class="list-body" id="patient-list-body">
+                            <div class="no-patients">
+                                <i class="fas fa-user-md"></i>
+                                <p>暂无患者数据</p>
+                                <p>请先进行诊断分析</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-actions">
+                    <h3><i class="fas fa-tools"></i> 数据操作</h3>
+                    <div class="action-buttons">
+                        <button id="export-data" class="btn btn-outline">
+                            <i class="fas fa-download"></i> 导出数据
+                        </button>
+                        <button id="import-data" class="btn btn-outline">
+                            <i class="fas fa-upload"></i> 导入数据
+                        </button>
+                        <button id="clear-temp" class="btn btn-outline">
+                            <i class="fas fa-trash"></i> 清理临时文件
+                        </button>
+                        <button id="backup-data" class="btn btn-outline">
+                            <i class="fas fa-save"></i> 备份数据
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PDF报告页面 -->
+        <section id="reports" class="page-section">
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-file-pdf"></i> PDF报告管理</h2>
+                
+                <div class="reports-actions">
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h4>生成新报告</h4>
+                        <p>基于最新分析结果生成PDF报告</p>
+                        <button id="generate-new-report" class="btn btn-primary">
+                            <i class="fas fa-file-medical"></i> 生成报告
+                        </button>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4>查看历史报告</h4>
+                        <p>浏览和下载历史PDF报告</p>
+                        <button id="view-history-reports" class="btn btn-outline">
+                            <i class="fas fa-history"></i> 查看历史
+                        </button>
+                    </div>
+                    
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h4>报告设置</h4>
+                        <p>自定义报告模板和格式</p>
+                        <button id="report-settings" class="btn btn-outline">
+                            <i class="fas fa-sliders-h"></i> 设置
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="reports-list" id="reports-list">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3><i class="fas fa-list"></i> 最近生成的报告</h3>
+                        <div class="report-search">
+                            <input type="text" id="report-search" placeholder="搜索报告名称或患者ID..." class="form-input">
+                            <button id="search-reports" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button id="clear-report-search" class="btn btn-outline">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="reports-table">
+                        <div class="table-header">
+                            <div class="header-cell">报告名称</div>
+                            <div class="header-cell">患者ID</div>
+                            <div class="header-cell">生成时间</div>
+                            <div class="header-cell">文件大小</div>
+                            <div class="header-cell">操作</div>
+                        </div>
+                        <div class="table-body" id="reports-table-body">
+                            <!-- 报告列表将动态加载 -->
+                            <div class="no-reports">
+                                <i class="fas fa-file-pdf"></i>
+                                <p>暂无PDF报告</p>
+                                <p>请先生成报告</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 技术架构页面 -->
+        <section id="technology" class="page-section">
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-microscope"></i> 技术架构</h2>
+
+                <div class="tech-overview">
+                    <div class="tech-diagram">
+                        <div class="tech-layer">
+                            <div class="layer-title">数据输入层</div>
+                            <div class="layer-items">
+                                <div class="layer-item"><i class="fas fa-magnet"></i> MRI</div>
+                                <div class="layer-item"><i class="fas fa-wave-square"></i> PET</div>
+                                <div class="layer-item"><i class="fas fa-clipboard-list"></i> 临床数据</div>
+                                <div class="layer-item"><i class="fas fa-flask"></i> 分子数据</div>
+                                <div class="layer-item"><i class="fas fa-running"></i> 生活方式</div>
+                            </div>
+                        </div>
+                        <div class="tech-arrow">↓</div>
+                        <div class="tech-layer">
+                            <div class="layer-title">特征提取层</div>
+                            <div class="layer-items">
+                                <div class="layer-item"><i class="fas fa-cube"></i> 3D-CNN</div>
+                                <div class="layer-item"><i class="fas fa-network-wired"></i> Transformer</div>
+                                <div class="layer-item"><i class="fas fa-brain"></i> 注意力机制</div>
+                                <div class="layer-item"><i class="fas fa-merge"></i> 多模态融合</div>
+                            </div>
+                        </div>
+                        <div class="tech-arrow">↓</div>
+                        <div class="tech-layer">
+                            <div class="layer-title">融合预测层</div>
+                            <div class="layer-items">
+                                <div class="layer-item"><i class="fas fa-merge"></i> 多模态融合</div>
+                                <div class="layer-item"><i class="fas fa-chart-line"></i> LSTM</div>
+                                <div class="layer-item"><i class="fas fa-project-diagram"></i> 双任务输出</div>
+                                <div class="layer-item"><i class="fas fa-map"></i> Grad-CAM</div>
+                            </div>
+                        </div>
+                        <div class="tech-arrow">↓</div>
+                        <div class="tech-layer">
+                            <div class="layer-title">结果输出层</div>
+                            <div class="layer-items">
+                                <div class="layer-item"><i class="fas fa-diagnoses"></i> 风险分级</div>
+                                <div class="layer-item"><i class="fas fa-calendar-alt"></i> 进展预测</div>
+                                <div class="layer-item"><i class="fas fa-file-pdf"></i> PDF报告</div>
+                                <div class="layer-item"><i class="fas fa-chart-bar"></i> 可视化</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-details">
+                    <div class="tech-card">
+                        <h3><i class="fas fa-cogs"></i> 模型性能指标</h3>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <div class="metric-value">94.8%</div>
+                                <div class="metric-label">诊断准确率</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">0.92</div>
+                                <div class="metric-label">AUC-ROC</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">0.15</div>
+                                <div class="metric-label">MAE (进展预测)</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">0.2s</div>
+                                <div class="metric-label">推理时间</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card">
+                        <h3><i class="fas fa-code-branch"></i> 核心技术</h3>
+                        <ul class="tech-list">
+                            <li><i class="fas fa-check-circle"></i> 基于Transformer的多模态注意力融合</li>
+                            <li><i class="fas fa-check-circle"></i> 3D-CNN脑影像特征提取</li>
+                            <li><i class="fas fa-check-circle"></i> LSTM时序动态预测</li>
+                            <li><i class="fas fa-check-circle"></i> Grad-CAM可解释性增强</li>
+                            <li><i class="fas fa-check-circle"></i> 自适应多模态权重分配</li>
+                            <li><i class="fas fa-check-circle"></i> 自动PDF报告生成</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 关于页面 -->
+        <section id="about" class="page-section">
+            <div class="section-container">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> 关于系统</h2>
+
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3><i class="fas fa-book-medical"></i> 医学声明</h3>
+                        <div class="disclaimer">
+                            <p><strong>重要声明：</strong>本系统为AI辅助诊断工具，旨在提供科学参考和临床辅助决策支持。</p>
+                            <ul>
+                                <li>诊断结果仅供参考，不能替代专业医疗诊断</li>
+                                <li>最终诊断必须由执业医师根据完整临床资料做出</li>
+                                <li>紧急情况请立即就医，不要依赖本系统延迟治疗</li>
+                                <li>模型可能存在误差，使用前请了解其局限性</li>
+                                <li>所有患者数据均会进行匿名化处理</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="about-card">
+                        <h3><i class="fas fa-copyright"></i> 系统信息</h3>
+                        <div class="system-info">
+                            <div class="info-item">
+                                <span class="info-label">系统名称：</span>
+                                <span class="info-value">基于深度学习的阿尔兹海默症分类与进展预测系统 v4.0.0</span> <!-- 更新版本号 -->
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">发布日期：</span>
+                                <span class="info-value">2025年11月</span> <!-- 更新日期 -->
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">英文名称：</span>
+                                <span class="info-value">AD-CPredSys</span> <!-- 修改系统名称 -->
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">技术架构：</span>
+                                <span class="info-value">3D-CNN + Transformer + LSTM</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">数据模态：</span>
+                                <span class="info-value">4模态 (影像、临床、分子、生活方式)</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">报告格式：</span>
+                                <span class="info-value">PDF (自动生成)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <h3><i class="fas fa-envelope"></i> 联系我们</h3>
+                    <p>如有问题或建议，请联系我们的技术支持团队</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i> 
+                            <a href="mailto:1478211871@qq.com">1478211871@qq.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i> 
+                            <a href="tel:17864454060">17864454060</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 个人中心页面 -->
+        <section id="profile" class="page-section">
+            <div class="container">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <div class="avatar-icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="profile-info">
+                                <h2 id="profile-name">用户名</h2>
+                                <p id="profile-role">用户角色</p>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-outline" id="back-to-home-btn">
+                                <i class="fas fa-home"></i> 返回首页
+                            </button>
+                            <button class="btn btn-primary" id="edit-profile-btn">
+                                <i class="fas fa-edit"></i> 编辑资料
+                            </button>
+                            <button class="btn btn-danger" id="profile-logout-btn">
+                                <i class="fas fa-sign-out-alt"></i> 退出登录
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="profile-tabs">
+                        <div class="tab active" data-tab="basic">基本信息</div>
+                        <div class="tab" data-tab="security">安全设置</div>
+                        <div class="tab" data-tab="history">诊断历史</div>
+                        <div class="tab" data-tab="settings">个人设置</div>
+                        <div class="tab" data-tab="stats">使用统计</div>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- 基本信息 -->
+                        <div class="tab-pane active" id="basic-tab">
+                            <div class="profile-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>用户名</label>
+                                        <input type="text" id="profile-username" class="form-input" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>邮箱</label>
+                                        <input type="email" id="profile-email" class="form-input" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>角色</label>
+                                        <input type="text" id="profile-role-display" class="form-input" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>状态</label>
+                                        <input type="text" class="form-input" value="活跃" readonly style="color: #4CAF50;">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>注册时间</label>
+                                        <input type="text" id="profile-registration-time" class="form-input" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>最后登录时间</label>
+                                        <input type="text" id="profile-last-login" class="form-input" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>个人简介</label>
+                                    <textarea class="form-input" rows="3" placeholder="请输入个人简介" id="profile-bio"></textarea>
+                                </div>
+                                
+                                <!-- 患者基本信息 -->
+                                <div class="form-section" id="patient-info-section" style="display: none;">
+                                    <h3 style="margin-top: 20px; margin-bottom: 15px;"><i class="fas fa-user"></i> 患者基本信息</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>姓名</label>
+                                            <input type="text" id="profile-patient-name" class="form-input" placeholder="请输入姓名">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>年龄</label>
+                                            <input type="number" id="profile-patient-age" class="form-input" placeholder="请输入年龄" min="18" max="120">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>性别</label>
+                                            <select id="profile-patient-gender" class="form-input">
+                                                <option value="">选择性别</option>
+                                                <option value="male">男性</option>
+                                                <option value="female">女性</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>教育年限</label>
+                                            <input type="number" id="profile-patient-education" class="form-input" placeholder="请输入教育年限" min="0" max="30">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>联系方式</label>
+                                            <input type="text" id="profile-patient-contact" class="form-input" placeholder="请输入联系方式">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group full-width">
+                                            <label>病史</label>
+                                            <textarea class="form-input" rows="3" placeholder="请输入病史" id="profile-patient-history"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 生活方式信息 -->
+                                <div class="form-section" id="lifestyle-info-section" style="display: none;">
+                                    <h3 style="margin-top: 20px; margin-bottom: 15px;"><i class="fas fa-heartbeat"></i> 生活方式信息</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>每周运动次数</label>
+                                            <input type="number" id="profile-exercise-frequency" class="form-input" placeholder="0-7" min="0" max="7">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>每晚睡眠时长(小时)</label>
+                                            <input type="number" id="profile-sleep-duration" class="form-input" placeholder="4-12" min="4" max="12" step="0.5">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>健康饮食频率</label>
+                                            <select id="profile-diet-health" class="form-input">
+                                                <option value="">选择频率</option>
+                                                <option value="high">高 (几乎每天)</option>
+                                                <option value="medium">中 (3-5天/周)</option>
+                                                <option value="low">低 (少于3天/周)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>每周社交活动次数</label>
+                                            <input type="number" id="profile-social-activities" class="form-input" placeholder="0-10" min="0" max="10">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>吸烟状况</label>
+                                            <select id="profile-smoking-status" class="form-input">
+                                                <option value="">选择状况</option>
+                                                <option value="never">从不吸烟</option>
+                                                <option value="past">曾经吸烟</option>
+                                                <option value="current">当前吸烟</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>饮酒频率</label>
+                                            <select id="profile-alcohol-consumption" class="form-input">
+                                                <option value="">选择频率</option>
+                                                <option value="never">从不饮酒</option>
+                                                <option value="occasional">偶尔饮酒</option>
+                                                <option value="regular">经常饮酒</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions" style="margin-top: 20px;">
+                                    <button class="btn btn-primary" id="save-profile-btn">
+                                        <i class="fas fa-save"></i> 保存资料
+                                    </button>
+                                    <button class="btn btn-outline" id="load-diagnosis-form-btn" style="margin-left: 10px;">
+                                        <i class="fas fa-sync-alt"></i> 同步到诊断表单
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 安全设置 -->
+                        <div class="tab-pane" id="security-tab">
+                            <div class="security-section">
+                                <h3>修改密码</h3>
+                                <div class="form-group">
+                                    <label>当前密码</label>
+                                    <input type="password" id="current-password" class="form-input" placeholder="请输入当前密码">
+                                </div>
+                                <div class="form-group">
+                                    <label>新密码</label>
+                                    <input type="password" id="new-password" class="form-input" placeholder="请输入新密码">
+                                </div>
+                                <div class="form-group">
+                                    <label>确认新密码</label>
+                                    <input type="password" id="confirm-password" class="form-input" placeholder="请再次输入新密码">
+                                </div>
+                                <button class="btn btn-primary" id="change-password-btn">
+                                    <i class="fas fa-key"></i> 修改密码
+                                </button>
+                            </div>
+                            <div class="security-section" style="margin-top: 20px;">
+                                <h3>账号安全</h3>
+                                <div class="security-item">
+                                    <div class="security-label">
+                                        <i class="fas fa-shield-alt"></i> 密码强度
+                                    </div>
+                                    <div class="security-value">
+                                        <span class="password-strength" style="color: #4CAF50;">强</span>
+                                    </div>
+                                </div>
+                                <div class="security-item">
+                                    <div class="security-label">
+                                        <i class="fas fa-lock"></i> 登录保护
+                                    </div>
+                                    <div class="security-value">
+                                        <span style="color: #4CAF50;">已启用</span>
+                                    </div>
+                                </div>
+                                <div class="security-item">
+                                    <div class="security-label">
+                                        <i class="fas fa-history"></i> 登录历史
+                                    </div>
+                                    <div class="security-value">
+                                        <a href="#" class="btn btn-outline btn-sm">查看</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 诊断历史 -->
+                        <div class="tab-pane" id="history-tab">
+                            <div class="history-container">
+                                <div class="history-header">
+                                    <h3>诊断记录</h3>
+                                    <div class="history-search">
+                                        <input type="text" placeholder="搜索诊断记录..." class="form-input">
+                                        <button class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="history-list" id="diagnosis-history">
+                                    <!-- 诊断历史记录将在这里动态生成 -->
+                                    <div class="empty-state">
+                                        <i class="fas fa-history"></i>
+                                        <p>暂无诊断记录</p>
+                                        <p>您可以通过上传数据进行诊断</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 个人设置 -->
+                        <div class="tab-pane" id="settings-tab">
+                            <div class="settings-section">
+                                <h3>通知设置</h3>
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notify-diagnosis" checked>
+                                        诊断结果通知
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notify-report" checked>
+                                        报告生成通知
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="notify-system" checked>
+                                        系统通知
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="settings-section" style="margin-top: 20px;">
+                                <h3>隐私设置</h3>
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="privacy-share">
+                                        允许分享匿名数据用于研究
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <label>
+                                        <input type="checkbox" id="privacy-history" checked>
+                                        保存诊断历史
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="settings-section" style="margin-top: 20px;">
+                                <h3>界面设置</h3>
+                                <div class="setting-item">
+                                    <label>主题</label>
+                                    <select class="form-input">
+                                        <option value="light">浅色</option>
+                                        <option value="dark">深色</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <label>语言</label>
+                                    <select class="form-input">
+                                        <option value="zh">中文</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions" style="margin-top: 20px;">
+                                <button class="btn btn-primary" id="save-settings-btn">
+                                    <i class="fas fa-save"></i> 保存设置
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 使用统计 -->
+                        <div class="tab-pane" id="stats-tab">
+                            <div class="stats-container">
+                                <h3>使用统计</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-card stat-card-diagnosis">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-stethoscope"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-number">0</div>
+                                            <div class="stat-label">诊断次数</div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-card stat-card-report">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-file-pdf"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-number">0</div>
+                                            <div class="stat-label">报告生成</div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-card stat-card-time">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-number">0</div>
+                                            <div class="stat-label">使用时长</div>
+                                        </div>
+                                    </div>
+                                    <div class="stat-card stat-card-active">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-calendar"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <div class="stat-number">0</div>
+                                            <div class="stat-label">活跃天数</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stats-chart" style="margin-top: 20px;">
+                                    <h4>诊断趋势</h4>
+                                    <div class="chart-placeholder">
+                                        <i class="fas fa-chart-line"></i>
+                                        <p>诊断趋势图表将显示在这里</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 登录页面 -->
+        <section id="login" class="page-section">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <!-- 左侧装饰区域 -->
+                    <div class="auth-visual">
+                        <div class="visual-content">
+                            <div class="visual-logo">
+                                <div class="logo-icon">
+                                    <i class="fas fa-brain"></i>
+                                    <div class="logo-network">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                </div>
+                                <h2>AD-CPredSys</h2>
+                            </div>
+                            <div class="visual-title">
+                                <h3>阿尔兹海默症<br>智能诊断系统</h3>
+                            </div>
+                            <div class="visual-description">
+                                <p>基于多模态深度学习技术</p>
+                                <p>为患者提供精准的认知健康评估</p>
+                            </div>
+                            <div class="visual-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-brain"></i>
+                                    <span>AI智能诊断</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>数据分析</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-file-medical"></i>
+                                    <span>报告生成</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧表单区域 -->
+                    <div class="auth-form-area">
+                        <div class="auth-header">
+                            <h3>用户登录</h3>
+                            <p>请选择您的角色并登录系统</p>
+                        </div>
+
+                        <div class="role-selection">
+                            <div class="role-card" data-role="patient">
+                                <div class="role-icon patient-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>患者</h4>
+                                <p>查看个人诊断报告和健康记录</p>
+                            </div>
+                            <div class="role-card" data-role="doctor">
+                                <div class="role-icon doctor-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <h4>医生</h4>
+                                <p>管理患者诊断和生成报告</p>
+                            </div>
+                            <div class="role-card" data-role="admin">
+                                <div class="role-icon admin-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <h4>管理员</h4>
+                                <p>系统管理和用户权限控制</p>
+                            </div>
+                        </div>
+
+                        <form id="login-form" class="auth-form">
+                            <div class="form-group">
+                                <label for="login-username" class="form-label">用户名</label>
+                                <input type="text" id="login-username" class="form-input" placeholder="请输入用户名" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="login-password" class="form-label">密码</label>
+                                <input type="password" id="login-password" class="form-input" placeholder="请输入密码" required>
+                            </div>
+                            <div class="form-options">
+                                <label class="remember-me">
+                                    <input type="checkbox" id="remember-me">
+                                    <span>记住我</span>
+                                </label>
+                                <a href="#" class="forgot-password">忘记密码？</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-sign-in-alt"></i> 登录
+                            </button>
+                        </form>
+
+                        <div class="auth-footer">
+                            <p>还没有账号？ <a href="#" id="switch-to-register">立即注册</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 注册页面 -->
+        <section id="register" class="page-section">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <!-- 左侧装饰区域 -->
+                    <div class="auth-visual">
+                        <div class="visual-content">
+                            <div class="visual-logo">
+                                <div class="logo-icon">
+                                    <i class="fas fa-brain"></i>
+                                    <div class="logo-network">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                </div>
+                                <h2>AD-CPredSys</h2>
+                            </div>
+                            <div class="visual-title">
+                                <h3>阿尔兹海默症<br>智能诊断系统</h3>
+                            </div>
+                            <div class="visual-description">
+                                <p>基于多模态深度学习技术</p>
+                                <p>为患者提供精准的认知健康评估</p>
+                            </div>
+                            <div class="visual-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-brain"></i>
+                                    <span>AI智能诊断</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>数据分析</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-file-medical"></i>
+                                    <span>报告生成</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧表单区域 -->
+                    <div class="auth-form-area">
+                        <div class="auth-header">
+                            <h3>用户注册</h3>
+                            <p>请选择您的角色并创建账号</p>
+                        </div>
+
+                        <div class="role-selection">
+                            <div class="role-card" data-role="patient">
+                                <div class="role-icon patient-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h4>患者</h4>
+                                <p>查看个人诊断报告和健康记录</p>
+                            </div>
+                            <div class="role-card" data-role="doctor">
+                                <div class="role-icon doctor-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <h4>医生</h4>
+                                <p>管理患者诊断和生成报告</p>
+                            </div>
+                            <div class="role-card" data-role="admin">
+                                <div class="role-icon admin-icon">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <h4>管理员</h4>
+                                <p>系统管理和用户权限控制</p>
+                            </div>
+                        </div>
+
+                        <form id="register-form" class="auth-form">
+                            <div class="form-group">
+                                <label for="register-username" class="form-label">用户名</label>
+                                <input type="text" id="register-username" class="form-input" placeholder="请输入用户名" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-email" class="form-label">邮箱</label>
+                                <input type="email" id="register-email" class="form-input" placeholder="请输入邮箱" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-password" class="form-label">密码</label>
+                                <input type="password" id="register-password" class="form-input" placeholder="请输入密码" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="register-confirm-password" class="form-label">确认密码</label>
+                                <input type="password" id="register-confirm-password" class="form-input" placeholder="请再次输入密码" required>
+                            </div>
+                            <div class="form-options">
+                                <label class="terms-agree">
+                                    <input type="checkbox" id="terms-agree" required>
+                                    <span>我同意 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a></span>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-user-plus"></i> 注册
+                            </button>
+                        </form>
+
+                        <div class="auth-footer">
+                            <p>已有账号？ <a href="#" id="switch-to-login">立即登录</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 模态框 -->
+    <div id="results-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-medical-alt"></i> 详细诊断报告</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 详细报告内容将动态加载 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="generate-pdf">
+                    <i class="fas fa-file-pdf"></i> 生成PDF
+                </button>
+                <button class="btn btn-outline" id="close-modal">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF预览模态框 -->
+    <div id="pdf-preview-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-pdf"></i> PDF报告预览</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdf-preview-frame" style="width: 100%; height: 600px; border: none;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" id="download-pdf">
+                    <i class="fas fa-download"></i> 下载PDF
+                </button>
+                <button class="btn btn-outline" id="close-pdf-modal">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 报告设置模态框 -->
+    <div id="report-settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> 报告设置</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-grid">
+                    <!-- 报告模板设置 -->
+                    <div class="setting-section">
+                        <h4><i class="fas fa-file-alt"></i> 报告模板</h4>
+                        <div class="setting-group">
+                            <label for="report-template">模板类型</label>
+                            <select id="report-template" class="setting-input">
+                                <option value="standard">标准模板</option>
+                                <option value="detailed">详细模板</option>
+                                <option value="summary">简洁模板</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 语言设置 -->
+                    <div class="setting-section">
+                        <h4><i class="fas fa-language"></i> 语言设置</h4>
+                        <div class="setting-group">
+                            <label for="report-language">语言</label>
+                            <select id="report-language" class="setting-input">
+                                <option value="zh">中文</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 字体设置 -->
+                    <div class="setting-section">
+                        <h4><i class="fas fa-font"></i> 字体设置</h4>
+                        <div class="setting-group">
+                            <label for="report-font">字体</label>
+                            <select id="report-font" class="setting-input">
+                                <option value="SimHei">黑体</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="report-font-size">字体大小</label>
+                            <input type="number" id="report-font-size" class="setting-input" value="12" min="8" max="24">
+                        </div>
+                    </div>
+
+                    <!-- 内容选项 -->
+                    <div class="setting-section">
+                        <h4><i class="fas fa-list-check"></i> 内容选项</h4>
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="include-patient-info" checked>
+                                <span>包含患者信息</span>
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="include-risk-analysis" checked>
+                                <span>包含风险分析</span>
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="include-recommendations" checked>
+                                <span>包含建议措施</span>
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="include-visualizations" checked>
+                                <span>包含可视化图表</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 医院信息 -->
+                    <div class="setting-section">
+                        <h4><i class="fas fa-hospital"></i> 医院信息</h4>
+                        <div class="setting-group">
+                            <label for="hospital-name">医院名称</label>
+                            <input type="text" id="hospital-name" class="setting-input" placeholder="输入医院名称">
+                        </div>
+                        <div class="setting-group">
+                            <label for="department-name">科室名称</label>
+                            <input type="text" id="department-name" class="setting-input" placeholder="输入科室名称">
+                        </div>
+                        <div class="setting-group">
+                            <label for="doctor-name">医生姓名</label>
+                            <input type="text" id="doctor-name" class="setting-input" placeholder="输入医生姓名">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-settings">取消</button>
+                <button class="btn btn-primary" id="save-settings">保存设置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 消息提示 -->
+    <div id="toast-container"></div>
+
+    <!-- JavaScript文件 -->
+    <!-- 核心JavaScript文件 -->
+    <script src="/static/js/loading_manager.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+    <!-- 直接加载必要的JavaScript库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    
+    <!-- 延迟加载API模块 -->
+    <script>
+        // 递归生成目录结构HTML
+        function generateDirectoryHTML(directory, level = 0) {
+            const existsClass = directory.exists ? 'exists' : 'not-exists';
+            const fileCount = directory.file_count > 0 ? ` (${directory.file_count}个文件)` : '';
+            const indent = '  '.repeat(level);
+            
+            let html = `
+                <div class="directory-item ${existsClass}" style="padding-left: ${level * 20}px" onclick="showDirectoryDetails('${directory.path}', '${directory.description}')">
+                    <i class="fas fa-folder"></i>
+                    <span>${directory.path.split('/').pop()}/</span>
+                    <span class="directory-desc">- ${directory.description}${fileCount}</span>
+                    <i class="fas fa-chevron-right directory-arrow"></i>
+                </div>
+            `;
+            
+            // 递归处理子目录
+            if (directory.subdirectories) {
+                for (const subdirName in directory.subdirectories) {
+                    html += generateDirectoryHTML(directory.subdirectories[subdirName], level + 1);
+                }
+            }
+            
+            return html;
+        }
+
+        // 显示目录详情
+        function showDirectoryDetails(path, description) {
+            console.log('点击目录:', path);
+            
+            // 直接显示文件列表模态框
+            const modal = document.createElement('div');
+            modal.className = 'directory-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${path.split('/').pop()}</h3>
+                        <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>路径:</strong> ${path}</p>
+                        <p><strong>描述:</strong> ${description}</p>
+                        <div style="margin: 1rem 0;">
+                            <button onclick="openFileSystem('${path}')" class="btn btn-primary">
+                                <i class="fas fa-folder-open"></i> 打开文件系统
+                            </button>
+                        </div>
+                        <h4>文件列表:</h4>
+                        <div id="directory-files"></div>
+                    </div>
+                </div>
+            `;
+            
+            // 添加到页面
+            document.body.appendChild(modal);
+            
+            // 加载目录文件
+            loadDirectoryFiles(path);
+        }
+        
+        // 打开文件系统目录
+        function openFileSystem(path) {
+            try {
+                // 构建本地文件路径
+                const localPath = path.replace(/\//g, '\\');
+                const absolutePath = `${window.location.hostname === 'localhost' ? '' : 'C:'}\\${localPath}`;
+                
+                // 使用不同方法尝试打开
+                if (window.navigator.msSaveOrOpenBlob) {
+                    // IE/Edge
+                    window.navigator.msSaveOrOpenBlob(new Blob(), absolutePath);
+                } else {
+                    // 其他浏览器
+                    const link = document.createElement('a');
+                    link.href = `file://${absolutePath}`;
+                    link.target = '_blank';
+                    link.click();
+                }
+            } catch (error) {
+                console.error('打开文件系统失败:', error);
+                alert('无法直接打开文件系统目录，请手动导航到: ' + path);
+            }
+        }
+
+        // 加载目录文件
+        function loadDirectoryFiles(path) {
+            const filesContainer = document.getElementById('directory-files');
+            filesContainer.innerHTML = '<div class="loading">加载中...</div>';
+            
+            // 调用API获取目录中的文件
+            fetch(`/api/directory/${encodeURIComponent(path)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const files = data.data;
+                        let filesHtml = '';
+                        
+                        if (files.length > 0) {
+                            filesHtml = '<div class="file-grid">';
+                            files.forEach(file => {
+                                if (file.is_image) {
+                                    filesHtml += `
+                                        <div class="file-item">
+                                            <img src="/api/file/${encodeURIComponent(file.path)}" alt="${file.name}" onclick="previewImage('/api/file/${encodeURIComponent(file.path)}')">
+                                            <span>${file.name}</span>
+                                        </div>
+                                    `;
+                                } else {
+                                    filesHtml += `
+                                        <div class="file-item">
+                                            <i class="fas fa-file" style="font-size: 3rem; margin-bottom: 0.5rem; color: #666;"></i>
+                                            <span>${file.name}</span>
+                                        </div>
+                                    `;
+                                }
+                            });
+                            filesHtml += '</div>';
+                        } else {
+                            filesHtml = '<p>该目录中没有文件</p>';
+                        }
+                        
+                        filesContainer.innerHTML = filesHtml;
+                    } else {
+                        filesContainer.innerHTML = `<p class="error">${data.message || '获取文件列表失败'}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('获取文件列表失败:', error);
+                    filesContainer.innerHTML = '<p class="error">获取文件列表失败，请稍后重试</p>';
+                });
+        }
+
+        // 预览图像
+        function previewImage(src) {
+            const modal = document.createElement('div');
+            modal.className = 'image-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>图像预览</h3>
+                        <button class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="${src}" class="preview-image">
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // 动态加载目录结构
+        function loadDirectoryStructure() {
+            const directoryTree = document.getElementById('dynamic-directory-tree');
+            
+            fetch('/api/directory')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const directories = data.data;
+                        let html = '';
+                        
+                        // 生成目录结构HTML
+                        for (const dirName in directories) {
+                            html += generateDirectoryHTML(directories[dirName]);
+                        }
+                        
+                        directoryTree.innerHTML = html;
+                    } else {
+                        // 处理不同格式的错误响应
+                        const errorMessage = data.message || data.detail || '未知错误';
+                        directoryTree.innerHTML = `
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>加载目录结构失败: ${errorMessage}</span>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('加载目录结构失败:', error);
+                    directoryTree.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>加载目录结构失败，请稍后重试</span>
+                        </div>
+                    `;
+                });
+        }
+
+        // 延迟加载API模块
+        function loadAPIModule() {
+            const script = document.createElement('script');
+            script.src = '/static/js/api.js';
+            script.onload = function() {
+                console.log('API模块加载完成');
+            };
+            document.head.appendChild(script);
+        }
+        
+        // 页面加载完成后延迟加载非关键资源
+        window.addEventListener('load', function() {
+            // 加载目录结构
+            loadDirectoryStructure();
+            
+            // 延迟加载API模块
+            setTimeout(loadAPIModule, 1000);
+            
+
+            
+            console.log('页面加载完成，ECharts和Chart.js已加载');
+            
+            // 测试ECharts是否正常工作
+            console.log('ECharts版本:', echarts.version);
+        });
+
+    </script>
+</body>
+</html>

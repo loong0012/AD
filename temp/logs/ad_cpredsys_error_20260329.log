@@ -1,0 +1,316 @@
+2026-03-29 11:55:33,671 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\U0001f680' in position 8: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 754, in __init__
+    logger.info(f"\n🚀 启动 {config_manager.get('project.name')} v{config_manager.get('project.version')}")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f680' in position 8: illegal multibyte sequence
+2026-03-29 11:57:56,367 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\U0001f680' in position 8: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 754, in __init__
+    logger.info(f"\n🚀 启动 {config_manager.get('project.name')} v{config_manager.get('project.version')}")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f680' in position 8: illegal multibyte sequence
+2026-03-29 11:59:09,100 - AD-CPredSys - ERROR - 系统初始化失败: 'gbk' codec can't encode character '\U0001f527' in position 2: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 762, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\src\diagnosis\engine.py", line 16, in __init__
+    self.model = model_manager.get_model()
+                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 25, in get_model
+    self._model = self._load_model()
+                  ~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 30, in _load_model
+    print("\n🔧 加载深度学习模型...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f527' in position 2: illegal multibyte sequence
+2026-03-29 11:59:09,106 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\U0001f527' in position 678: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 762, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\src\diagnosis\engine.py", line 16, in __init__
+    self.model = model_manager.get_model()
+                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 25, in get_model
+    self._model = self._load_model()
+                  ~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 30, in _load_model
+    print("\n🔧 加载深度学习模型...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f527' in position 2: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 774, in __init__
+    logger.error("系统初始化失败", e)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 87, in error
+    print(traceback.format_exc())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f527' in position 678: illegal multibyte sequence
+2026-03-29 12:01:04,959 - AD-CPredSys - ERROR - 系统初始化失败: 'gbk' codec can't encode character '\U0001f527' in position 2: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 762, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\src\diagnosis\engine.py", line 16, in __init__
+    self.model = model_manager.get_model()
+                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 25, in get_model
+    self._model = self._load_model()
+                  ~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 30, in _load_model
+    print("\n🔧 加载深度学习模型...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f527' in position 2: illegal multibyte sequence
+2026-03-29 12:01:04,963 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\U0001f527' in position 678: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 762, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\src\diagnosis\engine.py", line 16, in __init__
+    self.model = model_manager.get_model()
+                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 25, in get_model
+    self._model = self._load_model()
+                  ~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 30, in _load_model
+    print("\n🔧 加载深度学习模型...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f527' in position 2: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 774, in __init__
+    logger.error("系统初始化失败", e)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 87, in error
+    print(traceback.format_exc())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f527' in position 678: illegal multibyte sequence
+2026-03-29 12:01:43,769 - AD-CPredSys - ERROR - 系统初始化失败: 'gbk' codec can't encode character '\u274c' in position 0: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 36, in _load_model
+    print(f"✅ 找到模型文件: {model_path}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 0: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 762, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\src\diagnosis\engine.py", line 16, in __init__
+    self.model = model_manager.get_model()
+                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 25, in get_model
+    self._model = self._load_model()
+                  ~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 56, in _load_model
+    print(f"❌ 模型加载失败: {e}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u274c' in position 0: illegal multibyte sequence
+2026-03-29 12:01:43,776 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\u2705' in position 145: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 36, in _load_model
+    print(f"✅ 找到模型文件: {model_path}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 0: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 762, in __init__
+    self.diagnosis_engine = DiagnosisEngine()
+                            ~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\src\diagnosis\engine.py", line 16, in __init__
+    self.model = model_manager.get_model()
+                 ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 25, in get_model
+    self._model = self._load_model()
+                  ~~~~~~~~~~~~~~~~^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\model_manager.py", line 56, in _load_model
+    print(f"❌ 模型加载失败: {e}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u274c' in position 0: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 774, in __init__
+    logger.error("系统初始化失败", e)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 87, in error
+    print(traceback.format_exc())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 145: illegal multibyte sequence
+2026-03-29 12:02:36,404 - AD-CPredSys - ERROR - 系统初始化失败: 'gbk' codec can't encode character '\u2705' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 771, in __init__
+    logger.info("✅ 系统初始化完成")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 6: illegal multibyte sequence
+2026-03-29 12:02:36,406 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\u2705' in position 137: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 771, in __init__
+    logger.info("✅ 系统初始化完成")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 6: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 774, in __init__
+    logger.error("系统初始化失败", e)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 87, in error
+    print(traceback.format_exc())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 137: illegal multibyte sequence
+2026-03-29 12:03:04,261 - AD-CPredSys - ERROR - 系统初始化失败: 'gbk' codec can't encode character '\u2705' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 771, in __init__
+    logger.info("✅ 系统初始化完成")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 6: illegal multibyte sequence
+2026-03-29 12:03:04,264 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\u2705' in position 137: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 771, in __init__
+    logger.info("✅ 系统初始化完成")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 6: illegal multibyte sequence
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 774, in __init__
+    logger.error("系统初始化失败", e)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 87, in error
+    print(traceback.format_exc())
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u2705' in position 137: illegal multibyte sequence
+2026-03-29 12:16:50,954 - AD-CPredSys - ERROR - API GET error: 'CustomHTTPRequestHandler' object has no attribute 'handle_get_reports'
+2026-03-29 16:22:40,798 - AD-CPredSys - ERROR - 
+系统启动失败: 'gbk' codec can't encode character '\U0001f4c5' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 1185, in main
+    system = AlzheimerDiagnosticSystem()
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 755, in __init__
+    logger.info(f"📅 发布日期: {config_manager.get('project.release_date')}")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4c5' in position 6: illegal multibyte sequence
+2026-03-29 16:23:14,699 - AD-CPredSys - ERROR - 获取统计失败: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 590, in handle_get_stats
+    logger.info("📊 获取系统统计...")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+2026-03-29 16:23:14,702 - AD-CPredSys - ERROR - API GET error: 'gbk' codec can't encode character '\U0001f4ca' in position 145: illegal multibyte sequence
+2026-03-29 16:23:21,070 - AD-CPredSys - ERROR - 获取统计失败: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 590, in handle_get_stats
+    logger.info("📊 获取系统统计...")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+2026-03-29 16:23:21,073 - AD-CPredSys - ERROR - API GET error: 'gbk' codec can't encode character '\U0001f4ca' in position 145: illegal multibyte sequence
+2026-03-29 16:24:11,830 - AD-CPredSys - ERROR - 获取统计失败: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 590, in handle_get_stats
+    logger.info("📊 获取系统统计...")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+2026-03-29 16:24:11,833 - AD-CPredSys - ERROR - API GET error: 'gbk' codec can't encode character '\U0001f4ca' in position 145: illegal multibyte sequence
+2026-03-29 16:24:15,193 - AD-CPredSys - ERROR - API GET error: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+2026-03-29 16:29:00,457 - AD-CPredSys - ERROR - API POST error: 'gbk' codec can't encode character '\U0001f52c' in position 6: illegal multibyte sequence
+2026-03-29 16:52:46,472 - AD-CPredSys - ERROR - 获取报告列表失败: 'gbk' codec can't encode character '\U0001f4cb' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 450, in handle_get_reports
+    logger.info("Retrieving report list...")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4cb' in position 6: illegal multibyte sequence
+2026-03-29 17:00:18,744 - AD-CPredSys - ERROR - 获取统计失败: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 590, in handle_get_stats
+    logger.info("Retrieving system statistics...")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4ca' in position 6: illegal multibyte sequence
+2026-03-29 17:17:41,753 - AD-CPredSys - ERROR - 获取报告列表失败: 'gbk' codec can't encode character '\U0001f4cb' in position 6: illegal multibyte sequence
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\main.py", line 450, in handle_get_reports
+    logger.info("Retrieving report list...")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Desktop\Alzheimer-diagnostic system\utils\log_manager.py", line 74, in info
+    print(f"INFO: {message}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\U0001f4cb' in position 6: illegal multibyte sequence
+2026-03-29 20:44:23,243 - AD-CPredSys - ERROR - API GET error: 'CustomHTTPRequestHandler' object has no attribute 'api_handler'
+2026-03-29 20:44:28,836 - AD-CPredSys - ERROR - API GET error: 'CustomHTTPRequestHandler' object has no attribute 'api_handler'
+2026-03-29 21:17:54,596 - AD-CPredSys - ERROR - 登录请求处理失败: 'bytes' object has no attribute 'get'
+Traceback (most recent call last):
+  File "D:\Desktop\Alzheimer-diagnostic system\src\api\handler.py", line 221, in handle_login_request
+    username = request_data.get('username')
+               ^^^^^^^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'get'

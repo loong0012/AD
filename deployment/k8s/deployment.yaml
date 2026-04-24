@@ -1,0 +1,279 @@
+# 阿尔兹海默症诊断系统 - Kubernetes部署配置
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: alzheimer-system
+  labels:
+    app: alzheimer-diagnostic-system
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alzheimer-config
+  namespace: alzheimer-system
+data:
+  DATABASE_URL: "postgresql://alzheimer_user:password@postgres:5432/alzheimer_diagnostic"
+  SECRET_KEY: "change-this-in-production"
+  DEBUG: "false"
+  LOG_LEVEL: "INFO"
+  WORKERS: "4"
+  TIMEOUT: "120"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: alzheimer-secrets
+  namespace: alzheimer-system
+type: Opaque
+stringData:
+  DATABASE_URL: "postgresql://alzheimer_user:your_secure_password@postgres:5432/alzheimer_diagnostic"
+  SECRET_KEY: "your-super-secret-key-change-this-in-production"
+  POSTGRES_PASSWORD: "your_postgres_password"
+  REDIS_PASSWORD: "your_redis_password"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alzheimer-app
+  namespace: alzheimer-system
+  labels:
+    app: alzheimer-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: alzheimer-app
+  template:
+    metadata:
+      labels:
+        app: alzheimer-app
+    spec:
+      containers:
+      - name: app
+        image: alzheimer-diagnostic-system:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8888
+          name: http
+        - containerPort: 8000
+          name: gunicorn
+        envFrom:
+        - configMapRef:
+            name: alzheimer-config
+        - secretRef:
+            name: alzheimer-secrets
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8888
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8888
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: app-storage
+          mountPath: /app/data
+        - name: uploaded-img
+          mountPath: /app/uploaded_img
+        - name: results
+          mountPath: /app/results
+        - name: reports
+          mountPath: /app/reports
+        - name: logs
+          mountPath: /app/logs
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: alzheimer-app-pvc
+      - name: uploaded-img
+        persistentVolumeClaim:
+          claimName: alzheimer-uploaded-img-pvc
+      - name: results
+        persistentVolumeClaim:
+          claimName: alzheimer-results-pvc
+      - name: reports
+        persistentVolumeClaim:
+          claimName: alzheimer-reports-pvc
+      - name: logs
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alzheimer-app-service
+  namespace: alzheimer-system
+spec:
+  selector:
+    app: alzheimer-app
+  ports:
+  - name: http
+    port: 8888
+    targetPort: 8888
+  - name: gunicorn
+    port: 8000
+    targetPort: 8000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alzheimer-ingress
+  namespace: alzheimer-system
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+spec:
+  rules:
+  - host: alzheimer.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: alzheimer-app-service
+            port:
+              number: 8888
+  tls:
+  - hosts:
+    - alzheimer.example.com
+    secretName: alzheimer-tls-secret
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alzheimer-app-pvc
+  namespace: alzheimer-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alzheimer-uploaded-img-pvc
+  namespace: alzheimer-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alzheimer-results-pvc
+  namespace: alzheimer-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alzheimer-reports-pvc
+  namespace: alzheimer-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: alzheimer-app-hpa
+  namespace: alzheimer-system
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: alzheimer-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: alzheimer-backup
+  namespace: alzheimer-system
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: alzheimer-diagnostic-system:latest
+            command:
+            - /bin/bash
+            - -c
+            - |
+              ./scripts/backup.sh
+            envFrom:
+            - secretRef:
+                name: alzheimer-secrets
+            volumeMounts:
+            - name: app-storage
+              mountPath: /app
+          restartPolicy: OnFailure
+          volumes:
+          - name: app-storage
+            persistentVolumeClaim:
+              claimName: alzheimer-app-pvc

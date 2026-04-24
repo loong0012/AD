@@ -1,0 +1,54 @@
+Alzheimer-diagnostic system/
+├── src/                    # 主源代码目录
+│   ├── Alzheimer_diagnostic_system.py
+│   ├── main.py
+│   └── train_model.py
+├── models/                 # 模型定义目录
+│   ├── __init__.py
+│   ├── model.py
+│   └── multimodal_ad_model.pth
+├── utils/                  # 工具函数目录
+│   ├── __init__.py
+│   ├── check_gpu.py
+│   ├── data_downloader.py
+│   └── helpers.py
+├── config/                 # 配置文件目录
+│   ├── __init__.py
+│   └── config.py
+├── data/                   # 数据目录
+│   ├── clinical/           # 临床数据
+│   │   ├── clinical_records/
+│   │   ├── lifestyle_data/
+│   │   ├── molecular_data/
+│   │   └── neuropsychological/
+│   ├── demo/               # 演示数据
+│   │   ├── demo_mri.npy
+│   │   └── demo.nii
+│   ├── uploads/            # 上传文件
+│   │   └── 系统首页图.png
+│   ├── temp/               # 临时文件
+│   │   ├── cache/
+│   │   ├── logs/
+│   │   └── tmp_uploads/
+│   ├── real/               # 真实数据集
+│   │   ├── adni/
+│   │   ├── oasis/
+│   │   ├── miriad/
+│   │   ├── nacc/
+│   │   ├── adrc/
+│   │   ├── ucsd/
+│   │   └── harvard/
+│   └── processed/          # 处理后的数据
+├── results/                # 结果目录
+│   ├── grad_cam/           # Grad-CAM可视化结果
+│   ├── reports/            # 诊断报告
+│   │   ├── comparative_reports/
+│   │   ├── summary_reports/
+│   │   ├── timeline_reports/
+│   │   └── *.pdf
+│   ├── risk_maps/          # 风险地图
+│   │   ├── progression_maps/
+│   │   └── regional_risk/
+│   ├── batch_results/      # 批量结果
+│   ├── individual/         # 个体结果
+│   └── statistics/         # 统计数据

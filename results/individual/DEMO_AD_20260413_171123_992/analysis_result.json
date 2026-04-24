@@ -1,0 +1,400 @@
+{
+  "success": true,
+  "results": {
+    "pred_label": "AD",
+    "confidence": 0.7788392701410288,
+    "risk_score": 0.9078070889639587,
+    "monthly_risk": [
+      {
+        "month": 1,
+        "risk": 0.8809592036357504
+      },
+      {
+        "month": 2,
+        "risk": 0.9315056865294592
+      },
+      {
+        "month": 3,
+        "risk": 0.9328403619653552
+      },
+      {
+        "month": 4,
+        "risk": 0.9739092694688304
+      },
+      {
+        "month": 5,
+        "risk": 0.9989850706242264
+      },
+      {
+        "month": 6,
+        "risk": 1.0267994425400604
+      },
+      {
+        "month": 7,
+        "risk": 1.0356663903826144
+      },
+      {
+        "month": 8,
+        "risk": 1.1157970485259008
+      },
+      {
+        "month": 9,
+        "risk": 1.110199345046746
+      },
+      {
+        "month": 10,
+        "risk": 1.12721430495393
+      },
+      {
+        "month": 11,
+        "risk": 1.1499816806166185
+      },
+      {
+        "month": 12,
+        "risk": 1.2070539839364467
+      }
+    ],
+    "risk_indicators": {
+      "海马体萎缩": {
+        "value": 6.275275162718985,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0,
+            2
+          ],
+          "medium": [
+            2,
+            5
+          ],
+          "high": [
+            5,
+            10
+          ]
+        },
+        "unit": "%/年"
+      },
+      "p-tau217浓度": {
+        "value": 9.425182091472392,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0,
+            3.8
+          ],
+          "medium": [
+            3.8,
+            8
+          ],
+          "high": [
+            8,
+            20
+          ]
+        },
+        "unit": "pg/mL"
+      },
+      "Aβ42/Aβ40比率": {
+        "value": 0.045462164716852625,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0.2,
+            0.4
+          ],
+          "medium": [
+            0.15,
+            0.2
+          ],
+          "high": [
+            0,
+            0.15
+          ]
+        },
+        "unit": ""
+      },
+      "脑葡萄糖代谢率": {
+        "value": 10.934353493608064,
+        "risk_level": "medium",
+        "range": {
+          "normal": [
+            15,
+            20
+          ],
+          "medium": [
+            10,
+            15
+          ],
+          "high": [
+            5,
+            10
+          ]
+        },
+        "unit": "mg/100g/min"
+      },
+      "白质高信号": {
+        "value": 3.593780259870276,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0,
+            1
+          ],
+          "medium": [
+            1,
+            3
+          ],
+          "high": [
+            3,
+            10
+          ]
+        },
+        "unit": "mL"
+      },
+      "脑体积减少率": {
+        "value": 4.067447979145215,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0.5,
+            1
+          ],
+          "medium": [
+            1,
+            2
+          ],
+          "high": [
+            2,
+            5
+          ]
+        },
+        "unit": "%/年"
+      },
+      "MRI脑萎缩程度": {
+        "value": 28.813200403203105,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0,
+            5
+          ],
+          "medium": [
+            5,
+            15
+          ],
+          "high": [
+            15,
+            30
+          ]
+        },
+        "unit": "%"
+      },
+      "脑脊液Aβ42水平": {
+        "value": 212.90106156282732,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            500,
+            1000
+          ],
+          "medium": [
+            300,
+            500
+          ],
+          "high": [
+            100,
+            300
+          ]
+        },
+        "unit": "pg/mL"
+      },
+      "脑脊液Tau蛋白": {
+        "value": 723.8037969164927,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0,
+            200
+          ],
+          "medium": [
+            200,
+            400
+          ],
+          "high": [
+            400,
+            800
+          ]
+        },
+        "unit": "pg/mL"
+      },
+      "海马体积": {
+        "value": 5.176731896802863,
+        "risk_level": "low",
+        "range": {
+          "normal": [
+            7,
+            10
+          ],
+          "medium": [
+            5,
+            7
+          ],
+          "high": [
+            3,
+            5
+          ]
+        },
+        "unit": "cm³"
+      },
+      "前额叶皮层厚度": {
+        "value": 1.915424044763524,
+        "risk_level": "low",
+        "range": {
+          "normal": [
+            2.5,
+            3.5
+          ],
+          "medium": [
+            2,
+            2.5
+          ],
+          "high": [
+            1.5,
+            2
+          ]
+        },
+        "unit": "mm"
+      },
+      "认知评分": {
+        "value": 20.679203620820765,
+        "risk_level": "medium",
+        "range": {
+          "normal": [
+            26,
+            30
+          ],
+          "medium": [
+            20,
+            26
+          ],
+          "high": [
+            0,
+            20
+          ]
+        },
+        "unit": "分"
+      },
+      "APOE基因风险": {
+        "value": 1,
+        "risk_level": "low",
+        "range": {
+          "normal": [
+            0,
+            1
+          ],
+          "medium": [
+            1,
+            2
+          ],
+          "high": [
+            2,
+            4
+          ]
+        },
+        "unit": "分"
+      },
+      "年龄风险因子": {
+        "value": 65,
+        "risk_level": "low",
+        "range": {
+          "normal": [
+            0,
+            65
+          ],
+          "medium": [
+            65,
+            75
+          ],
+          "high": [
+            75,
+            100
+          ]
+        },
+        "unit": "岁"
+      },
+      "生活方式风险": {
+        "value": 4.5,
+        "risk_level": "high",
+        "range": {
+          "normal": [
+            0,
+            2
+          ],
+          "medium": [
+            2,
+            4
+          ],
+          "high": [
+            4,
+            10
+          ]
+        },
+        "unit": "分"
+      },
+      "血管风险因素": {
+        "value": 0.5,
+        "risk_level": "low",
+        "range": {
+          "normal": [
+            0,
+            1
+          ],
+          "medium": [
+            1,
+            3
+          ],
+          "high": [
+            3,
+            5
+          ]
+        },
+        "unit": "分"
+      }
+    },
+    "recommendations": [
+      "保持规律的体育锻炼",
+      "保持健康的饮食习惯",
+      "保持社交活动",
+      "定期进行认知训练",
+      "定期复诊"
+    ]
+  },
+  "patient_info": {
+    "patient_id": "DEMO_AD",
+    "demographics": {
+      "age": 78,
+      "gender": "female",
+      "education_years": 10,
+      "apoe_genotype": "ε4/ε4",
+      "race": "Asian",
+      "height_cm": 158,
+      "weight_kg": 58,
+      "bmi": 23.1
+    },
+    "medical_history": {
+      "family_history_ad": true,
+      "hypertension": true,
+      "diabetes": true,
+      "depression_history": true,
+      "stroke_history": true,
+      "heart_disease": true,
+      "smoking_status": "former",
+      "alcohol_use": "none"
+    },
+    "vital_signs": {
+      "systolic_bp": 145,
+      "diastolic_bp": 90,
+      "heart_rate": 80,
+      "temperature": 36.7
+    }
+  }
+}

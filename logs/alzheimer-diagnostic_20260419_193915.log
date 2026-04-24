@@ -1,0 +1,2 @@
+2026-04-19 19:39:59,635 - alzheimer-diagnostic - INFO - PDF报告生成器初始化完成
+2026-04-19 19:40:01,257 - alzheimer-diagnostic - INFO - PDF报告生成成功: reports\diagnosis_report_TEST_001_20260419_193959.pdf

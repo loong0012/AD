@@ -1,0 +1,379 @@
+/**
+ * AD-CPredSys 可视化专用样式
+ * 增强数据可视化和图表显示效果
+ */
+
+/* 风险指标可视化增强 */
+.risk-visualizer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+}
+
+.risk-visualizer svg {
+    width: 100%;
+    height: 100%;
+}
+
+.risk-visualizer .high-stroke {
+    stroke: var(--danger-color);
+}
+
+.risk-visualizer .medium-stroke {
+    stroke: var(--warning-color);
+}
+
+.risk-visualizer .low-stroke {
+    stroke: var(--success-color);
+}
+
+.risk-visualizer .risk-percent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--dark-color);
+}
+
+/* 概率条增强动画 */
+.probability-fill {
+    position: relative;
+    overflow: hidden;
+}
+
+.probability-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.probability-fill:hover::after {
+    left: 100%;
+}
+
+/* 热力图容器增强 */
+.heatmap-container {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.heatmap-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.8s ease;
+    z-index: 1;
+}
+
+.heatmap-container:hover::after {
+    left: 100%;
+}
+
+/* 热力图图片样式 */
+.heatmap-image {
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.heatmap-image:hover {
+    transform: scale(1.02);
+}
+
+/* 热力图控制按钮 */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.heatmap-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.heatmap-controls .btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.heatmap-controls .btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* 热力图覆盖层 */
+.heatmap-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0);
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+/* 热力图信息面板 */
+.heatmap-info {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    animation: slideDown 0.3s ease;
+}
+
+.heatmap-info h5 {
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.heatmap-info p {
+    color: var(--gray-color);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.heatmap-info ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.heatmap-info li {
+    color: var(--gray-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.heatmap-info .legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+/* 动画效果 */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 诊断结果卡片增强 */
+.diagnosis-result {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-card) 0%, #f8fafc 100%);
+}
+
+.diagnosis-result::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-gradient);
+    transition: all 0.3s ease;
+}
+
+.diagnosis-result:hover::before {
+    width: 8px;
+}
+
+/* 建议列表增强 */
+.advice-list li {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.advice-list li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
+}
+
+.advice-list li:hover::after {
+    left: 100%;
+}
+
+/* 图表动画 */
+@keyframes chartGrow {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+.probability-bar {
+    animation: chartGrow 0.8s ease-out forwards;
+    transform-origin: bottom;
+}
+
+/* 渐变背景动画 */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.heatmap-container,
+.probability-bar,
+.risk-indicator {
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite;
+}
+
+/* 卡片悬停效果增强 */
+.risk-indicator:hover,
+.heatmap-container:hover,
+.probability-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-xl) !important;
+    z-index: 10;
+}
+
+/* 特殊视觉效果 */
+.visual-highlight {
+    animation: visualHighlight 2s ease-in-out;
+}
+
+@keyframes visualHighlight {
+    0% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.3); }
+    70% { box-shadow: 0 0 0 10px rgba(15, 118, 110, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
+}
+
+/* 响应式可视化优化 */
+@media (max-width: 768px) {
+    .risk-indicators {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .probability-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .heatmap-container {
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+    
+    .risk-visualizer {
+        position: static;
+        width: 50px;
+        height: 50px;
+        margin: 1rem auto 0 auto;
+    }
+    
+    /* 每月进展风险响应式 */
+    .risk-trend-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .monthly-risk-section {
+        padding: 1rem;
+    }
+    
+    .risk-trend-explanation {
+        padding: 1rem;
+    }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .probability-fill::after {
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    
+    .advice-list li::after {
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    }
+}
+
+/* 加载动画 */
+.loading-visualization {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading-visualization::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: loadingShimmer 1.5s infinite;
+}
+
+@keyframes loadingShimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 数据驱动的视觉反馈 */
+.data-high { color: var(--danger-color); }
+.data-medium { color: var(--warning-color); }
+.data-low { color: var(--success-color); }
+
+.data-high-bg { background: rgba(239, 68, 68, 0.1); }
+.data-medium-bg { background: rgba(245, 158, 11, 0.1); }
+.data-low-bg { background: rgba(16, 185, 129, 0.1); }

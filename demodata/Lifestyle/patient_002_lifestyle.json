@@ -1,0 +1,15 @@
+{
+  "patient_id": "PAT_002",
+  "exercise_frequency": 5,
+  "exercise_type": ["慢跑", "游泳", "瑜伽"],
+  "sleep_duration": 8.0,
+  "diet_health": "high",
+  "diet_details": "严格的地中海式饮食，每天食用大量蔬菜水果和坚果",
+  "social_activities": 6,
+  "social_details": ["合唱团", "读书会", "社区志愿者", "家庭聚会"],
+  "smoking_status": "never",
+  "alcohol_consumption": "never",
+  "cognitive_activities": ["阅读", "学习法语", "拼图游戏", "写作"],
+  "medication": [],
+  "daily_routine": "非常规律的作息，每天早上7点起床，晚上10点睡觉"
+}

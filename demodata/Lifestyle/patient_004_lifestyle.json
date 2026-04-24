@@ -1,0 +1,15 @@
+{
+  "patient_id": "PAT_004",
+  "exercise_frequency": 4,
+  "exercise_type": ["快走", "骑自行车", "力量训练"],
+  "sleep_duration": 7.5,
+  "diet_health": "high",
+  "diet_details": "均衡饮食，每天食用全谷物、豆类、鱼类和大量蔬菜水果",
+  "social_activities": 5,
+  "social_details": ["大学同学聚会", "学术讲座", "志愿者活动", "家庭聚餐"],
+  "smoking_status": "never",
+  "alcohol_consumption": "occasional",
+  "cognitive_activities": ["阅读学术论文", "学习编程", "下棋", "学习新语言"],
+  "medication": [],
+  "daily_routine": "规律的作息，每天早上6:30起床，晚上11点睡觉，保持充足的学习和工作时间"
+}

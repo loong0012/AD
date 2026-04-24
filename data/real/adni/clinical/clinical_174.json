@@ -1,0 +1,10 @@
+{
+  "patient_id": "PATIENT_174",
+  "age": 75,
+  "gender": "Male",
+  "education": 16,
+  "mmse_score": 20.5,
+  "cdr_score": 1.0,
+  "diagnosis": "LMCI",
+  "visit_date": "2023-0175-15"
+}

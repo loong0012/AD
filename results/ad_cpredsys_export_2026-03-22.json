@@ -1,0 +1,57 @@
+{
+  "system_info": {
+    "name": "AD-CPredSys",
+    "version": "4.0.0",
+    "export_date": "2026-03-22T04:56:54.792Z",
+    "export_by": "System"
+  },
+  "statistics": {
+    "success": true,
+    "total_patients": 2,
+    "total_reports": 5,
+    "data_size": "61.02 MB",
+    "last_analysis": "-"
+  },
+  "reports": [
+    {
+      "name": "DEMO_20260321_161252_report_20260321_161252.pdf",
+      "path": "/reports/DEMO_20260321_161252_report_20260321_161252.pdf",
+      "patient_id": "DEMO",
+      "size": 68301,
+      "modified": 1774080772955.9312,
+      "timestamp": "2026-03-21T16:12:52.955931"
+    },
+    {
+      "name": "DEMO_20260129_153311_report_20260129_153311.pdf",
+      "path": "/reports/DEMO_20260129_153311_report_20260129_153311.pdf",
+      "patient_id": "DEMO",
+      "size": 68618,
+      "modified": 1769671992693.729,
+      "timestamp": "2026-01-29T15:33:12.693729"
+    },
+    {
+      "name": "DEMO_20260121_111657_report_20260121_111657.pdf",
+      "path": "/reports/DEMO_20260121_111657_report_20260121_111657.pdf",
+      "patient_id": "DEMO",
+      "size": 68818,
+      "modified": 1768965418020.3706,
+      "timestamp": "2026-01-21T11:16:58.020370"
+    },
+    {
+      "name": "DEMO_20260121_105910_report_20260121_105910.pdf",
+      "path": "/reports/DEMO_20260121_105910_report_20260121_105910.pdf",
+      "patient_id": "DEMO",
+      "size": 68539,
+      "modified": 1768964350210.407,
+      "timestamp": "2026-01-21T10:59:10.210407"
+    },
+    {
+      "name": "DEMO_20260121_102121_report_20260121_102121.pdf",
+      "path": "/reports/DEMO_20260121_102121_report_20260121_102121.pdf",
+      "patient_id": "DEMO",
+      "size": 8500,
+      "modified": 1768962081306.2246,
+      "timestamp": "2026-01-21T10:21:21.306225"
+    }
+  ]
+}
