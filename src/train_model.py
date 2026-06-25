@@ -118,8 +118,11 @@ import time
 def signal_handler(sig, frame):
     """信号处理函数，用于优雅终止训练"""
     logger.info('收到中断信号，正在保存模型...')
-    torch.save(model.state_dict(), 'model_interrupted.pth')
-    logger.info('模型已保存为 model_interrupted.pth')
+    try:
+        torch.save(model.state_dict(), 'model_interrupted.pth')
+        logger.info('模型已保存为 model_interrupted.pth')
+    except NameError:
+        logger.warning('模型尚未创建，无法保存')
     sys.exit(0)
 
 def main():
