@@ -1,0 +1,266 @@
+"""
+统一字体管理器 - 跨平台中文字体解决方案
+所有模块通过此模块获取中文字体，避免重复的字体检测逻辑
+"""
+
+import os
+import sys
+import glob
+import logging
+
+logger = logging.getLogger('alzheimer-diagnostic')
+
+
+class FontManager:
+    """统一字体管理器，单例模式"""
+
+    _instance = None
+    _initialized = False
+
+    # 中文字体关键词
+    _CN_KEYWORDS = [
+        'yahei', 'simhei', 'simsun', 'simkai', 'simfang',
+        'noto', 'cjk', 'chinese', 'han', 'ming', 'hei', 'kai', 'song', 'fang',
+        'wqy', 'wenquan', 'droid', 'pingfang', 'heiti', 'stheit',
+        'msmincho', 'yugoth', 'malgun', 'gulim',
+    ]
+
+    # 字体搜索路径（按优先级）
+    _FONT_SEARCH_PATHS = [
+        # 项目内置字体
+        'static/fonts/NotoSansCJKsc-Regular.otf',
+        'static/fonts/NotoSansCJKsc-Regular.ttf',
+        'static/fonts/NotoSansSC-Regular.otf',
+        'static/fonts/wqy-microhei.ttc',
+        # Linux 系统字体
+        '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+        '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttf',
+        '/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf',
+        '/usr/share/fonts/truetype/arphic/uming.ttc',
+        '/usr/share/fonts/truetype/arphic/ukai.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJKsc-Regular.otf',
+        # Windows 系统字体
+        'C:\\Windows\\Fonts\\msyh.ttc',
+        'C:\\Windows\\Fonts\\msyh.ttf',
+        'C:\\Windows\\Fonts\\simhei.ttf',
+        'C:\\Windows\\Fonts\\simsun.ttc',
+        'C:\\Windows\\Fonts\\simkai.ttf',
+        'C:\\Windows\\Fonts\\simfang.ttf',
+        # macOS 系统字体
+        '/System/Library/Fonts/PingFang.ttc',
+        '/System/Library/Fonts/STHeiti Light.ttc',
+        '/Library/Fonts/Arial Unicode.ttf',
+    ]
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self):
+        if FontManager._initialized:
+            return
+        FontManager._initialized = True
+        self._mpl_font_name = None
+        self._mpl_font_path = None
+        self._pdf_font_path = None
+        self._pdf_font_name = None
+        self._init_fonts()
+
+    def _init_fonts(self):
+        """初始化字体配置"""
+        self._find_and_register_fonts()
+
+    def _find_and_register_fonts(self):
+        """查找并注册中文字体"""
+        # 1. 先尝试已知路径
+        project_root = self._get_project_root()
+        for path in self._FONT_SEARCH_PATHS:
+            abs_path = os.path.join(project_root, path) if not os.path.isabs(path) else path
+            abs_path = os.path.abspath(abs_path)
+            if os.path.exists(abs_path) and os.path.getsize(abs_path) > 1000:
+                if self._register_font(abs_path):
+                    return
+
+        # 2. 扫描项目 fonts 目录
+        fonts_dir = os.path.join(project_root, 'static', 'fonts')
+        if os.path.isdir(fonts_dir):
+            for f in os.listdir(fonts_dir):
+                fpath = os.path.join(fonts_dir, f)
+                if os.path.isfile(fpath) and f.lower().endswith(('.ttf', '.ttc', '.otf')):
+                    if self._register_font(fpath):
+                        return
+
+        # 3. 扫描系统字体目录
+        if os.name == 'nt':
+            self._scan_windows_fonts()
+        else:
+            self._scan_linux_fonts()
+
+        if self._mpl_font_path:
+            return
+
+        # 4. 使用 matplotlib 的 findSystemFonts
+        try:
+            import matplotlib.font_manager as fm
+            for fpath in fm.findSystemFonts():
+                fname = os.path.basename(fpath).lower()
+                if any(kw in fname for kw in self._CN_KEYWORDS):
+                    if self._register_font(fpath):
+                        return
+        except Exception:
+            pass
+
+        # 5. 按名称查找已注册的字体
+        try:
+            import matplotlib.font_manager as fm
+            for font in fm.fontManager.ttflist:
+                if any(k in font.name for k in ['SimHei', 'YaHei', 'SimSun', 'KaiTi', 'FangSong',
+                                                  'Noto', 'CJK', 'WenQuanYi', 'PingFang',
+                                                  'Heiti', 'AR PL', 'STSong', 'Droid']):
+                    self._mpl_font_path = font.fname
+                    self._mpl_font_name = font.name
+                    self._pdf_font_path = font.fname
+                    self._pdf_font_name = font.name
+                    logger.info(f"FontManager: 使用已注册字体 {font.name}")
+                    return
+        except Exception:
+            pass
+
+        logger.warning("FontManager: 未找到任何中文字体，中文可能显示为乱码")
+
+    def _register_font(self, font_path):
+        """注册一个字体文件"""
+        try:
+            import matplotlib.font_manager as fm
+            import matplotlib.pyplot as plt
+
+            fm.fontManager.addfont(font_path)
+            font_prop = fm.FontProperties(fname=font_path)
+            font_name = font_prop.get_name()
+
+            self._mpl_font_path = font_path
+            self._mpl_font_name = font_name
+            self._pdf_font_path = font_path
+            self._pdf_font_name = os.path.splitext(os.path.basename(font_path))[0]
+
+            plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
+            plt.rcParams['axes.unicode_minus'] = False
+
+            logger.info(f"FontManager: 注册字体 {font_name} ({font_path})")
+            return True
+        except Exception as e:
+            logger.debug(f"FontManager: 注册字体失败 {font_path}: {e}")
+            return False
+
+    def _scan_windows_fonts(self):
+        """扫描 Windows 字体目录"""
+        fonts_dir = 'C:\\Windows\\Fonts'
+        if not os.path.exists(fonts_dir):
+            return
+        try:
+            for entry in os.scandir(fonts_dir):
+                if entry.is_file() and entry.name.lower().endswith(('.ttf', '.ttc', '.otf')):
+                    if any(kw in entry.name.lower() for kw in self._CN_KEYWORDS):
+                        if self._register_font(entry.path):
+                            return
+        except Exception:
+            pass
+
+    def _scan_linux_fonts(self):
+        """扫描 Linux 字体目录"""
+        linux_font_dirs = [
+            '/usr/share/fonts',
+            '/usr/local/share/fonts',
+            '/home/*/.fonts',
+        ]
+        for base_dir in linux_font_dirs:
+            for root, _, files in os.walk(base_dir):
+                for f in files:
+                    if f.lower().endswith(('.ttf', '.ttc', '.otf')):
+                        if any(kw in f.lower() for kw in self._CN_KEYWORDS):
+                            fpath = os.path.join(root, f)
+                            if self._register_font(fpath):
+                                return
+
+    def _get_project_root(self):
+        """获取项目根目录"""
+        return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+    @property
+    def mpl_font_name(self):
+        """获取 matplotlib 字体名称"""
+        if not self._mpl_font_name:
+            self._find_and_register_fonts()
+        return self._mpl_font_name or 'sans-serif'
+
+    @property
+    def mpl_font_path(self):
+        """获取 matplotlib 字体文件路径"""
+        if not self._mpl_font_path:
+            self._find_and_register_fonts()
+        return self._mpl_font_path
+
+    @property
+    def pdf_font_path(self):
+        """获取 PDF 字体文件路径"""
+        if not self._pdf_font_path:
+            self._find_and_register_fonts()
+        return self._pdf_font_path
+
+    @property
+    def pdf_font_name(self):
+        """获取 PDF 字体名称"""
+        if not self._pdf_font_name:
+            self._find_and_register_fonts()
+        return self._pdf_font_name or 'Helvetica'
+
+    def setup_matplotlib(self):
+        """配置 matplotlib 使用中文字体"""
+        try:
+            import matplotlib.pyplot as plt
+            name = self.mpl_font_name
+            if name and name != 'sans-serif':
+                plt.rcParams['font.sans-serif'] = [name, 'SimHei', 'Microsoft YaHei', 'DejaVu Sans', 'sans-serif']
+                plt.rcParams['axes.unicode_minus'] = False
+                return True
+        except Exception:
+            pass
+        return False
+
+    def setup_reportlab(self):
+        """注册 reportlab 中文字体，返回 (font_name, font_path)"""
+        try:
+            from reportlab.pdfbase import pdfmetrics
+            from reportlab.pdfbase.ttfonts import TTFont
+
+            path = self.pdf_font_path
+            if not path or not os.path.exists(path):
+                return 'Helvetica', None
+
+            name = self.pdf_font_name
+            try:
+                if path.lower().endswith('.ttc'):
+                    try:
+                        pdfmetrics.registerFont(TTFont(name, path, subfontIndex=0))
+                    except Exception:
+                        pdfmetrics.registerFont(TTFont(name, path))
+                else:
+                    pdfmetrics.registerFont(TTFont(name, path))
+                logger.info(f"FontManager: reportlab 注册字体 {name}")
+                return name, path
+            except Exception as e:
+                logger.warning(f"FontManager: reportlab 注册失败: {e}")
+                return 'Helvetica', None
+        except ImportError:
+            return 'Helvetica', None
+
+    def has_chinese_font(self):
+        """检查是否有可用的中文字体"""
+        return self._mpl_font_path is not None
+
+
+# 全局单例
+font_manager = FontManager()

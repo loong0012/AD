@@ -7,6 +7,7 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Depends, Req
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
+from urllib.parse import unquote
 import uvicorn
 import os
 import json
@@ -15,7 +16,8 @@ from datetime import datetime, timedelta
 
 # 添加项目根目录到Python路径
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(PROJECT_ROOT)
 
 # 导入JWT工具
 from src.utils.jwt_utils import verify_token
@@ -770,6 +772,7 @@ async def get_directory_structure():
 async def get_directory_files(path: str):
     """获取目录文件列表"""
     try:
+        path = unquote(path)
         logger.info(f"获取目录文件列表: {path}")
         
         # 使用API处理器
@@ -789,18 +792,23 @@ async def get_directory_files(path: str):
 async def get_file(path: str):
     """获取文件内容"""
     try:
+        path = unquote(path)
         logger.info(f"获取文件: {path}")
-        
-        # 验证文件是否存在
-        if not os.path.exists(path):
+
+        if not os.path.isabs(path):
+            abs_path = os.path.normpath(os.path.join(PROJECT_ROOT, path))
+            if not abs_path.startswith(os.path.normpath(PROJECT_ROOT)):
+                raise HTTPException(status_code=403, detail="禁止访问项目外文件")
+        else:
+            raise HTTPException(status_code=403, detail="仅支持相对路径")
+
+        if not os.path.exists(abs_path):
             raise HTTPException(status_code=404, detail="文件不存在")
-        
-        # 验证是否是文件
-        if not os.path.isfile(path):
+
+        if not os.path.isfile(abs_path):
             raise HTTPException(status_code=400, detail="路径不是文件")
-        
-        # 返回文件
-        return FileResponse(path)
+
+        return FileResponse(abs_path)
     except HTTPException:
         raise
     except Exception as e:

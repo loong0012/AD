@@ -3,6 +3,7 @@ API处理器 - 处理HTTP请求和响应
 """
 
 import json
+import os
 import traceback
 from src.utils.log_manager import log_manager as logger
 from src.utils.config_manager import config_manager
@@ -12,6 +13,8 @@ from src.report.generator import ReportGenerator
 from src.database.database import SessionLocal
 from src.database.models import User, Patient, Doctor, Teleconsultation, LifestyleData, MolecularData, ClinicalRecord, Diagnosis
 from src.utils.jwt_utils import verify_password, get_password_hash, create_access_token
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class APIHandler:
@@ -729,11 +732,10 @@ class APIHandler:
             
             # 检查目录是否存在并统计文件数量
             def check_directory_recursive(dir_info):
-                if os.path.exists(dir_info['path']):
+                if os.path.exists(os.path.join(PROJECT_ROOT, dir_info['path'])):
                     dir_info['exists'] = True
-                    # 统计文件数量
                     file_count = 0
-                    for root, dirs, files in os.walk(dir_info['path']):
+                    for root, dirs, files in os.walk(os.path.join(PROJECT_ROOT, dir_info['path'])):
                         file_count += len(files)
                     dir_info['file_count'] = file_count
                 else:
@@ -766,25 +768,26 @@ class APIHandler:
         :return: 文件列表数据
         """
         try:
-            import os
-            
-            # 验证目录是否存在
-            if not os.path.exists(directory_path):
+            if not os.path.isabs(directory_path):
+                abs_dir = os.path.normpath(os.path.join(PROJECT_ROOT, directory_path))
+                if not abs_dir.startswith(os.path.normpath(PROJECT_ROOT)):
+                    return self._create_error_response(403, ['禁止访问项目外目录'])
+            else:
+                return self._create_error_response(403, ['仅支持相对路径'])
+
+            if not os.path.exists(abs_dir):
                 return self._create_error_response(404, ['目录不存在'])
-            
-            # 验证是否是目录
-            if not os.path.isdir(directory_path):
+
+            if not os.path.isdir(abs_dir):
                 return self._create_error_response(400, ['路径不是目录'])
-            
-            # 获取目录中的文件
+
             files = []
-            for filename in os.listdir(directory_path):
-                file_path = os.path.join(directory_path, filename)
+            for filename in os.listdir(abs_dir):
+                file_path = os.path.join(abs_dir, filename)
                 if os.path.isfile(file_path):
-                    # 获取文件信息
                     file_info = {
                         'name': filename,
-                        'path': file_path.replace('\\', '/'),
+                        'path': os.path.relpath(file_path, PROJECT_ROOT).replace('\\', '/'),
                         'size': os.path.getsize(file_path),
                         'modified': os.path.getmtime(file_path),
                         'is_image': filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))

@@ -7,122 +7,19 @@ import numpy as np
 from src.utils.model_manager import model_manager
 from src.utils.log_manager import log_manager as logger
 from src.utils.config_manager import config_manager
+from src.utils.font_manager import font_manager as _font_mgr
 import base64
 from io import BytesIO
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-import matplotlib.font_manager as fm
 from PIL import Image
 from scipy.ndimage import gaussian_filter
 import cv2
 import os
 import random
 
-
-def _setup_chinese_font():
-    # Windows中文常用字体关键词（文件名匹配）
-    CN_FONT_KEYWORDS = [
-        'msyh', 'simhei', 'simsun', 'simkai', 'simfang',
-        'msmincho', 'yugoth', 'yugothb', 'yugothic',
-        'malgun', 'gulim', 'batang', 'dotum',
-        'noto', 'cjk', 'chinese', 'han', 'ming', 'hei', 'kai', 'song', 'fang',
-    ]
-
-    def _try_add_font(font_path):
-        try:
-            fm.fontManager.addfont(font_path)
-            font_prop = fm.FontProperties(fname=font_path)
-            font_name = font_prop.get_name()
-            plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
-            plt.rcParams['axes.unicode_minus'] = False
-            logger.info(f"DiagnosisEngine: 使用系统字体 {font_name} ({font_path})")
-            return font_name
-        except Exception as e:
-            logger.warning(f"DiagnosisEngine: 加载字体失败 {font_path}: {e}")
-            return None
-
-    # Windows系统：扫描整个Fonts目录寻找中文字体
-    if os.name == 'nt':
-        fonts_dir = 'C:\\Windows\\Fonts'
-        if os.path.exists(fonts_dir):
-            # 首先尝试已知的常用字体文件
-            priority_fonts = [
-                'msyh.ttc', 'msyh.ttf', 'msyhbd.ttc', 'msyhbd.ttf',
-                'simhei.ttf', 'simsun.ttc', 'simsun.ttf',
-                'simkai.ttf', 'simfang.ttf',
-            ]
-            for font_file in priority_fonts:
-                font_path = os.path.join(fonts_dir, font_file)
-                if os.path.exists(font_path):
-                    result = _try_add_font(font_path)
-                    if result:
-                        return result
-
-            # 扫描整个Fonts目录，匹配中文字体关键词
-            try:
-                for entry in os.scandir(fonts_dir):
-                    if entry.is_file() and entry.name.lower().endswith(('.ttf', '.ttc', '.otf')):
-                        fname_lower = entry.name.lower()
-                        if any(kw in fname_lower for kw in CN_FONT_KEYWORDS):
-                            result = _try_add_font(entry.path)
-                            if result:
-                                return result
-            except PermissionError:
-                logger.warning("DiagnosisEngine: 无法扫描Windows Fonts目录，权限不足")
-            except Exception as e:
-                logger.warning(f"DiagnosisEngine: 扫描Windows Fonts目录时出错: {e}")
-
-    # 尝试加载项目内置字体文件
-    font_paths = [
-        os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
-        os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
-        'static/fonts/NotoSansCJKsc-Regular.otf',
-        'static/fonts/NotoSansCJKsc-Regular.ttf',
-    ]
-    for font_path in font_paths:
-        abs_path = os.path.abspath(font_path)
-        if os.path.exists(abs_path):
-            result = _try_add_font(abs_path)
-            if result:
-                return result
-
-    # 使用matplotlib的findSystemFonts查找所有系统字体
-    try:
-        all_system_fonts = fm.findSystemFonts()
-        for font_path in all_system_fonts:
-            fname_lower = os.path.basename(font_path).lower()
-            if any(kw in fname_lower for kw in CN_FONT_KEYWORDS):
-                result = _try_add_font(font_path)
-                if result:
-                    return result
-    except Exception as e:
-        logger.warning(f"DiagnosisEngine: findSystemFonts失败: {e}")
-
-    # 尝试系统已安装的中文字体（按名称匹配）
-    font_names = [
-        'Microsoft YaHei', 'SimHei', 'SimSun', 'KaiTi', 'FangSong',
-        'DengXian', 'YouYuan', 'STSong', 'STKaiti', 'STFangsong',
-        'WenQuanYi Micro Hei', 'WenQuanYi Zen Hei',
-        'Noto Sans CJK SC', 'Noto Sans SC', 'Noto Sans CJK',
-        'PingFang SC', 'STHeiti', 'Heiti SC', 'AR PL UMing CN',
-        'Arial Unicode MS', 'sans-serif'
-    ]
-    available_fonts = [f.name for f in fm.fontManager.ttflist]
-    for font_name in font_names:
-        if font_name in available_fonts:
-            plt.rcParams['font.sans-serif'] = [font_name]
-            plt.rcParams['axes.unicode_minus'] = False
-            logger.info(f"DiagnosisEngine: 使用系统字体 {font_name}")
-            return font_name
-
-    # 最后的备用方案
-    plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'sans-serif']
-    plt.rcParams['axes.unicode_minus'] = False
-    logger.warning("DiagnosisEngine: 未找到中文字体，使用默认字体，中文可能显示为乱码")
-    return 'sans-serif'
-
-
-_setup_chinese_font()
+# 全局字体初始化
+_font_mgr.setup_matplotlib()
 
 
 class DiagnosisEngine:

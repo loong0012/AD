@@ -9,6 +9,10 @@ import seaborn as sns
 from datetime import datetime
 from src.utils.log_manager import log_manager as logger
 from src.utils.config_manager import config_manager
+from src.utils.font_manager import font_manager as _font_mgr
+
+# 初始化中文字体
+_font_mgr.setup_matplotlib()
 
 
 class ReportGenerator:

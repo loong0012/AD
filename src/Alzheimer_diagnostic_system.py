@@ -9,6 +9,7 @@ import numpy as np
 from datetime import datetime
 from src.utils.log_manager import log_manager as logger
 from src.utils.config_manager import config_manager
+from src.utils.font_manager import font_manager as _font_mgr
 from src.data.processor import DataProcessor
 from src.diagnosis.engine import DiagnosisEngine
 from src.report.generator import ReportGenerator
@@ -22,109 +23,8 @@ try:
     from PIL import Image as PILImage
     import io
     IMAGE_LIBS_AVAILABLE = True
-    # 注册中文字体 - Windows系统优先使用系统字体文件
-    import matplotlib.font_manager as fm
-    CHINESE_FONT_PATH = None
-
-    # 中文常用字体关键词（文件名匹配）
-    CN_FONT_KEYWORDS = [
-        'msyh', 'simhei', 'simsun', 'simkai', 'simfang',
-        'msmincho', 'yugoth', 'yugothb', 'yugothic',
-        'malgun', 'gulim', 'batang', 'dotum',
-        'noto', 'cjk', 'chinese', 'han', 'ming', 'hei', 'kai', 'song', 'fang',
-    ]
-
-    def _try_add_font(font_path):
-        try:
-            fm.fontManager.addfont(font_path)
-            font_prop = fm.FontProperties(fname=font_path)
-            font_name = font_prop.get_name()
-            plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
-            plt.rcParams['axes.unicode_minus'] = False
-            return font_path, font_name
-        except Exception as e:
-            logger.warning(f"AlzheimerDiagnosticSystem: 加载字体失败 {font_path}: {e}")
-            return None, None
-
-    # Windows系统：扫描整个Fonts目录寻找中文字体
-    if os.name == 'nt':
-        fonts_dir = 'C:\\Windows\\Fonts'
-        if os.path.exists(fonts_dir):
-            # 首先尝试已知的常用字体文件
-            priority_fonts = [
-                'msyh.ttc', 'msyh.ttf', 'msyhbd.ttc', 'msyhbd.ttf',
-                'simhei.ttf', 'simsun.ttc', 'simsun.ttf',
-                'simkai.ttf', 'simfang.ttf',
-            ]
-            for font_file in priority_fonts:
-                font_path = os.path.join(fonts_dir, font_file)
-                if os.path.exists(font_path):
-                    CHINESE_FONT_PATH, font_name = _try_add_font(font_path)
-                    if CHINESE_FONT_PATH:
-                        logger.info(f"AlzheimerDiagnosticSystem: 使用Windows系统字体 {font_name} ({font_path})")
-                        break
-
-            # 扫描整个Fonts目录，匹配中文字体关键词
-            if not CHINESE_FONT_PATH:
-                try:
-                    for entry in os.scandir(fonts_dir):
-                        if entry.is_file() and entry.name.lower().endswith(('.ttf', '.ttc', '.otf')):
-                            fname_lower = entry.name.lower()
-                            if any(kw in fname_lower for kw in CN_FONT_KEYWORDS):
-                                CHINESE_FONT_PATH, font_name = _try_add_font(entry.path)
-                                if CHINESE_FONT_PATH:
-                                    logger.info(f"AlzheimerDiagnosticSystem: 使用Windows系统字体 {font_name} ({entry.path})")
-                                    break
-                except PermissionError:
-                    logger.warning("AlzheimerDiagnosticSystem: 无法扫描Windows Fonts目录，权限不足")
-                except Exception as e:
-                    logger.warning(f"AlzheimerDiagnosticSystem: 扫描Windows Fonts目录时出错: {e}")
-
-    if not CHINESE_FONT_PATH:
-        # Linux/Render环境：尝试加载项目内置字体文件
-        project_font_paths = [
-            os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
-            os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
-            'static/fonts/NotoSansCJKsc-Regular.otf',
-            'static/fonts/NotoSansCJKsc-Regular.ttf',
-        ]
-        for fpath in project_font_paths:
-            abs_fpath = os.path.abspath(fpath)
-            if os.path.exists(abs_fpath):
-                CHINESE_FONT_PATH, font_name = _try_add_font(abs_fpath)
-                if CHINESE_FONT_PATH:
-                    logger.info(f"AlzheimerDiagnosticSystem: 使用内置字体 {font_name} ({abs_fpath})")
-                    break
-
-    if not CHINESE_FONT_PATH:
-        # 使用matplotlib的findSystemFonts查找所有系统字体
-        try:
-            all_system_fonts = fm.findSystemFonts()
-            for font_path in all_system_fonts:
-                fname_lower = os.path.basename(font_path).lower()
-                if any(kw in fname_lower for kw in CN_FONT_KEYWORDS):
-                    CHINESE_FONT_PATH, font_name = _try_add_font(font_path)
-                    if CHINESE_FONT_PATH:
-                        logger.info(f"AlzheimerDiagnosticSystem: 使用系统字体 {font_name} ({font_path})")
-                        break
-        except Exception as e:
-            logger.warning(f"AlzheimerDiagnosticSystem: findSystemFonts失败: {e}")
-
-    if not CHINESE_FONT_PATH:
-        for font in fm.fontManager.ttflist:
-            if any(k in font.name for k in ['SimHei', 'Microsoft YaHei', 'YaHei', 'SimSun', 'KaiTi', 'FangSong',
-                                              'DengXian', 'WenQuanYi', 'Noto Sans CJK', 'Noto Sans SC',
-                                              'PingFang', 'Heiti', 'AR PL', 'STSong', 'STKaiti']):
-                CHINESE_FONT_PATH = font.fname
-                plt.rcParams['font.sans-serif'] = [font.name]
-                plt.rcParams['axes.unicode_minus'] = False
-                logger.info(f"AlzheimerDiagnosticSystem: 使用系统字体 {font.name}")
-                break
-
-    if not CHINESE_FONT_PATH:
-        plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'sans-serif']
-        plt.rcParams['axes.unicode_minus'] = False
-        logger.warning("AlzheimerDiagnosticSystem: 未找到中文字体，中文可能显示为乱码")
+    _font_mgr.setup_matplotlib()
+    CHINESE_FONT_PATH = _font_mgr.mpl_font_path
 except ImportError as e:
     logger.warning(f"图像库导入失败: {e}")
     IMAGE_LIBS_AVAILABLE = False
@@ -347,49 +247,8 @@ class PDFReportGenerator:
             from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
             from reportlab.pdfbase import pdfmetrics
             from reportlab.pdfbase.ttfonts import TTFont
-            
-            # 注册中文字体（跨平台支持）
-            chinese_font_name = 'Helvetica'
-            font_paths = [
-                # Windows 优先
-                'C:\\Windows\\Fonts\\msyh.ttc',
-                'C:\\Windows\\Fonts\\msyh.ttf',
-                'C:\\Windows\\Fonts\\simhei.ttf',
-                'C:\\Windows\\Fonts\\simsun.ttc',
-                'C:\\Windows\\Fonts\\simkai.ttf',
-                # Linux/Render: 项目内置字体
-                os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
-                os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
-                'static/fonts/NotoSansCJKsc-Regular.otf',
-                'static/fonts/NotoSansCJKsc-Regular.ttf',
-                # Linux 系统字体
-                '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
-                '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
-                '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
-                '/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf',
-                # macOS
-                '/System/Library/Fonts/PingFang.ttc',
-                '/System/Library/Fonts/STHeiti Light.ttc',
-                '/Library/Fonts/Arial Unicode.ttf',
-            ]
-            for font_path in font_paths:
-                if os.path.exists(font_path):
-                    try:
-                        font_name = os.path.splitext(os.path.basename(font_path))[0]
-                        # TTC文件需要特殊处理
-                        if font_path.lower().endswith('.ttc'):
-                            try:
-                                pdfmetrics.registerFont(TTFont(font_name, font_path, subfontIndex=0))
-                            except Exception:
-                                pdfmetrics.registerFont(TTFont(font_name, font_path))
-                        else:
-                            pdfmetrics.registerFont(TTFont(font_name, font_path))
-                        chinese_font_name = font_name
-                        logger.info(f"PDFReportGenerator: 使用字体 {font_name} ({font_path})")
-                        break
-                    except Exception as e:
-                        logger.warning(f"PDFReportGenerator: 注册字体失败 {font_path}: {e}")
-                        continue
+
+            chinese_font_name, _ = _font_mgr.setup_reportlab()
             if chinese_font_name == 'Helvetica':
                 logger.warning("PDFReportGenerator: 未找到中文字体，将使用默认字体，中文可能显示为乱码")
             

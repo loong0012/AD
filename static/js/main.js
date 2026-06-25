@@ -4349,7 +4349,7 @@ function loadDirectoryFiles(dirPath, description) {
     pathDisplay.textContent = '路径: ' + dirPath + ' (' + description + ')';
     content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载文件列表中...</span></div>';
 
-    fetch('/api/directory/files/' + encodeURIComponent(dirPath))
+    fetch('/api/directory/files/' + encodeURI(dirPath))
         .then(response => response.json())
         .then(data => {
             if (data.success && data.data && data.data.length > 0) {
@@ -4405,7 +4405,7 @@ function previewFile(filePath, fileName) {
 
     if (isImage) {
         const imgEl = document.createElement('img');
-        imgEl.src = '/api/file/' + encodeURIComponent(filePath);
+        imgEl.src = '/api/file/' + encodeURI(filePath);
         imgEl.alt = fileName;
         imgEl.style.cssText = 'max-width:100%;max-height:500px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)';
         imgEl.onerror = function () {
@@ -4416,7 +4416,7 @@ function previewFile(filePath, fileName) {
         content.firstChild.appendChild(imgEl);
     } else if (isCSV) {
         content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载CSV数据中...</span></div>';
-        fetch('/api/file/' + encodeURIComponent(filePath))
+        fetch('/api/file/' + encodeURI(filePath))
             .then(response => response.text())
             .then(text => {
                 renderCSVPreview(text, fileName);
@@ -4426,7 +4426,7 @@ function previewFile(filePath, fileName) {
             });
     } else if (isJSON) {
         content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载JSON数据中...</span></div>';
-        fetch('/api/file/' + encodeURIComponent(filePath))
+        fetch('/api/file/' + encodeURI(filePath))
             .then(response => response.json())
             .then(json => {
                 content.innerHTML = '<div class="json-preview"><pre style="background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 8px; overflow: auto; max-height: 500px; font-size: 0.85rem;">' + JSON.stringify(json, null, 2) + '</pre></div>';
@@ -4436,7 +4436,7 @@ function previewFile(filePath, fileName) {
             });
     } else if (isText) {
         content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载文本中...</span></div>';
-        fetch('/api/file/' + encodeURIComponent(filePath))
+        fetch('/api/file/' + encodeURI(filePath))
             .then(response => response.text())
             .then(text => {
                 content.innerHTML = '<div class="text-preview"><pre style="background: #f8f9fa; padding: 1rem; border-radius: 8px; overflow: auto; max-height: 500px; font-size: 0.85rem; white-space: pre-wrap; word-break: break-all;">' + escapeHtml(text) + '</pre></div>';
