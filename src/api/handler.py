@@ -22,10 +22,16 @@ class APIHandler:
         self.data_processor = DataProcessor()
         self.report_generator = ReportGenerator()
         
-        # 使用数据库存储用户信息
-        self.db = SessionLocal()
-        
         logger.info("API处理器初始化完成")
+    
+    def get_db(self):
+        if not hasattr(self, '_db') or self._db is None:
+            self._db = SessionLocal()
+        return self._db
+    
+    @property
+    def db(self):
+        return self.get_db()
     
     def handle_diagnosis_request(self, request_data):
         """

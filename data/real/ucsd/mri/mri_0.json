@@ -1,0 +1,7 @@
+{
+    "patient_id": "UCSD_0000",
+    "scan_date": "2024-05-20",
+    "diagnosis": "EMCI",
+    "mri_quality": 0.88,
+    "description": "UCSD dataset scan 0"
+}

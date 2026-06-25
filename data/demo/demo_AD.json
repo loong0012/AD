@@ -1,0 +1,8 @@
+{
+    "age": 80,
+    "gender": "male",
+    "education": 8,
+    "mmse": 18,
+    "cdr": 2,
+    "description": "阿尔茨海默病病例"
+}

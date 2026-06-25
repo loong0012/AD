@@ -69,12 +69,21 @@ def get_current_user(request: Request):
     
     return user_data
 
+# 导入数据库初始化
+from src.database.database import init_db
+
 # 创建FastAPI应用
 app = FastAPI(
     title="阿尔兹海默症诊断系统",
     description="基于深度学习的阿尔兹海默症分类与进展预测系统",
     version="3.0.0"
 )
+
+# 启动时初始化数据库
+@app.on_event("startup")
+async def startup_event():
+    init_db()
+    logger.info("数据库初始化完成")
 
 # 配置CORS
 app.add_middleware(

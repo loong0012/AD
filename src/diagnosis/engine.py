@@ -11,11 +11,35 @@ import base64
 from io import BytesIO
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import matplotlib.font_manager as fm
 from PIL import Image
 from scipy.ndimage import gaussian_filter
 import cv2
 import os
 import random
+
+
+def _setup_chinese_font():
+    font_names = [
+        'SimHei', 'Microsoft YaHei', 'WenQuanYi Micro Hei',
+        'WenQuanYi Zen Hei', 'Noto Sans CJK SC', 'Noto Sans SC',
+        'PingFang SC', 'STHeiti', 'Heiti SC', 'AR PL UMing CN',
+        'DejaVu Sans', 'Arial Unicode MS', 'sans-serif'
+    ]
+    available_fonts = [f.name for f in fm.fontManager.ttflist]
+    for font_name in font_names:
+        if font_name in available_fonts:
+            plt.rcParams['font.sans-serif'] = [font_name]
+            plt.rcParams['axes.unicode_minus'] = False
+            logger.info(f"DiagnosisEngine: 使用中文字体 {font_name}")
+            return font_name
+    logger.warning("DiagnosisEngine: 未找到中文字体，使用默认字体，中文可能显示为乱码")
+    plt.rcParams['font.sans-serif'] = ['sans-serif']
+    plt.rcParams['axes.unicode_minus'] = False
+    return 'sans-serif'
+
+
+_setup_chinese_font()
 
 
 class DiagnosisEngine:
@@ -587,10 +611,6 @@ class DiagnosisEngine:
             import cv2
             import random
             
-            # 设置中文字体
-            plt.rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体
-            plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
-            
             img = None
             image_source = "合成图像"
             
@@ -805,10 +825,6 @@ class DiagnosisEngine:
             import random
             from PIL import Image
             from scipy.ndimage import gaussian_filter
-            
-            # 设置中文字体
-            plt.rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体
-            plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
             
             # 创建热力图 - 3个视角
             fig, axes = plt.subplots(1, 3, figsize=(18, 6))

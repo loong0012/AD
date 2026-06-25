@@ -1179,7 +1179,7 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, #0a1628 0%, #0d2137 25%, #0f2b4a 50%, #0d2845 75%, #0a1a2e 100%);
+    background: url('/static/images/bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
