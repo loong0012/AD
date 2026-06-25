@@ -13,7 +13,7 @@ echo "  Workers: $WORKERS"
 echo "============================================"
 
 # 创建必要的目录
-mkdir -p ./data ./results ./reports ./uploaded_img ./temp ./demodata
+mkdir -p ./data ./results ./reports ./uploaded_img ./temp ./demodata ./logs
 
 # 启动服务
 exec uvicorn src.app:app \
