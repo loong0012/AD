@@ -1,0 +1,26 @@
+# Render.com 一键部署配置
+# 使用方法：在Render.com导入此GitHub仓库即可自动部署
+
+services:
+  - type: web
+    name: alzheimer-diagnostic-system
+    env: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        value: sqlite:///./alzheimer.db
+      - key: WORKERS
+        value: "2"
+    autoDeploy: true
