@@ -91,69 +91,73 @@ window.hideLoading = function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     console.log('=== DOMContentLoaded事件触发 ===');
-    console.log('AD-CPredSys系统初始化...'); // 修改系统名称
+    console.log('AD-CPredSys系统初始化...');
 
-    // 检查loadingManager是否存在
-    console.log('loadingManager存在:', typeof loadingManager !== 'undefined');
+    try {
+        // 检查loadingManager是否存在
+        console.log('loadingManager存在:', typeof loadingManager !== 'undefined');
 
-    // 初始化认证系统
-    console.log('开始初始化认证系统...');
-    initAuthSystem();
+        // 初始化认证系统
+        console.log('开始初始化认证系统...');
+        initAuthSystem();
 
-    // 初始化组件
-    console.log('开始初始化导航...');
-    initNavigation();
-    console.log('开始初始化按钮...');
-    initButtons();
-    console.log('开始初始化文件上传...');
-    initFileUpload();
-    console.log('开始初始化表单验证...');
-    initFormValidation();
-    console.log('开始初始化模态框...');
-    initModal();
-    console.log('开始初始化数据管理...');
-    initDataManagement();
-    console.log('开始初始化报告设置模态框...');
-    initReportSettingsModal();
+        // 初始化组件
+        console.log('开始初始化导航...');
+        initNavigation();
+        console.log('开始初始化按钮...');
+        initButtons();
+        console.log('开始初始化文件上传...');
+        initFileUpload();
+        console.log('开始初始化表单验证...');
+        initFormValidation();
+        console.log('开始初始化模态框...');
+        initModal();
+        console.log('开始初始化数据管理...');
+        initDataManagement();
+        console.log('开始初始化报告设置模态框...');
+        initReportSettingsModal();
 
-    // 初始化图片懒加载
-    console.log('开始初始化图片懒加载...');
-    initImageLazyLoading();
+        // 初始化图片懒加载
+        console.log('开始初始化图片懒加载...');
+        initImageLazyLoading();
 
-    // 初始化报告搜索防抖
-    console.log('开始初始化报告搜索防抖...');
-    const searchInput = document.getElementById('report-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', debounce(function () {
-            if (this.value.trim()) {
-                searchReports();
-            } else {
-                clearReportSearch();
-            }
-        }, 300));
+        // 初始化报告搜索防抖
+        console.log('开始初始化报告搜索防抖...');
+        const searchInput = document.getElementById('report-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', debounce(function () {
+                if (this.value.trim()) {
+                    searchReports();
+                } else {
+                    clearReportSearch();
+                }
+            }, 300));
+        }
+
+        // 加载统计数据
+        console.log('开始加载统计数据...');
+        loadSystemStats();
+
+        // 检查登录状态
+        console.log('检查登录状态...');
+        checkLoginStatus();
+
+        // 显示欢迎消息
+        console.log('显示欢迎消息...');
+        if (typeof loadingManager !== 'undefined') {
+            loadingManager.showSuccess('AD-CPredSys多模态分析系统已就绪');
+        } else {
+            console.error('loadingManager未定义');
+        }
+
+        // 添加粒子背景
+        console.log('添加粒子背景...');
+        createParticles();
+
+        console.log('=== 系统初始化完成 ===');
+    } catch (error) {
+        console.error('系统初始化失败:', error);
     }
-
-    // 加载统计数据
-    console.log('开始加载统计数据...');
-    loadSystemStats();
-
-    // 检查登录状态
-    console.log('检查登录状态...');
-    checkLoginStatus();
-
-    // 显示欢迎消息
-    console.log('显示欢迎消息...');
-    if (typeof loadingManager !== 'undefined') {
-        loadingManager.showSuccess('AD-CPredSys多模态分析系统已就绪');
-    } else {
-        console.error('loadingManager未定义');
-    }
-
-    // 添加粒子背景
-    console.log('添加粒子背景...');
-    createParticles();
-
-    console.log('=== 系统初始化完成 ===');
 });
 
 // 认证系统初始化
@@ -954,83 +958,116 @@ function initNavigation() {
 
 // 初始化按钮事件
 function initButtons() {
-    // 首页按钮
-    document.getElementById('start-demo').addEventListener('click', function () {
-        // 先跳转到诊断页面
-        document.querySelector('[href="#diagnosis"]').click();
-        // 延迟加载演示数据，确保页面已经切换
-        setTimeout(() => {
-            loadingManager.showInfo('正在加载多模态演示数据...');
-            startDemoAnalysis();
-        }, 500);
-    });
+    try {
+        // 安全绑定事件辅助函数
+        function safeBind(id, event, handler) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener(event, handler);
+            } else {
+                console.warn('initButtons: 元素未找到:', id);
+            }
+        }
 
-    document.getElementById('start-diagnosis').addEventListener('click', function () {
-        document.querySelector('[href="#diagnosis"]').click();
-        setTimeout(() => {
-            document.getElementById('browse-files').click();
-        }, 100);
-    });
+        // 首页按钮
+        safeBind('start-demo', 'click', function () {
+            const diagLink = document.querySelector('[href="#diagnosis"]');
+            if (diagLink) diagLink.click();
+            setTimeout(() => {
+                if (typeof loadingManager !== 'undefined') {
+                    loadingManager.showInfo('正在加载多模态演示数据...');
+                }
+                startDemoAnalysis();
+            }, 500);
+        });
 
-    document.getElementById('view-reports').addEventListener('click', function () {
-        document.querySelector('[href="#reports"]').click();
-    });
+        safeBind('start-diagnosis', 'click', function () {
+            const diagLink = document.querySelector('[href="#diagnosis"]');
+            if (diagLink) diagLink.click();
+            setTimeout(() => {
+                const browseBtn = document.getElementById('browse-files');
+                if (browseBtn) browseBtn.click();
+            }, 100);
+        });
 
-    // PDF报告相关按钮
-    document.getElementById('generate-new-report').addEventListener('click', generateNewPDFReport);
-    document.getElementById('view-history-reports').addEventListener('click', function () {
-        // 先跳转到报告页面
-        document.querySelector('[href="#reports"]').click();
-        // 延迟加载报告列表，确保页面已经切换
-        setTimeout(() => {
-            loadReportsList();
-        }, 500);
-    });
-    document.getElementById('report-settings').addEventListener('click', openReportSettingsModal);
+        safeBind('view-reports', 'click', function () {
+            const reportsLink = document.querySelector('[href="#reports"]');
+            if (reportsLink) reportsLink.click();
+        });
 
-    // 报告搜索功能
-    document.getElementById('search-reports').addEventListener('click', searchReports);
-    document.getElementById('clear-report-search').addEventListener('click', clearReportSearch);
+        // PDF报告相关按钮
+        safeBind('generate-new-report', 'click', generateNewPDFReport);
+        safeBind('view-history-reports', 'click', function () {
+            const reportsLink = document.querySelector('[href="#reports"]');
+            if (reportsLink) reportsLink.click();
+            setTimeout(() => {
+                if (typeof loadReportsList === 'function') {
+                    loadReportsList();
+                }
+            }, 500);
+        });
+        safeBind('report-settings', 'click', openReportSettingsModal);
 
-    // 表单清空按钮
-    document.getElementById('clear-form').addEventListener('click', clearForm);
+        // 报告搜索功能
+        safeBind('search-reports', 'click', searchReports);
+        safeBind('clear-report-search', 'click', clearReportSearch);
+
+        // 表单清空按钮
+        safeBind('clear-form', 'click', clearForm);
+    } catch (error) {
+        console.error('initButtons 初始化失败:', error);
+    }
 }
 
 // 初始化文件上传
 let selectedFiles = [];
 
 function initFileUpload() {
-    const fileInput = document.getElementById('file-input');
-    const browseBtn = document.getElementById('browse-files');
-    const fileInfo = document.getElementById('file-info');
-    const useDemoBtn = document.getElementById('use-demo');
-    const startAnalysisBtn = document.getElementById('start-analysis');
+    try {
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-files');
+        const fileInfo = document.getElementById('file-info');
+        const useDemoBtn = document.getElementById('use-demo');
+        const startAnalysisBtn = document.getElementById('start-analysis');
 
-    browseBtn.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', function (e) {
-        const newFiles = Array.from(e.target.files);
-        if (newFiles.length > 0) {
-            // 添加新文件到已选择的文件列表
-            selectedFiles = [...selectedFiles, ...newFiles];
-            showFileInfo(selectedFiles);
-            startAnalysisBtn.disabled = false;
+        if (browseBtn && fileInput) {
+            browseBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
         }
-    });
 
-    startAnalysisBtn.addEventListener('click', function () {
-        if (selectedFiles.length > 0) {
-            startFileAnalysis(selectedFiles);
+        if (fileInput) {
+            fileInput.addEventListener('change', function (e) {
+                const newFiles = Array.from(e.target.files);
+                if (newFiles.length > 0) {
+                    selectedFiles = [...selectedFiles, ...newFiles];
+                    showFileInfo(selectedFiles);
+                    if (startAnalysisBtn) startAnalysisBtn.disabled = false;
+                }
+            });
         }
-    });
 
-    useDemoBtn.addEventListener('click', function () {
-        const category = document.getElementById('demo-category').value;
-        loadingManager.showInfo('正在使用多模态演示数据...');
-        startDemoAnalysis(category);
-    });
+        if (startAnalysisBtn) {
+            startAnalysisBtn.addEventListener('click', function () {
+                if (selectedFiles.length > 0) {
+                    startFileAnalysis(selectedFiles);
+                }
+            });
+        }
+
+        if (useDemoBtn) {
+            useDemoBtn.addEventListener('click', function () {
+                const categoryEl = document.getElementById('demo-category');
+                const category = categoryEl ? categoryEl.value : null;
+                if (typeof loadingManager !== 'undefined') {
+                    loadingManager.showInfo('正在使用多模态演示数据...');
+                }
+                startDemoAnalysis(category);
+            });
+        }
+    } catch (error) {
+        console.error('initFileUpload 初始化失败:', error);
+    }
 }
 
 // 初始化表单验证
@@ -1055,29 +1092,38 @@ function initFormValidation() {
 
 // 保存表单数据到localStorage
 function saveFormData() {
-    const formData = {
-        patient_id: document.getElementById('patient-id').value,
-        age: document.getElementById('patient-age').value,
-        gender: document.getElementById('patient-gender').value,
-        education: document.getElementById('patient-education').value,
-        clinical_history: document.getElementById('patient-history').value,
-        family_history: document.getElementById('patient-family').value,
-        lifestyle: {
-            exercise_frequency: document.getElementById('exercise-frequency').value,
-            sleep_duration: document.getElementById('sleep-duration').value,
-            diet_health: document.getElementById('diet-health').value,
-            social_activities: document.getElementById('social-activities').value,
-            smoking_status: document.getElementById('smoking-status').value,
-            alcohol_consumption: document.getElementById('alcohol-consumption').value,
-            cognitive_activities: document.getElementById('cognitive-activities').value
-        },
-        lastSaved: new Date().toISOString()
-    };
+    try {
+        function getVal(id) {
+            const el = document.getElementById(id);
+            return el ? el.value : '';
+        }
 
-    localStorage.setItem('adDiagnosisFormData', JSON.stringify(formData));
+        const formData = {
+            patient_id: getVal('patient-id'),
+            age: getVal('patient-age'),
+            gender: getVal('patient-gender'),
+            education: getVal('patient-education'),
+            clinical_history: getVal('patient-history'),
+            family_history: getVal('patient-family'),
+            lifestyle: {
+                exercise_frequency: getVal('exercise-frequency'),
+                sleep_duration: getVal('sleep-duration'),
+                diet_health: getVal('diet-health'),
+                social_activities: getVal('social-activities'),
+                smoking_status: getVal('smoking-status'),
+                alcohol_consumption: getVal('alcohol-consumption'),
+                cognitive_activities: getVal('cognitive-activities')
+            },
+            lastSaved: new Date().toISOString()
+        };
 
-    // 更新保存状态
-    updateSaveStatus();
+        localStorage.setItem('adDiagnosisFormData', JSON.stringify(formData));
+
+        // 更新保存状态
+        updateSaveStatus();
+    } catch (error) {
+        console.error('保存表单数据失败:', error);
+    }
 }
 
 // 更新保存状态
@@ -1097,21 +1143,26 @@ function updateSaveStatus() {
 // 清空表单
 function clearForm() {
     if (confirm('确定要清空所有表单数据吗？此操作无法撤销。')) {
-        // 清空所有表单字段
-        document.getElementById('patient-id').value = '';
-        document.getElementById('patient-age').value = '';
-        document.getElementById('patient-gender').value = '';
-        document.getElementById('patient-education').value = '';
-        document.getElementById('patient-history').value = '';
-        document.getElementById('patient-family').value = '';
+        function setVal(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.value = val;
+        }
 
-        document.getElementById('exercise-frequency').value = '';
-        document.getElementById('sleep-duration').value = '';
-        document.getElementById('diet-health').value = '';
-        document.getElementById('social-activities').value = '';
-        document.getElementById('smoking-status').value = '';
-        document.getElementById('alcohol-consumption').value = '';
-        document.getElementById('cognitive-activities').value = '';
+        // 清空所有表单字段
+        setVal('patient-id', '');
+        setVal('patient-age', '');
+        setVal('patient-gender', '');
+        setVal('patient-education', '');
+        setVal('patient-history', '');
+        setVal('patient-family', '');
+
+        setVal('exercise-frequency', '');
+        setVal('sleep-duration', '');
+        setVal('diet-health', '');
+        setVal('social-activities', '');
+        setVal('smoking-status', '');
+        setVal('alcohol-consumption', '');
+        setVal('cognitive-activities', '');
 
         // 清除localStorage
         localStorage.removeItem('adDiagnosisFormData');
@@ -1134,21 +1185,26 @@ function loadFormData() {
         try {
             const formData = JSON.parse(savedData);
 
-            document.getElementById('patient-id').value = formData.patient_id || '';
-            document.getElementById('patient-age').value = formData.age || '';
-            document.getElementById('patient-gender').value = formData.gender || '';
-            document.getElementById('patient-education').value = formData.education || '';
-            document.getElementById('patient-history').value = formData.clinical_history || '';
-            document.getElementById('patient-family').value = formData.family_history || '';
+            function setVal(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.value = val;
+            }
+
+            setVal('patient-id', formData.patient_id || '');
+            setVal('patient-age', formData.age || '');
+            setVal('patient-gender', formData.gender || '');
+            setVal('patient-education', formData.education || '');
+            setVal('patient-history', formData.clinical_history || '');
+            setVal('patient-family', formData.family_history || '');
 
             if (formData.lifestyle) {
-                document.getElementById('exercise-frequency').value = formData.lifestyle.exercise_frequency || '';
-                document.getElementById('sleep-duration').value = formData.lifestyle.sleep_duration || '';
-                document.getElementById('diet-health').value = formData.lifestyle.diet_health || '';
-                document.getElementById('social-activities').value = formData.lifestyle.social_activities || '';
-                document.getElementById('smoking-status').value = formData.lifestyle.smoking_status || '';
-                document.getElementById('alcohol-consumption').value = formData.lifestyle.alcohol_consumption || '';
-                document.getElementById('cognitive-activities').value = formData.lifestyle.cognitive_activities || '';
+                setVal('exercise-frequency', formData.lifestyle.exercise_frequency || '');
+                setVal('sleep-duration', formData.lifestyle.sleep_duration || '');
+                setVal('diet-health', formData.lifestyle.diet_health || '');
+                setVal('social-activities', formData.lifestyle.social_activities || '');
+                setVal('smoking-status', formData.lifestyle.smoking_status || '');
+                setVal('alcohol-consumption', formData.lifestyle.alcohol_consumption || '');
+                setVal('cognitive-activities', formData.lifestyle.cognitive_activities || '');
             }
 
             // 验证加载的数据
@@ -1332,73 +1388,77 @@ function validateForm() {
 
 // 初始化模态框
 function initModal() {
-    const modal = document.getElementById('results-modal');
-    const pdfModal = document.getElementById('pdf-preview-modal');
-    const closeModalBtn = document.querySelector('.modal-close');
-    const closeModalBtn2 = document.getElementById('close-modal');
-    const closePdfModalBtn = document.getElementById('close-pdf-modal');
+    try {
+        const modal = document.getElementById('results-modal');
+        const pdfModal = document.getElementById('pdf-preview-modal');
 
-    function openModal(modalElement, content) {
-        if (content) {
-            document.getElementById('modal-body').innerHTML = content;
+        if (!modal) {
+            console.warn('initModal: results-modal 未找到');
+            return;
         }
-        modalElement.classList.add('active');
+
+        function openModal(modalElement, content) {
+            if (content && modalElement) {
+                const modalBody = document.getElementById('modal-body');
+                if (modalBody) modalBody.innerHTML = content;
+            }
+            if (modalElement) modalElement.classList.add('active');
+        }
+
+        function safeBind(selector, event, handler) {
+            const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+            if (el) {
+                el.addEventListener(event, handler);
+            } else {
+                console.warn('initModal: 元素未找到:', selector);
+            }
+        }
+
+        function closeModalSmooth(modalEl) {
+            if (!modalEl) return;
+            modalEl.classList.remove('active');
+            modalEl.classList.add('closing');
+            setTimeout(() => modalEl.classList.remove('closing'), 300);
+        }
+
+        safeBind('.modal-close', 'click', () => closeModalSmooth(modal));
+        safeBind('#close-modal', 'click', () => closeModalSmooth(modal));
+        if (pdfModal) {
+            safeBind('#close-pdf-modal', 'click', () => closeModalSmooth(pdfModal));
+        }
+
+        // PDF生成按钮
+        safeBind('#generate-pdf', 'click', function () {
+            const results = window.currentResults;
+            if (results && typeof generatePDFReportFromResults === 'function') {
+                generatePDFReportFromResults(results);
+            }
+        });
+
+        // PDF下载按钮
+        safeBind('#download-pdf', 'click', function () {
+            const iframe = document.getElementById('pdf-preview-frame');
+            if (iframe && iframe.src) {
+                const a = document.createElement('a');
+                a.href = iframe.src;
+                a.download = iframe.src.split('/').pop();
+                a.click();
+            }
+        });
+
+        // 点击模态框外部关闭
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModalSmooth(modal);
+        });
+
+        if (pdfModal) {
+            pdfModal.addEventListener('click', (e) => {
+                if (e.target === pdfModal) closeModalSmooth(pdfModal);
+            });
+        }
+    } catch (error) {
+        console.error('initModal 初始化失败:', error);
     }
-
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        modal.classList.add('closing');
-        setTimeout(() => modal.classList.remove('closing'), 300);
-    });
-
-    closeModalBtn2.addEventListener('click', () => {
-        modal.classList.remove('active');
-        modal.classList.add('closing');
-        setTimeout(() => modal.classList.remove('closing'), 300);
-    });
-
-    closePdfModalBtn.addEventListener('click', () => {
-        pdfModal.classList.remove('active');
-        pdfModal.classList.add('closing');
-        setTimeout(() => pdfModal.classList.remove('closing'), 300);
-    });
-
-    // PDF生成按钮
-    document.getElementById('generate-pdf').addEventListener('click', function () {
-        const results = window.currentResults;
-        if (results) {
-            generatePDFReportFromResults(results);
-        }
-    });
-
-    // PDF下载按钮
-    document.getElementById('download-pdf').addEventListener('click', function () {
-        const iframe = document.getElementById('pdf-preview-frame');
-        const pdfUrl = iframe.src;
-        if (pdfUrl) {
-            const a = document.createElement('a');
-            a.href = pdfUrl;
-            a.download = pdfUrl.split('/').pop();
-            a.click();
-        }
-    });
-
-    // 点击模态框外部关闭
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            modal.classList.add('closing');
-            setTimeout(() => modal.classList.remove('closing'), 300);
-        }
-    });
-
-    pdfModal.addEventListener('click', (e) => {
-        if (e.target === pdfModal) {
-            pdfModal.classList.remove('active');
-            pdfModal.classList.add('closing');
-            setTimeout(() => pdfModal.classList.remove('closing'), 300);
-        }
-    });
 }
 
 // 全屏图像查看模态框
@@ -1532,48 +1592,63 @@ function adjustZoom(btn) {
 
 // 初始化数据管理
 function initDataManagement() {
-    // 加载目录结构
-    loadDirectoryStructure();
+    try {
+        // 加载目录结构
+        loadDirectoryStructure();
 
-    // 刷新统计按钮
-    document.getElementById('refresh-stats').addEventListener('click', loadSystemStats);
-
-    // 数据操作按钮
-    document.getElementById('export-data').addEventListener('click', exportData);
-
-    document.getElementById('clear-temp').addEventListener('click', function () {
-        if (confirm('确定要清理临时文件吗？')) {
-            clearTempFiles();
+        function safeBind(id, event, handler) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener(event, handler);
+            } else {
+                console.warn('initDataManagement: 元素未找到:', id);
+            }
         }
-    });
 
-    document.getElementById('backup-data').addEventListener('click', backupData);
+        // 刷新统计按钮
+        safeBind('refresh-stats', 'click', loadSystemStats);
 
-    // 添加导入数据按钮事件
-    const importButton = document.querySelector('#import-data');
-    if (importButton) {
-        importButton.addEventListener('click', importData);
+        // 数据操作按钮
+        safeBind('export-data', 'click', exportData);
+
+        safeBind('clear-temp', 'click', function () {
+            if (confirm('确定要清理临时文件吗？')) {
+                clearTempFiles();
+            }
+        });
+
+        safeBind('backup-data', 'click', backupData);
+
+        // 添加导入数据按钮事件
+        const importButton = document.querySelector('#import-data');
+        if (importButton) {
+            importButton.addEventListener('click', importData);
+        }
+
+        // 患者搜索功能
+        safeBind('search-patients', 'click', searchPatients);
+        safeBind('clear-search', 'click', clearSearch);
+
+        // 实时搜索功能
+        const searchInput = document.getElementById('patient-search');
+        const filterSelect = document.getElementById('patient-filter');
+
+        if (searchInput && filterSelect) {
+            const debouncedSearch = debounce(() => {
+                const searchTerm = searchInput.value;
+                const diagnosisFilter = filterSelect.value;
+                loadPatientList(searchTerm, diagnosisFilter);
+            }, 300);
+
+            searchInput.addEventListener('input', debouncedSearch);
+            filterSelect.addEventListener('change', debouncedSearch);
+        }
+
+        // 加载患者列表
+        loadPatientList();
+    } catch (error) {
+        console.error('initDataManagement 初始化失败:', error);
     }
-
-    // 患者搜索功能
-    document.getElementById('search-patients').addEventListener('click', searchPatients);
-    document.getElementById('clear-search').addEventListener('click', clearSearch);
-
-    // 实时搜索功能
-    const searchInput = document.getElementById('patient-search');
-    const filterSelect = document.getElementById('patient-filter');
-
-    const debouncedSearch = debounce(() => {
-        const searchTerm = searchInput.value;
-        const diagnosisFilter = filterSelect.value;
-        loadPatientList(searchTerm, diagnosisFilter);
-    }, 300);
-
-    searchInput.addEventListener('input', debouncedSearch);
-    filterSelect.addEventListener('change', debouncedSearch);
-
-    // 加载患者列表
-    loadPatientList();
 }
 
 // 保存患者数据到localStorage
@@ -2043,7 +2118,9 @@ function startFileAnalysis(files) {
     // 检查用户是否登录
     const userInfo = getUserInfo();
     if (!userInfo || !userInfo.token) {
-        loadingManager.showError('请先登录后再进行分析');
+        if (typeof loadingManager !== 'undefined') {
+            loadingManager.showError('请先登录后再进行分析');
+        }
         showLoginPage();
         return;
     }
@@ -2052,29 +2129,33 @@ function startFileAnalysis(files) {
     const resultsDiv = document.getElementById('results-container');
     const placeholder = document.getElementById('results-placeholder');
 
-    progressDiv.style.display = 'block';
-    placeholder.style.display = 'none';
-    resultsDiv.style.display = 'none';
+    if (progressDiv) progressDiv.style.display = 'block';
+    if (placeholder) placeholder.style.display = 'none';
+    if (resultsDiv) resultsDiv.style.display = 'none';
 
     // 模拟进度
     simulateProgress(100, 0);
 
     // 收集患者信息
+    function getVal(id) {
+        const el = document.getElementById(id);
+        return el ? el.value : '';
+    }
     const patientInfo = {
-        patient_id: document.getElementById('patient-id').value || `PAT_${Date.now().toString().slice(-6)}`,
-        age: document.getElementById('patient-age').value,
-        gender: document.getElementById('patient-gender').value,
-        education: document.getElementById('patient-education').value,
-        clinical_history: document.getElementById('patient-history').value,
-        family_history: document.getElementById('patient-family').value,
+        patient_id: getVal('patient-id') || `PAT_${Date.now().toString().slice(-6)}`,
+        age: getVal('patient-age'),
+        gender: getVal('patient-gender'),
+        education: getVal('patient-education'),
+        clinical_history: getVal('patient-history'),
+        family_history: getVal('patient-family'),
         lifestyle: {
-            exercise_frequency: document.getElementById('exercise-frequency').value,
-            sleep_duration: document.getElementById('sleep-duration').value,
-            diet_health: document.getElementById('diet-health').value,
-            social_activities: document.getElementById('social-activities').value,
-            smoking_status: document.getElementById('smoking-status').value,
-            alcohol_consumption: document.getElementById('alcohol-consumption').value,
-            cognitive_activities: document.getElementById('cognitive-activities').value
+            exercise_frequency: getVal('exercise-frequency'),
+            sleep_duration: getVal('sleep-duration'),
+            diet_health: getVal('diet-health'),
+            social_activities: getVal('social-activities'),
+            smoking_status: getVal('smoking-status'),
+            alcohol_consumption: getVal('alcohol-consumption'),
+            cognitive_activities: getVal('cognitive-activities')
         }
     };
 
@@ -2101,7 +2182,7 @@ function startFileAnalysis(files) {
                 if (data.success) {
                     simulateProgress(100, 100);
                     setTimeout(() => {
-                        progressDiv.style.display = 'none';
+                        if (progressDiv) progressDiv.style.display = 'none';
                         showResults(data);
                     }, 500);
                 } else {
@@ -2110,9 +2191,11 @@ function startFileAnalysis(files) {
             })
             .catch(error => {
                 console.error('分析失败:', error);
-                loadingManager.showError('分析失败: ' + error.message);
-                progressDiv.style.display = 'none';
-                placeholder.style.display = 'flex';
+                if (typeof loadingManager !== 'undefined') {
+                    loadingManager.showError('分析失败: ' + error.message);
+                }
+                if (progressDiv) progressDiv.style.display = 'none';
+                if (placeholder) placeholder.style.display = 'flex';
                 const fileInfo = document.getElementById('file-info');
                 if (fileInfo) {
                     fileInfo.style.display = 'none';
@@ -2128,10 +2211,10 @@ function startDemoAnalysis(category = null) {
     const placeholder = document.getElementById('results-placeholder');
     const fileInfo = document.getElementById('file-info');
 
-    progressDiv.style.display = 'block';
-    placeholder.style.display = 'none';
-    resultsDiv.style.display = 'none';
-    fileInfo.style.display = 'none';
+    if (progressDiv) progressDiv.style.display = 'block';
+    if (placeholder) placeholder.style.display = 'none';
+    if (resultsDiv) resultsDiv.style.display = 'none';
+    if (fileInfo) fileInfo.style.display = 'none';
 
     // 模拟进度
     simulateProgress(100, 0);
@@ -2152,11 +2235,10 @@ function startDemoAnalysis(category = null) {
             })
             .then(data => {
                 console.log('演示数据API返回:', data);
-                // 检查是否有诊断结果
                 if (data.results && data.results.pred_label) {
                     simulateProgress(100, 100);
                     setTimeout(() => {
-                        progressDiv.style.display = 'none';
+                        if (progressDiv) progressDiv.style.display = 'none';
                         showResults(data);
                     }, 500);
                 } else {
@@ -2165,9 +2247,11 @@ function startDemoAnalysis(category = null) {
             })
             .catch(error => {
                 console.error('示例分析失败:', error);
-                loadingManager.showError('示例分析失败: ' + error.message);
-                progressDiv.style.display = 'none';
-                placeholder.style.display = 'flex';
+                if (typeof loadingManager !== 'undefined') {
+                    loadingManager.showError('示例分析失败: ' + error.message);
+                }
+                if (progressDiv) progressDiv.style.display = 'none';
+                if (placeholder) placeholder.style.display = 'flex';
             });
     }, 2000);
 }
@@ -2178,7 +2262,9 @@ function simulateProgress(totalSteps, currentStep = 0) {
         const percentage = (currentStep / totalSteps) * 100;
 
         // 使用加载管理器更新进度
-        loadingManager.updateProgress('progress-fill', percentage);
+        if (typeof loadingManager !== 'undefined') {
+            loadingManager.updateProgress('progress-fill', percentage);
+        }
 
         // 计算当前步骤索引
         const steps = document.querySelectorAll('.progress-steps .step');
@@ -2221,21 +2307,25 @@ function showResults(data) {
 
     // 保存结果和患者信息到全局变量，供PDF生成使用
     window.currentResults = results;
+    function getVal(id) {
+        const el = document.getElementById(id);
+        return el ? el.value : '';
+    }
     window.currentPatientInfo = {
-        patient_id: document.getElementById('patient-id').value || `PAT_${Date.now().toString().slice(-6)}`,
-        age: document.getElementById('patient-age').value,
-        gender: document.getElementById('patient-gender').value,
-        education: document.getElementById('patient-education').value,
-        clinical_history: document.getElementById('patient-history').value,
-        family_history: document.getElementById('patient-family').value,
+        patient_id: getVal('patient-id') || `PAT_${Date.now().toString().slice(-6)}`,
+        age: getVal('patient-age'),
+        gender: getVal('patient-gender'),
+        education: getVal('patient-education'),
+        clinical_history: getVal('patient-history'),
+        family_history: getVal('patient-family'),
         lifestyle: {
-            exercise_frequency: document.getElementById('exercise-frequency').value,
-            sleep_duration: document.getElementById('sleep-duration').value,
-            diet_health: document.getElementById('diet-health').value,
-            social_activities: document.getElementById('social-activities').value,
-            smoking_status: document.getElementById('smoking-status').value,
-            alcohol_consumption: document.getElementById('alcohol-consumption').value,
-            cognitive_activities: document.getElementById('cognitive-activities').value
+            exercise_frequency: getVal('exercise-frequency'),
+            sleep_duration: getVal('sleep-duration'),
+            diet_health: getVal('diet-health'),
+            social_activities: getVal('social-activities'),
+            smoking_status: getVal('smoking-status'),
+            alcohol_consumption: getVal('alcohol-consumption'),
+            cognitive_activities: getVal('cognitive-activities')
         }
     };
 
@@ -2913,15 +3003,18 @@ function showResults(data) {
                         })
                         .then(data => {
                             if (data.success) {
-                                // 显示下载成功提示
-                                loadingManager.showSuccess('热力图下载成功，已保存到项目results/grad_cam文件夹');
+                                if (typeof loadingManager !== 'undefined') {
+                                    loadingManager.showSuccess('热力图下载成功，已保存到项目results/grad_cam文件夹');
+                                }
                             } else {
                                 throw new Error(data.error || '下载失败');
                             }
                         })
                         .catch(error => {
                             console.error('下载失败:', error);
-                            loadingManager.showError('热力图下载失败');
+                            if (typeof loadingManager !== 'undefined') {
+                                loadingManager.showError('热力图下载失败');
+                            }
                         });
                 });
             }
@@ -4878,21 +4971,30 @@ function saveReportSettings() {
 
 // 初始化报告设置模态框事件
 function initReportSettingsModal() {
-    const modal = document.getElementById('report-settings-modal');
-    const closeBtn = modal.querySelector('.modal-close');
-    const saveBtn = document.getElementById('save-settings');
-    const cancelBtn = document.getElementById('cancel-settings');
-
-    closeBtn.addEventListener('click', closeReportSettingsModal);
-    saveBtn.addEventListener('click', saveReportSettings);
-    cancelBtn.addEventListener('click', closeReportSettingsModal);
-
-    // 点击模态框外部关闭
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
-            closeReportSettingsModal();
+    try {
+        const modal = document.getElementById('report-settings-modal');
+        if (!modal) {
+            console.warn('initReportSettingsModal: 报告设置模态框未找到');
+            return;
         }
-    });
+
+        const closeBtn = modal.querySelector('.modal-close');
+        const saveBtn = document.getElementById('save-settings');
+        const cancelBtn = document.getElementById('cancel-settings');
+
+        if (closeBtn) closeBtn.addEventListener('click', closeReportSettingsModal);
+        if (saveBtn) saveBtn.addEventListener('click', saveReportSettings);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeReportSettingsModal);
+
+        // 点击模态框外部关闭
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                closeReportSettingsModal();
+            }
+        });
+    } catch (error) {
+        console.error('initReportSettingsModal 初始化失败:', error);
+    }
 }
 
 // 添加CSS动画

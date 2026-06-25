@@ -20,29 +20,58 @@ import random
 
 
 def _setup_chinese_font():
-    # Windows系统优先使用系统字体
+    # Windows中文常用字体关键词（文件名匹配）
+    CN_FONT_KEYWORDS = [
+        'msyh', 'simhei', 'simsun', 'simkai', 'simfang',
+        'msmincho', 'yugoth', 'yugothb', 'yugothic',
+        'malgun', 'gulim', 'batang', 'dotum',
+        'noto', 'cjk', 'chinese', 'han', 'ming', 'hei', 'kai', 'song', 'fang',
+    ]
+
+    def _try_add_font(font_path):
+        try:
+            fm.fontManager.addfont(font_path)
+            font_prop = fm.FontProperties(fname=font_path)
+            font_name = font_prop.get_name()
+            plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
+            plt.rcParams['axes.unicode_minus'] = False
+            logger.info(f"DiagnosisEngine: 使用系统字体 {font_name} ({font_path})")
+            return font_name
+        except Exception as e:
+            logger.warning(f"DiagnosisEngine: 加载字体失败 {font_path}: {e}")
+            return None
+
+    # Windows系统：扫描整个Fonts目录寻找中文字体
     if os.name == 'nt':
-        # Windows系统字体路径
-        windows_font_paths = [
-            'C:\\Windows\\Fonts\\msyh.ttc',
-            'C:\\Windows\\Fonts\\msyh.ttf',
-            'C:\\Windows\\Fonts\\simhei.ttf',
-            'C:\\Windows\\Fonts\\simsun.ttc',
-            'C:\\Windows\\Fonts\\simkai.ttf',
-        ]
-        for font_path in windows_font_paths:
-            if os.path.exists(font_path):
-                try:
-                    fm.fontManager.addfont(font_path)
-                    font_prop = fm.FontProperties(fname=font_path)
-                    font_name = font_prop.get_name()
-                    plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
-                    plt.rcParams['axes.unicode_minus'] = False
-                    logger.info(f"DiagnosisEngine: 使用Windows系统字体 {font_name} ({font_path})")
-                    return font_name
-                except Exception as e:
-                    logger.warning(f"DiagnosisEngine: 加载Windows字体失败 {font_path}: {e}")
-    
+        fonts_dir = 'C:\\Windows\\Fonts'
+        if os.path.exists(fonts_dir):
+            # 首先尝试已知的常用字体文件
+            priority_fonts = [
+                'msyh.ttc', 'msyh.ttf', 'msyhbd.ttc', 'msyhbd.ttf',
+                'simhei.ttf', 'simsun.ttc', 'simsun.ttf',
+                'simkai.ttf', 'simfang.ttf',
+            ]
+            for font_file in priority_fonts:
+                font_path = os.path.join(fonts_dir, font_file)
+                if os.path.exists(font_path):
+                    result = _try_add_font(font_path)
+                    if result:
+                        return result
+
+            # 扫描整个Fonts目录，匹配中文字体关键词
+            try:
+                for entry in os.scandir(fonts_dir):
+                    if entry.is_file() and entry.name.lower().endswith(('.ttf', '.ttc', '.otf')):
+                        fname_lower = entry.name.lower()
+                        if any(kw in fname_lower for kw in CN_FONT_KEYWORDS):
+                            result = _try_add_font(entry.path)
+                            if result:
+                                return result
+            except PermissionError:
+                logger.warning("DiagnosisEngine: 无法扫描Windows Fonts目录，权限不足")
+            except Exception as e:
+                logger.warning(f"DiagnosisEngine: 扫描Windows Fonts目录时出错: {e}")
+
     # 尝试加载项目内置字体文件
     font_paths = [
         os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
@@ -53,24 +82,30 @@ def _setup_chinese_font():
     for font_path in font_paths:
         abs_path = os.path.abspath(font_path)
         if os.path.exists(abs_path):
-            try:
-                fm.fontManager.addfont(abs_path)
-                font_prop = fm.FontProperties(fname=abs_path)
-                font_name = font_prop.get_name()
-                plt.rcParams['font.sans-serif'] = [font_name, 'sans-serif']
-                plt.rcParams['axes.unicode_minus'] = False
-                logger.info(f"DiagnosisEngine: 使用内置字体 {font_name} ({abs_path})")
-                return font_name
-            except Exception as e:
-                logger.warning(f"DiagnosisEngine: 加载内置字体失败 {abs_path}: {e}")
-    
-    # 尝试系统已安装的中文字体
+            result = _try_add_font(abs_path)
+            if result:
+                return result
+
+    # 使用matplotlib的findSystemFonts查找所有系统字体
+    try:
+        all_system_fonts = fm.findSystemFonts()
+        for font_path in all_system_fonts:
+            fname_lower = os.path.basename(font_path).lower()
+            if any(kw in fname_lower for kw in CN_FONT_KEYWORDS):
+                result = _try_add_font(font_path)
+                if result:
+                    return result
+    except Exception as e:
+        logger.warning(f"DiagnosisEngine: findSystemFonts失败: {e}")
+
+    # 尝试系统已安装的中文字体（按名称匹配）
     font_names = [
-        'Microsoft YaHei', 'SimHei', 'SimSun', 'KaiTi',
+        'Microsoft YaHei', 'SimHei', 'SimSun', 'KaiTi', 'FangSong',
+        'DengXian', 'YouYuan', 'STSong', 'STKaiti', 'STFangsong',
         'WenQuanYi Micro Hei', 'WenQuanYi Zen Hei',
-        'Noto Sans CJK SC', 'Noto Sans SC',
+        'Noto Sans CJK SC', 'Noto Sans SC', 'Noto Sans CJK',
         'PingFang SC', 'STHeiti', 'Heiti SC', 'AR PL UMing CN',
-        'DejaVu Sans', 'Arial Unicode MS', 'sans-serif'
+        'Arial Unicode MS', 'sans-serif'
     ]
     available_fonts = [f.name for f in fm.fontManager.ttflist]
     for font_name in font_names:
@@ -79,7 +114,7 @@ def _setup_chinese_font():
             plt.rcParams['axes.unicode_minus'] = False
             logger.info(f"DiagnosisEngine: 使用系统字体 {font_name}")
             return font_name
-    
+
     # 最后的备用方案
     plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'sans-serif']
     plt.rcParams['axes.unicode_minus'] = False

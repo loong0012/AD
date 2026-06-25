@@ -10,12 +10,17 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# 安装系统依赖
+# 安装系统依赖（含中文字体）
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     git \
     libpq-dev \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    fonts-wqy-microhei \
+    fonts-wqy-zenhei \
+    fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建应用目录
@@ -39,6 +44,12 @@ COPY results/ ./results/
 COPY reports/ ./reports/
 COPY uploaded_img/ ./uploaded_img/
 COPY temp/ ./temp/
+COPY build_font.py ./build_font.py
+COPY pre_start.py ./pre_start.py
+
+# 构建字体并清除matplotlib缓存
+RUN python build_font.py && \
+    python -c "import matplotlib, glob, os; [os.remove(f) for f in glob.glob(os.path.join(matplotlib.get_cachedir(), 'fontlist*.json'))]"
 
 # 设置目录权限
 RUN chmod -R 755 /app && \
