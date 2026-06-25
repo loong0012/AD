@@ -1,0 +1,14 @@
+{
+  "patient_id": "PAT_002",
+  "age": 68,
+  "gender": "female",
+  "education": "高中",
+  "clinical_history": "冠心病病史8年",
+  "family_history": "无家族病史",
+  "mmse_score": 27,
+  "cdr_score": 0,
+  "apoe_genotype": "ε3/ε3",
+  "blood_pressure": "135/85",
+  "cholesterol": 190,
+  "diagnosis_date": "2024-02-20"
+}

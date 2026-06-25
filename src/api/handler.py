@@ -547,7 +547,29 @@ class APIHandler:
                         'demo': {
                             'path': 'data/demo',
                             'description': '演示数据',
-                            'type': 'folder'
+                            'type': 'folder',
+                            'subdirectories': {
+                                'clinical': {
+                                    'path': 'data/demo/Clinical',
+                                    'description': '临床演示数据',
+                                    'type': 'folder'
+                                },
+                                'lifestyle': {
+                                    'path': 'data/demo/Lifestyle',
+                                    'description': '生活方式演示数据',
+                                    'type': 'folder'
+                                },
+                                'mri': {
+                                    'path': 'data/demo/MRI',
+                                    'description': 'MRI演示数据',
+                                    'type': 'folder'
+                                },
+                                'molecular': {
+                                    'path': 'data/demo/Molecular',
+                                    'description': '分子演示数据',
+                                    'type': 'folder'
+                                }
+                            }
                         },
                         'real': {
                             'path': 'data/real',
@@ -617,8 +639,35 @@ class APIHandler:
                             }
                         }
                     }
+            },
+            'demodata': {
+                'path': 'demodata',
+                'description': '演示数据源',
+                'type': 'folder',
+                'subdirectories': {
+                    'clinical': {
+                        'path': 'demodata/Clinical',
+                        'description': '临床演示数据',
+                        'type': 'folder'
+                    },
+                    'lifestyle': {
+                        'path': 'demodata/Lifestyle',
+                        'description': '生活方式演示数据',
+                        'type': 'folder'
+                    },
+                    'mri': {
+                        'path': 'demodata/MRI',
+                        'description': 'MRI演示数据',
+                        'type': 'folder'
+                    },
+                    'molecular': {
+                        'path': 'demodata/Molecular',
+                        'description': '分子演示数据',
+                        'type': 'folder'
+                    }
                 }
             }
+        }
             
             # 检查目录是否存在并统计文件数量
             def check_directory_recursive(dir_info):

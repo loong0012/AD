@@ -7,7 +7,20 @@ services:
     env: python
     plan: free
     region: singapore
-    buildCommand: mkdir -p data results reports uploaded_img temp demodata logs
+    buildCommand: mkdir -p data results reports uploaded_img temp demodata logs static/fonts && python -c "
+import os, urllib.request
+os.makedirs('static/fonts', exist_ok=True)
+font_path = 'static/fonts/NotoSansCJKsc-Regular.otf'
+if not os.path.exists(font_path):
+    try:
+        url = 'https://github.com/notofonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf'
+        urllib.request.urlretrieve(url, font_path)
+        print(f'Font downloaded: {os.path.getsize(font_path)} bytes')
+    except Exception as e:
+        print(f'Font download failed: {e}')
+else:
+    print('Font already exists')
+"
     startCommand: uvicorn src.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:

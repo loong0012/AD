@@ -1,0 +1,15 @@
+{
+  "patient_id": "PAT_005",
+  "exercise_frequency": 0,
+  "exercise_type": [],
+  "sleep_duration": 4.5,
+  "diet_health": "low",
+  "diet_details": "偏好油炸食品和甜食，很少食用健康食物",
+  "social_activities": 0,
+  "social_details": [],
+  "smoking_status": "current",
+  "alcohol_consumption": "heavy",
+  "cognitive_activities": ["看电视", "听收音机"],
+  "medication": ["胰岛素", "降压药", "降脂药"],
+  "daily_routine": "非常不规律的作息，经常凌晨2-3点睡觉，中午12点以后起床"
+}

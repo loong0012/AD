@@ -1,0 +1,7 @@
+biomarker,value,unit,reference_range,result
+Aβ42,280,pg/mL,300-500,Low
+Tau,165,pg/mL,80-150,High
+pTau,25,pg/mL,10-20,High
+Amyloid PET,1.35,SUVr,<1.10=Negative,Positive
+Tau PET,1.45,SUVr,<1.15=Negative,Positive
+APOE Genotype,ε4/ε4,,ε2/ε2,ε2/ε3,ε3/ε3=Low Risk; ε3/ε4,ε2/ε4=Medium Risk; ε4/ε4=High Risk,High Risk

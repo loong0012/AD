@@ -20,6 +20,28 @@ import random
 
 
 def _setup_chinese_font():
+    # 首先尝试加载项目内置字体文件
+    font_paths = [
+        os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
+        os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
+        'static/fonts/NotoSansCJKsc-Regular.otf',
+        'static/fonts/NotoSansCJKsc-Regular.ttf',
+    ]
+    for font_path in font_paths:
+        abs_path = os.path.abspath(font_path)
+        if os.path.exists(abs_path):
+            try:
+                fm.fontManager.addfont(abs_path)
+                font_prop = fm.FontProperties(fname=abs_path)
+                font_name = font_prop.get_name()
+                plt.rcParams['font.sans-serif'] = [font_name, 'sans-serif']
+                plt.rcParams['axes.unicode_minus'] = False
+                logger.info(f"DiagnosisEngine: 使用内置字体 {font_name} ({abs_path})")
+                return font_name
+            except Exception as e:
+                logger.warning(f"DiagnosisEngine: 加载内置字体失败 {abs_path}: {e}")
+    
+    # 尝试系统已安装的中文字体
     font_names = [
         'SimHei', 'Microsoft YaHei', 'WenQuanYi Micro Hei',
         'WenQuanYi Zen Hei', 'Noto Sans CJK SC', 'Noto Sans SC',
@@ -31,7 +53,7 @@ def _setup_chinese_font():
         if font_name in available_fonts:
             plt.rcParams['font.sans-serif'] = [font_name]
             plt.rcParams['axes.unicode_minus'] = False
-            logger.info(f"DiagnosisEngine: 使用中文字体 {font_name}")
+            logger.info(f"DiagnosisEngine: 使用系统字体 {font_name}")
             return font_name
     logger.warning("DiagnosisEngine: 未找到中文字体，使用默认字体，中文可能显示为乱码")
     plt.rcParams['font.sans-serif'] = ['sans-serif']
