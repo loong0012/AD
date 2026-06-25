@@ -5,10 +5,7 @@
 
 from src.database.database import init_db, SessionLocal
 from src.database.models import User, Patient, Doctor
-from passlib.context import CryptContext
-
-# 密码加密上下文
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+from src.utils.jwt_utils import get_password_hash
 
 def create_default_users():
     """创建默认用户"""
@@ -23,7 +20,7 @@ def create_default_users():
         # 创建默认管理员用户
         admin_user = User(
             username="admin",
-            password_hash=pwd_context.hash("admin123"),
+            password_hash=get_password_hash("admin123"),
             email="admin@example.com",
             role="admin"
         )
@@ -32,7 +29,7 @@ def create_default_users():
         # 创建默认医生用户
         doctor_user = User(
             username="doctor",
-            password_hash=pwd_context.hash("doctor123"),
+            password_hash=get_password_hash("doctor123"),
             email="doctor@example.com",
             role="doctor"
         )
@@ -41,7 +38,7 @@ def create_default_users():
         # 创建默认患者用户
         patient_user = User(
             username="patient",
-            password_hash=pwd_context.hash("patient123"),
+            password_hash=get_password_hash("patient123"),
             email="patient@example.com",
             role="patient"
         )

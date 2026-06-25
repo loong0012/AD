@@ -101,6 +101,7 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 app.mount("/uploaded_img", StaticFiles(directory="./uploaded_img"), name="uploaded_img")
 app.mount("/data", StaticFiles(directory="./data"), name="data")
+app.mount("/demodata", StaticFiles(directory="./demodata"), name="demodata")
 
 # 初始化系统组件
 def get_system_instance():

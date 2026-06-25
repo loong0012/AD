@@ -17,18 +17,36 @@ services:
       pip install -r requirements.txt && 
       mkdir -p data results reports uploaded_img temp demodata logs static/fonts && 
       python -c "
-import os, urllib.request
+import os, urllib.request, sys
 os.makedirs('static/fonts', exist_ok=True)
 font_path = 'static/fonts/NotoSansCJKsc-Regular.otf'
-if not os.path.exists(font_path):
-    try:
-        url = 'https://github.com/notofonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf'
-        urllib.request.urlretrieve(url, font_path)
-        print(f'Font downloaded: {os.path.getsize(font_path)} bytes')
-    except Exception as e:
-        print(f'Font download failed: {e}')
+font_path_ttf = 'static/fonts/NotoSansCJKsc-Regular.ttf'
+if not os.path.exists(font_path) and not os.path.exists(font_path_ttf):
+    # 多个备用下载地址
+    urls = [
+        'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+        'https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+        'https://github.com/notofonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+        'https://github.com/googlefonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+    ]
+    for url in urls:
+        try:
+            print(f'尝试下载字体: {url}')
+            urllib.request.urlretrieve(url, font_path)
+            size = os.path.getsize(font_path)
+            if size > 100000:
+                print(f'字体下载成功: {size} bytes ({font_path})')
+                break
+            else:
+                os.remove(font_path)
+                print(f'下载文件太小，尝试下一个地址')
+        except Exception as e:
+            print(f'下载失败: {e}')
+            continue
+    else:
+        print('所有字体下载地址均失败，中文可能显示为乱码')
 else:
-    print('Font already exists')
+    print('字体文件已存在，跳过下载')
 " &&
       python -m src.database.init_db
     startCommand: uvicorn src.app:app --host 0.0.0.0 --port $PORT --workers $WORKERS
