@@ -50,6 +50,29 @@ try:
                     logger.warning(f"AlzheimerDiagnosticSystem: 加载Windows字体失败 {font_path}: {e}")
 
     if not CHINESE_FONT_PATH:
+        # Linux/Render环境：尝试加载项目内置字体文件
+        project_font_paths = [
+            os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
+            os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
+            'static/fonts/NotoSansCJKsc-Regular.otf',
+            'static/fonts/NotoSansCJKsc-Regular.ttf',
+        ]
+        for fpath in project_font_paths:
+            abs_fpath = os.path.abspath(fpath)
+            if os.path.exists(abs_fpath):
+                try:
+                    fm.fontManager.addfont(abs_fpath)
+                    font_prop = fm.FontProperties(fname=abs_fpath)
+                    font_name = font_prop.get_name()
+                    CHINESE_FONT_PATH = abs_fpath
+                    plt.rcParams['font.sans-serif'] = [font_name, 'sans-serif']
+                    plt.rcParams['axes.unicode_minus'] = False
+                    logger.info(f"AlzheimerDiagnosticSystem: 使用内置字体 {font_name} ({abs_fpath})")
+                    break
+                except Exception as e:
+                    logger.warning(f"AlzheimerDiagnosticSystem: 加载内置字体失败 {abs_fpath}: {e}")
+
+    if not CHINESE_FONT_PATH:
         for font in fm.fontManager.ttflist:
             if 'SimHei' in font.name or 'Microsoft YaHei' in font.name:
                 CHINESE_FONT_PATH = font.fname
@@ -309,7 +332,12 @@ class PDFReportGenerator:
                 'C:\\Windows\\Fonts\\simhei.ttf',
                 'C:\\Windows\\Fonts\\simsun.ttc',
                 'C:\\Windows\\Fonts\\simkai.ttf',
-                # Linux
+                # Linux/Render: 项目内置字体
+                os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
+                os.path.join(os.path.dirname(__file__), '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
+                'static/fonts/NotoSansCJKsc-Regular.otf',
+                'static/fonts/NotoSansCJKsc-Regular.ttf',
+                # Linux 系统字体
                 '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
                 '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
                 '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',

@@ -17,11 +17,30 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 def verify_password(plain_password, hashed_password):
-    """验证密码"""
+    """验证密码
+    bcrypt限制密码长度不能超过72字节
+    """
+    try:
+        password_bytes = plain_password.encode('utf-8')
+        if len(password_bytes) > 72:
+            plain_password = password_bytes[:72].decode('utf-8', errors='ignore')
+    except Exception:
+        pass
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
-    """获取密码哈希值"""
+    """获取密码哈希值
+    bcrypt限制密码长度不能超过72字节，超出会自动截断
+    这里我们手动截断避免警告
+    """
+    # 将密码转换为字节，截断到72字节以内，再转换回字符串
+    try:
+        password_bytes = password.encode('utf-8')
+        if len(password_bytes) > 72:
+            password = password_bytes[:72].decode('utf-8', errors='ignore')
+    except Exception:
+        # 如果截断失败，使用原始密码，bcrypt会自动截断
+        pass
     return pwd_context.hash(password)
 
 def create_access_token(data: dict, expires_delta: timedelta = None):

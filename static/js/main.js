@@ -4200,16 +4200,20 @@ function renderDirectoryTree(structure, parentPath, depth) {
         const currentPath = parentPath ? parentPath + '/' + key : key;
         const isFolder = item.type === 'folder';
         const hasChildren = item.subdirectories && Object.keys(item.subdirectories).length > 0;
+        const dirPath = item.path || currentPath;
 
         if (isFolder && hasChildren) {
             html += '<li class="tree-item folder">';
             html += '<details open>';
             html += '<summary>';
             html += '<i class="fas fa-folder tree-icon"></i>';
-            html += '<span class="tree-name">' + key + '</span>';
+            html += '<span class="tree-name" onclick="event.preventDefault(); loadDirectoryFiles(\'' + dirPath + '\', \'' + (item.description || '') + '\')" title="点击查看文件列表">' + key + '</span>';
             html += '<span class="tree-desc"> - ' + (item.description || '') + '</span>';
             if (item.path) {
                 html += '<span class="tree-path" style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(' + item.path + ')</span>';
+            }
+            if (item.file_count !== undefined) {
+                html += '<span class="tree-count" style="color: #6b7280; font-size: 0.75rem; margin-left: 0.25rem;">[' + item.file_count + '文件]</span>';
             }
             html += '</summary>';
             html += renderDirectoryTree(item.subdirectories, currentPath, depth + 1);
@@ -4218,16 +4222,19 @@ function renderDirectoryTree(structure, parentPath, depth) {
         } else if (isFolder) {
             html += '<li class="tree-item folder-empty">';
             html += '<i class="fas fa-folder tree-icon"></i>';
-            html += '<span class="tree-name">' + key + '</span>';
+            html += '<span class="tree-name clickable" onclick="loadDirectoryFiles(\'' + dirPath + '\', \'' + (item.description || '') + '\')" title="点击查看文件列表">' + key + '</span>';
             html += '<span class="tree-desc"> - ' + (item.description || '') + '</span>';
             if (item.path) {
                 html += '<span class="tree-path" style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(' + item.path + ')</span>';
+            }
+            if (item.file_count !== undefined) {
+                html += '<span class="tree-count" style="color: #6b7280; font-size: 0.75rem; margin-left: 0.25rem;">[' + item.file_count + '文件]</span>';
             }
             html += '</li>';
         } else {
             html += '<li class="tree-item file">';
             html += '<i class="fas fa-file tree-icon"></i>';
-            html += '<span class="tree-name">' + key + '</span>';
+            html += '<span class="tree-name clickable" onclick="previewFile(\'' + (item.path || '') + '\', \'' + key + '\')">' + key + '</span>';
             if (item.path) {
                 html += '<span class="tree-path" style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(' + item.path + ')</span>';
             }
@@ -4237,6 +4244,162 @@ function renderDirectoryTree(structure, parentPath, depth) {
 
     html += '</ul>';
     return html;
+}
+
+// 加载目录文件列表
+function loadDirectoryFiles(dirPath, description) {
+    const panel = document.getElementById('data-preview-panel');
+    const content = document.getElementById('preview-content');
+    const pathDisplay = document.getElementById('preview-path');
+
+    panel.style.display = 'block';
+    pathDisplay.textContent = '路径: ' + dirPath + ' (' + description + ')';
+    content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载文件列表中...</span></div>';
+
+    fetch('/api/directory/files/' + encodeURIComponent(dirPath))
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.data && data.data.length > 0) {
+                renderFileList(data.data, dirPath);
+            } else if (data.success && data.data && data.data.length === 0) {
+                content.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open"></i><p>该目录为空</p></div>';
+            } else {
+                content.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> ' + (data.message || '加载失败') + '</div>';
+            }
+        })
+        .catch(error => {
+            content.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> 加载失败: ' + error.message + '</div>';
+        });
+
+    panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+// 渲染文件列表
+function renderFileList(files, dirPath) {
+    const content = document.getElementById('preview-content');
+
+    let html = '<div class="file-list">';
+    html += '<div class="file-list-header"><span>共 ' + files.length + ' 个文件</span></div>';
+    html += '<div class="file-grid">';
+
+    files.forEach(file => {
+        const sizeStr = formatFileSize(file.size);
+        const iconClass = file.is_image ? 'fa-image' : 'fa-file';
+        html += '<div class="file-card" onclick="previewFile(\'' + file.path + '\', \'' + file.name + '\')">';
+        html += '<i class="fas ' + iconClass + ' file-card-icon"></i>';
+        html += '<div class="file-card-name">' + file.name + '</div>';
+        html += '<div class="file-card-size">' + sizeStr + '</div>';
+        html += '</div>';
+    });
+
+    html += '</div></div>';
+    content.innerHTML = html;
+}
+
+// 预览文件
+function previewFile(filePath, fileName) {
+    const panel = document.getElementById('data-preview-panel');
+    const content = document.getElementById('preview-content');
+    const pathDisplay = document.getElementById('preview-path');
+
+    panel.style.display = 'block';
+    pathDisplay.textContent = '文件: ' + fileName;
+
+    const isImage = fileName.toLowerCase().match(/\.(png|jpg|jpeg|gif|bmp|webp)$/);
+    const isCSV = fileName.toLowerCase().endsWith('.csv');
+    const isJSON = fileName.toLowerCase().endsWith('.json');
+    const isText = fileName.toLowerCase().match(/\.(txt|log|md|py|js|html|css|xml|yaml|yml|cfg|ini)$/);
+
+    if (isImage) {
+        content.innerHTML = '<div class="image-preview"><img src="/api/file/' + encodeURIComponent(filePath) + '" alt="' + fileName + '" style="max-width: 100%; max-height: 500px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onerror="this.onerror=null; this.parentElement.innerHTML=\'<div class=\\'error - message\\'><i class=\\'fas fa - exclamation - triangle\\'></i> 图片加载失败</div>\'"></div>';
+    } else if (isCSV) {
+        content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载CSV数据中...</span></div>';
+        fetch('/api/file/' + encodeURIComponent(filePath))
+            .then(response => response.text())
+            .then(text => {
+                renderCSVPreview(text, fileName);
+            })
+            .catch(() => {
+                content.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> 文件加载失败</div>';
+            });
+    } else if (isJSON) {
+        content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载JSON数据中...</span></div>';
+        fetch('/api/file/' + encodeURIComponent(filePath))
+            .then(response => response.json())
+            .then(json => {
+                content.innerHTML = '<div class="json-preview"><pre style="background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 8px; overflow: auto; max-height: 500px; font-size: 0.85rem;">' + JSON.stringify(json, null, 2) + '</pre></div>';
+            })
+            .catch(() => {
+                content.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> JSON解析失败</div>';
+            });
+    } else if (isText) {
+        content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载文本中...</span></div>';
+        fetch('/api/file/' + encodeURIComponent(filePath))
+            .then(response => response.text())
+            .then(text => {
+                content.innerHTML = '<div class="text-preview"><pre style="background: #f8f9fa; padding: 1rem; border-radius: 8px; overflow: auto; max-height: 500px; font-size: 0.85rem; white-space: pre-wrap; word-break: break-all;">' + escapeHtml(text) + '</pre></div>';
+            })
+            .catch(() => {
+                content.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> 文件加载失败</div>';
+            });
+    } else {
+        content.innerHTML = '<div class="empty-state"><i class="fas fa-file"></i><p>不支持预览此文件类型</p><a href="/api/file/' + encodeURIComponent(filePath) + '" download class="btn btn-outline"><i class="fas fa-download"></i> 下载文件</a></div>';
+    }
+
+    panel.scrollIntoView({ behavior: 'smooth' });
+}
+
+// 渲染CSV预览
+function renderCSVPreview(csvText, fileName) {
+    const content = document.getElementById('preview-content');
+    const lines = csvText.trim().split('\n');
+    if (lines.length === 0) {
+        content.innerHTML = '<div class="empty-state"><p>CSV文件为空</p></div>';
+        return;
+    }
+
+    const headers = lines[0].split(',');
+    const rows = lines.slice(1, Math.min(51, lines.length));
+
+    let html = '<div class="csv-preview">';
+    html += '<div class="csv-info">显示前 ' + Math.min(50, rows.length) + ' 行，共 ' + (lines.length - 1) + ' 行数据</div>';
+    html += '<div class="table-wrapper" style="overflow-x: auto;">';
+    html += '<table class="csv-table" style="border-collapse: collapse; width: 100%; font-size: 0.85rem;">';
+    html += '<thead><tr>';
+    headers.forEach(h => {
+        html += '<th style="background: #667eea; color: white; padding: 8px 12px; border: 1px solid #ddd; position: sticky; top: 0;">' + h.trim() + '</th>';
+    });
+    html += '</tr></thead><tbody>';
+    rows.forEach(row => {
+        const cols = row.split(',');
+        html += '<tr>';
+        cols.forEach(col => {
+            html += '<td style="padding: 6px 12px; border: 1px solid #eee;">' + col.trim() + '</td>';
+        });
+        html += '</tr>';
+    });
+    html += '</tbody></table></div></div>';
+    content.innerHTML = html;
+}
+
+// 关闭数据预览
+function closeDataPreview() {
+    const panel = document.getElementById('data-preview-panel');
+    panel.style.display = 'none';
+}
+
+// 格式化文件大小
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+// HTML转义
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // 加载系统统计

@@ -765,7 +765,7 @@ async def get_directory_structure():
         raise HTTPException(status_code=500, detail=str(e))
 
 # 获取目录文件列表
-@app.get("/api/directory/{path:path}")
+@app.get("/api/directory/files/{path:path}")
 async def get_directory_files(path: str):
     """获取目录文件列表"""
     try:
