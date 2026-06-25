@@ -129,6 +129,10 @@ class FontManager:
         except Exception:
             pass
 
+        # 6. 运行时下载字体（兜底方案）
+        if self._runtime_download_font():
+            return
+
         logger.warning("FontManager: 未找到任何中文字体，中文可能显示为乱码")
 
     def _register_font(self, font_path):
@@ -188,6 +192,42 @@ class FontManager:
     def _get_project_root(self):
         """获取项目根目录"""
         return os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+    def _runtime_download_font(self):
+        """运行时下载字体兜底方案"""
+        project_root = self._get_project_root()
+        fonts_dir = os.path.join(project_root, 'static', 'fonts')
+        os.makedirs(fonts_dir, exist_ok=True)
+        font_path = os.path.join(fonts_dir, 'NotoSansCJKsc-Regular.otf')
+
+        if os.path.exists(font_path) and os.path.getsize(font_path) > 500000:
+            return self._register_font(font_path)
+
+        urls = [
+            'https://github.com/notofonts/noto-cjk/raw/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+            'https://cdn.jsdelivr.net/gh/notofonts/noto-cjk@main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+            'https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+            'https://mirrors.aliyun.com/noto-cjk/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf',
+        ]
+
+        for url in urls:
+            try:
+                logger.info(f"FontManager: 运行时下载字体 {url[:80]}...")
+                import urllib.request
+                req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = resp.read()
+                if len(data) > 500000:
+                    with open(font_path, 'wb') as f:
+                        f.write(data)
+                    logger.info(f"FontManager: 运行时字体下载成功 ({len(data)} bytes)")
+                    return self._register_font(font_path)
+                logger.warning(f"FontManager: 下载文件太小 ({len(data)} bytes)")
+            except Exception as e:
+                logger.warning(f"FontManager: 运行时下载失败 ({url[:60]}): {str(e)[:80]}")
+
+        logger.warning("FontManager: 所有运行时下载源均失败")
+        return False
 
     @property
     def mpl_font_name(self):
