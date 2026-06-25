@@ -4404,7 +4404,16 @@ function previewFile(filePath, fileName) {
     const isText = fileName.toLowerCase().match(/\.(txt|log|md|py|js|html|css|xml|yaml|yml|cfg|ini)$/);
 
     if (isImage) {
-        content.innerHTML = '<div class="image-preview"><img src="/api/file/' + encodeURIComponent(filePath) + '" alt="' + fileName + '" style="max-width: 100%; max-height: 500px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onerror="this.onerror=null; this.parentElement.innerHTML=\'<div class=\\'error - message\\'><i class=\\'fas fa - exclamation - triangle\\'></i> 图片加载失败</div>\'"></div>';
+        const imgEl = document.createElement('img');
+        imgEl.src = '/api/file/' + encodeURIComponent(filePath);
+        imgEl.alt = fileName;
+        imgEl.style.cssText = 'max-width:100%;max-height:500px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)';
+        imgEl.onerror = function () {
+            this.style.display = 'none';
+            content.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> 图片加载失败</div>';
+        };
+        content.innerHTML = '<div class="image-preview"></div>';
+        content.firstChild.appendChild(imgEl);
     } else if (isCSV) {
         content.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><span>加载CSV数据中...</span></div>';
         fetch('/api/file/' + encodeURIComponent(filePath))
