@@ -47,7 +47,3 @@ else:
       - key: WORKERS
         value: "2"
     autoDeploy: true
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 1
