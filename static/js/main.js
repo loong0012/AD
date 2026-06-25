@@ -19,7 +19,7 @@ function debounce(func, wait) {
 // 节流函数
 function throttle(func, limit) {
     let inThrottle;
-    return function() {
+    return function () {
         const args = arguments;
         const context = this;
         if (!inThrottle) {
@@ -33,7 +33,7 @@ function throttle(func, limit) {
 // 图片懒加载（如果将来添加图片）
 function initImageLazyLoading() {
     const lazyImages = document.querySelectorAll('img[data-src]');
-    
+
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -44,12 +44,12 @@ function initImageLazyLoading() {
             }
         });
     });
-    
+
     lazyImages.forEach(img => imageObserver.observe(img));
 }
 
 // 显示通知函数
-window.showNotification = function(message, type = 'info') {
+window.showNotification = function (message, type = 'info') {
     if (typeof loadingManager !== 'undefined') {
         loadingManager.showToast(message, type);
     } else {
@@ -58,7 +58,7 @@ window.showNotification = function(message, type = 'info') {
 };
 
 // 显示加载
-window.showLoading = function(message = '加载中...') {
+window.showLoading = function (message = '加载中...') {
     // 创建一个临时的加载容器
     const loadingContainer = document.createElement('div');
     loadingContainer.id = 'temp-loading';
@@ -82,24 +82,24 @@ window.showLoading = function(message = '加载中...') {
 };
 
 // 隐藏加载
-window.hideLoading = function() {
+window.hideLoading = function () {
     const loadingContainer = document.getElementById('temp-loading');
     if (loadingContainer) {
         loadingContainer.remove();
     }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('=== DOMContentLoaded事件触发 ===');
     console.log('AD-CPredSys系统初始化...'); // 修改系统名称
-    
+
     // 检查loadingManager是否存在
     console.log('loadingManager存在:', typeof loadingManager !== 'undefined');
-    
+
     // 初始化认证系统
     console.log('开始初始化认证系统...');
     initAuthSystem();
-    
+
     // 初始化组件
     console.log('开始初始化导航...');
     initNavigation();
@@ -115,16 +115,16 @@ document.addEventListener('DOMContentLoaded', function() {
     initDataManagement();
     console.log('开始初始化报告设置模态框...');
     initReportSettingsModal();
-    
+
     // 初始化图片懒加载
     console.log('开始初始化图片懒加载...');
     initImageLazyLoading();
-    
+
     // 初始化报告搜索防抖
     console.log('开始初始化报告搜索防抖...');
     const searchInput = document.getElementById('report-search');
     if (searchInput) {
-        searchInput.addEventListener('input', debounce(function() {
+        searchInput.addEventListener('input', debounce(function () {
             if (this.value.trim()) {
                 searchReports();
             } else {
@@ -132,15 +132,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 300));
     }
-    
+
     // 加载统计数据
     console.log('开始加载统计数据...');
     loadSystemStats();
-    
+
     // 检查登录状态
     console.log('检查登录状态...');
     checkLoginStatus();
-    
+
     // 显示欢迎消息
     console.log('显示欢迎消息...');
     if (typeof loadingManager !== 'undefined') {
@@ -148,24 +148,24 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error('loadingManager未定义');
     }
-    
+
     // 添加粒子背景
     console.log('添加粒子背景...');
     createParticles();
-    
+
     console.log('=== 系统初始化完成 ===');
 });
 
 // 认证系统初始化
 function initAuthSystem() {
     console.log('初始化认证系统...');
-    
+
     // 角色选择事件
     const roleCards = document.querySelectorAll('.role-card');
     if (roleCards.length > 0) {
         console.log('找到角色卡片:', roleCards.length);
         roleCards.forEach(card => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 // 移除其他卡片的选中状态
                 roleCards.forEach(c => c.classList.remove('selected'));
                 // 添加当前卡片的选中状态
@@ -174,91 +174,91 @@ function initAuthSystem() {
             });
         });
     }
-    
+
     // 登录表单提交
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         console.log('找到登录表单');
-        loginForm.addEventListener('submit', async function(e) {
+        loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             console.log('登录表单提交');
             await handleLogin();
         });
     }
-    
+
     // 注册表单提交
     const registerForm = document.getElementById('register-form');
     if (registerForm) {
         console.log('找到注册表单');
-        registerForm.addEventListener('submit', async function(e) {
+        registerForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             console.log('注册表单提交');
             await handleRegister();
         });
     }
-    
+
     // 页面切换
     const switchToRegisterBtn = document.getElementById('switch-to-register');
     if (switchToRegisterBtn) {
         console.log('找到切换到注册按钮');
-        switchToRegisterBtn.addEventListener('click', function(e) {
+        switchToRegisterBtn.addEventListener('click', function (e) {
             e.preventDefault();
             console.log('切换到注册页面');
             switchToRegister();
         });
     }
-    
+
     const switchToLoginBtn = document.getElementById('switch-to-login');
     if (switchToLoginBtn) {
         console.log('找到切换到登录按钮');
-        switchToLoginBtn.addEventListener('click', function(e) {
+        switchToLoginBtn.addEventListener('click', function (e) {
             e.preventDefault();
             console.log('切换到登录页面');
             switchToLogin();
         });
     }
-    
+
     // 登录/注册按钮
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn) {
         console.log('找到登录按钮');
-        loginBtn.addEventListener('click', function() {
+        loginBtn.addEventListener('click', function () {
             console.log('点击登录按钮');
             showLoginPage();
         });
     }
-    
+
     const registerBtn = document.getElementById('register-btn');
     if (registerBtn) {
         console.log('找到注册按钮');
-        registerBtn.addEventListener('click', function() {
+        registerBtn.addEventListener('click', function () {
             console.log('点击注册按钮');
             showRegisterPage();
         });
     }
-    
+
     // 登出按钮
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         console.log('找到登出按钮');
-        logoutBtn.addEventListener('click', function() {
+        logoutBtn.addEventListener('click', function () {
             console.log('点击登出按钮');
             logout();
         });
     }
-    
+
     // 个人中心标签切换
     const profileTabs = document.querySelectorAll('.profile-tabs .tab');
     if (profileTabs.length > 0) {
         console.log('找到个人中心标签:', profileTabs.length);
         profileTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
+            tab.addEventListener('click', function () {
                 const tabName = this.dataset.tab;
-                
+
                 // 移除所有标签的active状态
                 profileTabs.forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-                
+
                 // 添加当前标签的active状态
                 this.classList.add('active');
                 document.getElementById(`${tabName}-tab`).classList.add('active');
@@ -266,32 +266,32 @@ function initAuthSystem() {
             });
         });
     }
-    
+
     // 个人中心退出登录按钮
     const profileLogoutBtn = document.getElementById('profile-logout-btn');
     if (profileLogoutBtn) {
         console.log('找到个人中心退出登录按钮');
-        profileLogoutBtn.addEventListener('click', function() {
+        profileLogoutBtn.addEventListener('click', function () {
             console.log('点击个人中心退出登录按钮');
             logout();
         });
     }
-    
+
     // 个人中心返回首页按钮
     const backToHomeBtn = document.getElementById('back-to-home-btn');
     if (backToHomeBtn) {
         console.log('找到个人中心返回首页按钮');
-        backToHomeBtn.addEventListener('click', function() {
+        backToHomeBtn.addEventListener('click', function () {
             console.log('点击个人中心返回首页按钮');
             showHomePage();
         });
     }
-    
+
     // 保存资料按钮
     const saveProfileBtn = document.getElementById('save-profile-btn');
     if (saveProfileBtn) {
         console.log('找到保存资料按钮');
-        saveProfileBtn.addEventListener('click', async function() {
+        saveProfileBtn.addEventListener('click', async function () {
             console.log('点击保存资料按钮');
             const userInfo = getUserInfo();
             if (userInfo && userInfo.role === 'patient') {
@@ -301,17 +301,17 @@ function initAuthSystem() {
             }
         });
     }
-    
+
     // 同步到诊断表单按钮
     const loadDiagnosisFormBtn = document.getElementById('load-diagnosis-form-btn');
     if (loadDiagnosisFormBtn) {
         console.log('找到同步到诊断表单按钮');
-        loadDiagnosisFormBtn.addEventListener('click', function() {
+        loadDiagnosisFormBtn.addEventListener('click', function () {
             console.log('点击同步到诊断表单按钮');
             syncToDiagnosisForm();
         });
     }
-    
+
     console.log('认证系统初始化完成');
 }
 
@@ -326,15 +326,15 @@ async function handleLogin() {
     const username = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value.trim();
     const role = getSelectedRole();
-    
+
     if (!username || !password || !role) {
         window.showNotification('请填写所有字段并选择角色', 'error');
         return;
     }
-    
+
     try {
         window.showLoading('登录中...');
-        
+
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: {
@@ -342,9 +342,9 @@ async function handleLogin() {
             },
             body: JSON.stringify({ username, password, role })
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
             console.log('登录成功，用户数据:', data.data);
             // 保存用户信息
@@ -355,29 +355,29 @@ async function handleLogin() {
                 token: data.token,
                 user_id: data.data.user_id
             });
-            
+
             // 更新UI
             console.log('开始更新导航栏');
             updateNavigationForLoggedInUser(data.data);
-            
+
             // 根据角色显示对应的界面
             showDashboardForRole(data.data.role);
-            
+
             // 显示欢迎消息，格式为"欢迎患者张三"
             const roleDisplayName = getRoleDisplayName(data.data.role);
             window.showNotification(`欢迎${roleDisplayName}${data.data.username}`, 'success');
-            
+
             // 如果是患者角色，自动填充诊断表单
             if (data.data.role === 'patient' && data.data.patient_info) {
                 console.log('填充患者信息到诊断表单');
                 const patientInfo = data.data.patient_info;
-                
+
                 // 填充基本信息
                 document.getElementById('patient-age').value = patientInfo.age || '';
                 document.getElementById('patient-gender').value = patientInfo.gender || '';
                 document.getElementById('patient-education').value = patientInfo.education_years || '';
                 document.getElementById('patient-history').value = patientInfo.medical_history || '';
-                
+
                 // 填充生活方式信息
                 if (data.data.lifestyle_data) {
                     const lifestyleData = data.data.lifestyle_data;
@@ -388,11 +388,11 @@ async function handleLogin() {
                     document.getElementById('smoking-status').value = lifestyleData.smoking_status || '';
                     document.getElementById('alcohol-consumption').value = lifestyleData.alcohol_consumption || '';
                 }
-                
+
                 // 保存到本地存储
                 saveFormData();
             }
-            
+
             // 返回首页
             showHomePage();
         } else {
@@ -413,20 +413,20 @@ async function handleRegister() {
     const password = document.getElementById('register-password').value.trim();
     const confirmPassword = document.getElementById('register-confirm-password').value.trim();
     const role = getSelectedRole();
-    
+
     if (!username || !email || !password || !confirmPassword || !role) {
         window.showNotification('请填写所有字段并选择角色', 'error');
         return;
     }
-    
+
     if (password !== confirmPassword) {
         window.showNotification('两次输入的密码不一致', 'error');
         return;
     }
-    
+
     try {
         window.showLoading('注册中...');
-        
+
         const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: {
@@ -434,9 +434,9 @@ async function handleRegister() {
             },
             body: JSON.stringify({ username, email, password, role })
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
             window.showNotification('注册成功，请登录', 'success');
             switchToLogin();
@@ -488,9 +488,9 @@ function updateNavigationForLoggedInUser(userInfo) {
         console.error('找不到导航栏认证区域');
         return;
     }
-    
+
     console.log('找到导航栏认证区域:', navAuth);
-    
+
     // 清空现有内容
     const roleDisplayName = getRoleDisplayName(userInfo.role);
     navAuth.innerHTML = `
@@ -501,9 +501,9 @@ function updateNavigationForLoggedInUser(userInfo) {
             <i class="fas fa-sign-out-alt"></i> 退出
         </button>
     `;
-    
+
     console.log('导航栏HTML已更新');
-    
+
     // 确保用户信息区域是可点击的
     const userProfile = document.querySelector('.user-profile');
     if (userProfile) {
@@ -512,10 +512,10 @@ function updateNavigationForLoggedInUser(userInfo) {
         userProfile.style.zIndex = '9999';
         console.log('用户信息区域已设置为可点击');
     }
-    
+
     // 重新绑定登出事件
     document.getElementById('logout-btn').addEventListener('click', logout);
-    
+
     // 根据角色显示对应的导航菜单
     updateNavigationByRole(userInfo.role);
     console.log('导航栏更新完成');
@@ -524,17 +524,17 @@ function updateNavigationForLoggedInUser(userInfo) {
 // 根据角色更新导航菜单
 function updateNavigationByRole(role) {
     const navLinks = document.querySelectorAll('.nav-links .nav-link');
-    
+
     // 基础菜单（所有角色都可见）
     const baseLinks = ['#home', '#about'];
-    
+
     // 角色特定菜单
     const roleLinks = {
         'patient': ['#prediction', '#reports'],
         'doctor': ['#prediction', '#reports', '#patients'],
         'admin': ['#prediction', '#reports', '#patients', '#system']
     };
-    
+
     // 显示/隐藏导航链接
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -547,7 +547,7 @@ function updateNavigationByRole(role) {
 function showDashboardForRole(role) {
     // 这里可以根据角色跳转到不同的页面
     console.log(`用户角色: ${role}，显示对应的仪表盘`);
-    
+
     // 示例：根据角色显示不同的统计数据或功能
     if (role === 'patient') {
         // 患者：显示个人诊断历史和健康建议
@@ -565,7 +565,7 @@ function showDashboardForRole(role) {
 function logout() {
     if (confirm('确定要登出吗？')) {
         localStorage.removeItem('userInfo');
-        
+
         // 更新导航栏
         const navAuth = document.querySelector('.nav-auth');
         if (navAuth) {
@@ -577,15 +577,15 @@ function logout() {
                     <i class="fas fa-user-plus"></i> 注册
                 </button>
             `;
-            
+
             // 重新绑定登录/注册事件
             document.getElementById('login-btn').addEventListener('click', showLoginPage);
             document.getElementById('register-btn').addEventListener('click', showRegisterPage);
         }
-        
+
         // 重置导航菜单
         resetNavigation();
-        
+
         showNotification('已成功登出', 'success');
         showHomePage();
     }
@@ -629,7 +629,7 @@ function showRegisterPage() {
 }
 
 // 显示个人中心页面（全局函数）
-window.showProfilePage = function() {
+window.showProfilePage = function () {
     console.log('显示个人中心页面');
     hideAllSections();
     const profileSection = document.getElementById('profile');
@@ -652,26 +652,26 @@ function getUserInfo() {
 async function loadProfileData() {
     const userInfo = getUserInfo();
     if (!userInfo) return;
-    
+
     // 获取角色中文名称
     const roleDisplayName = getRoleDisplayName(userInfo.role);
-    
+
     // 设置个人信息
     document.getElementById('profile-name').textContent = `${roleDisplayName}${userInfo.username}`;
     document.getElementById('profile-role').textContent = roleDisplayName;
     document.getElementById('profile-username').value = userInfo.username;
     document.getElementById('profile-email').value = userInfo.email || '未设置';
     document.getElementById('profile-role-display').value = roleDisplayName;
-    
+
     // 设置时间信息（模拟数据）
     document.getElementById('profile-registration-time').value = '2024-01-01 00:00:00';
     document.getElementById('profile-last-login').value = new Date().toLocaleString();
-    
+
     // 如果是患者角色，显示患者基本信息和生活方式信息表单
     if (userInfo.role === 'patient') {
         document.getElementById('patient-info-section').style.display = 'block';
         document.getElementById('lifestyle-info-section').style.display = 'block';
-        
+
         // 加载患者信息
         await loadPatientInfo(userInfo.user_id);
     }
@@ -685,12 +685,12 @@ async function loadPatientInfo(userId) {
                 'Authorization': `Bearer ${getUserInfo().token}`
             }
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success && data.data) {
             const patientInfo = data.data;
-            
+
             // 填充患者基本信息
             document.getElementById('profile-patient-name').value = patientInfo.name || '';
             document.getElementById('profile-patient-age').value = patientInfo.age || '';
@@ -698,7 +698,7 @@ async function loadPatientInfo(userId) {
             document.getElementById('profile-patient-education').value = patientInfo.education_years || '';
             document.getElementById('profile-patient-contact').value = patientInfo.contact_info || '';
             document.getElementById('profile-patient-history').value = patientInfo.medical_history || '';
-            
+
             // 填充生活方式信息
             if (patientInfo.lifestyle_data) {
                 const lifestyleData = patientInfo.lifestyle_data;
@@ -719,7 +719,7 @@ async function loadPatientInfo(userId) {
 async function savePatientInfo() {
     const userInfo = getUserInfo();
     if (!userInfo || userInfo.role !== 'patient') return;
-    
+
     try {
         // 首先获取患者ID
         const response = await fetch(`/api/patients/by-user/${userInfo.user_id}`, {
@@ -727,10 +727,10 @@ async function savePatientInfo() {
                 'Authorization': `Bearer ${userInfo.token}`
             }
         });
-        
+
         const data = await response.json();
         let patientId;
-        
+
         if (data.success && data.data) {
             patientId = data.data.id;
         } else {
@@ -751,7 +751,7 @@ async function savePatientInfo() {
                     medical_history: document.getElementById('profile-patient-history').value
                 })
             });
-            
+
             const createData = await createResponse.json();
             if (createData.success && createData.data) {
                 patientId = createData.data.id;
@@ -759,7 +759,7 @@ async function savePatientInfo() {
                 throw new Error('创建患者失败');
             }
         }
-        
+
         // 更新患者基本信息
         await fetch(`/api/patients/${patientId}`, {
             method: 'PUT',
@@ -776,7 +776,7 @@ async function savePatientInfo() {
                 medical_history: document.getElementById('profile-patient-history').value
             })
         });
-        
+
         // 更新生活方式信息
         await fetch(`/api/patients/${patientId}/lifestyle`, {
             method: 'PUT',
@@ -793,7 +793,7 @@ async function savePatientInfo() {
                 alcohol_consumption: document.getElementById('profile-alcohol-consumption').value
             })
         });
-        
+
         window.showNotification('患者信息保存成功', 'success');
     } catch (error) {
         console.error('保存患者信息失败:', error);
@@ -808,7 +808,7 @@ function syncToDiagnosisForm() {
     document.getElementById('patient-gender').value = document.getElementById('profile-patient-gender').value;
     document.getElementById('patient-education').value = document.getElementById('profile-patient-education').value;
     document.getElementById('patient-history').value = document.getElementById('profile-patient-history').value;
-    
+
     // 同步生活方式信息
     document.getElementById('exercise-frequency').value = document.getElementById('profile-exercise-frequency').value;
     document.getElementById('sleep-duration').value = document.getElementById('profile-sleep-duration').value;
@@ -816,10 +816,10 @@ function syncToDiagnosisForm() {
     document.getElementById('social-activities').value = document.getElementById('profile-social-activities').value;
     document.getElementById('smoking-status').value = document.getElementById('profile-smoking-status').value;
     document.getElementById('alcohol-consumption').value = document.getElementById('profile-alcohol-consumption').value;
-    
+
     // 保存到本地存储
     saveFormData();
-    
+
     window.showNotification('已同步到诊断表单', 'success');
 }
 
@@ -832,22 +832,22 @@ function showHomePage() {
 function createParticles() {
     const heroSection = document.querySelector('.hero-background');
     if (!heroSection) return;
-    
+
     for (let i = 0; i < 20; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        
+
         // 随机大小
         const size = Math.random() * 5 + 2;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        
+
         // 随机位置
         particle.style.left = `${Math.random() * 100}%`;
-        
+
         // 随机动画延迟
         particle.style.animationDelay = `${Math.random() * 15}s`;
-        
+
         // 随机颜色
         const colors = [
             'rgba(255, 255, 255, 0.5)',
@@ -856,7 +856,7 @@ function createParticles() {
             'rgba(245, 158, 11, 0.3)'
         ];
         particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        
+
         heroSection.appendChild(particle);
     }
 }
@@ -868,12 +868,12 @@ function initNavigation() {
         const navLinks = document.querySelectorAll('.nav-link');
         const pageSections = document.querySelectorAll('.page-section');
         const navbar = document.querySelector('.navbar');
-        
+
         console.log('找到导航链接:', navLinks.length);
         console.log('找到页面部分:', pageSections.length);
 
         navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 try {
                     e.preventDefault();
                     const targetId = this.getAttribute('href').substring(1);
@@ -896,7 +896,7 @@ function initNavigation() {
                             }, 400);
                         }
                     });
-                    
+
                     // 延迟显示目标页面，等待关闭动画完成
                     setTimeout(() => {
                         pageSections.forEach(section => {
@@ -911,7 +911,7 @@ function initNavigation() {
                         top: 0,
                         behavior: 'smooth'
                     });
-                    
+
                     // 如果是报告页面，加载报告列表
                     if (targetId === 'reports') {
                         if (typeof loadReportsList === 'function') {
@@ -920,7 +920,7 @@ function initNavigation() {
                             console.warn('loadReportsList函数未定义');
                         }
                     }
-                    
+
                     // 如果是首页，添加粒子动画
                     if (targetId === 'home') {
                         if (typeof createParticles === 'function') {
@@ -934,10 +934,10 @@ function initNavigation() {
                 }
             });
         });
-        
+
         // 添加导航栏滚动效果
         if (navbar) {
-            window.addEventListener('scroll', throttle(function() {
+            window.addEventListener('scroll', throttle(function () {
                 if (window.scrollY > 50) {
                     navbar.classList.add('scrolled');
                 } else {
@@ -945,7 +945,7 @@ function initNavigation() {
                 }
             }, 100));
         }
-        
+
         console.log('导航初始化完成');
     } catch (error) {
         console.error('导航初始化出错:', error);
@@ -955,7 +955,7 @@ function initNavigation() {
 // 初始化按钮事件
 function initButtons() {
     // 首页按钮
-    document.getElementById('start-demo').addEventListener('click', function() {
+    document.getElementById('start-demo').addEventListener('click', function () {
         // 先跳转到诊断页面
         document.querySelector('[href="#diagnosis"]').click();
         // 延迟加载演示数据，确保页面已经切换
@@ -965,20 +965,20 @@ function initButtons() {
         }, 500);
     });
 
-    document.getElementById('start-diagnosis').addEventListener('click', function() {
+    document.getElementById('start-diagnosis').addEventListener('click', function () {
         document.querySelector('[href="#diagnosis"]').click();
         setTimeout(() => {
             document.getElementById('browse-files').click();
         }, 100);
     });
 
-    document.getElementById('view-reports').addEventListener('click', function() {
+    document.getElementById('view-reports').addEventListener('click', function () {
         document.querySelector('[href="#reports"]').click();
     });
-    
+
     // PDF报告相关按钮
     document.getElementById('generate-new-report').addEventListener('click', generateNewPDFReport);
-    document.getElementById('view-history-reports').addEventListener('click', function() {
+    document.getElementById('view-history-reports').addEventListener('click', function () {
         // 先跳转到报告页面
         document.querySelector('[href="#reports"]').click();
         // 延迟加载报告列表，确保页面已经切换
@@ -987,11 +987,11 @@ function initButtons() {
         }, 500);
     });
     document.getElementById('report-settings').addEventListener('click', openReportSettingsModal);
-    
+
     // 报告搜索功能
     document.getElementById('search-reports').addEventListener('click', searchReports);
     document.getElementById('clear-report-search').addEventListener('click', clearReportSearch);
-    
+
     // 表单清空按钮
     document.getElementById('clear-form').addEventListener('click', clearForm);
 }
@@ -1010,7 +1010,7 @@ function initFileUpload() {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', function(e) {
+    fileInput.addEventListener('change', function (e) {
         const newFiles = Array.from(e.target.files);
         if (newFiles.length > 0) {
             // 添加新文件到已选择的文件列表
@@ -1020,13 +1020,13 @@ function initFileUpload() {
         }
     });
 
-    startAnalysisBtn.addEventListener('click', function() {
+    startAnalysisBtn.addEventListener('click', function () {
         if (selectedFiles.length > 0) {
             startFileAnalysis(selectedFiles);
         }
     });
 
-    useDemoBtn.addEventListener('click', function() {
+    useDemoBtn.addEventListener('click', function () {
         const category = document.getElementById('demo-category').value;
         loadingManager.showInfo('正在使用多模态演示数据...');
         startDemoAnalysis(category);
@@ -1036,19 +1036,19 @@ function initFileUpload() {
 // 初始化表单验证
 function initFormValidation() {
     const formInputs = document.querySelectorAll('.form-input');
-    
+
     formInputs.forEach(input => {
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             validateField(this);
             saveFormData();
         });
-        
-        input.addEventListener('blur', function() {
+
+        input.addEventListener('blur', function () {
             validateField(this);
             saveFormData();
         });
     });
-    
+
     // 加载保存的表单数据
     loadFormData();
 }
@@ -1073,9 +1073,9 @@ function saveFormData() {
         },
         lastSaved: new Date().toISOString()
     };
-    
+
     localStorage.setItem('adDiagnosisFormData', JSON.stringify(formData));
-    
+
     // 更新保存状态
     updateSaveStatus();
 }
@@ -1086,7 +1086,7 @@ function updateSaveStatus() {
     if (saveStatus) {
         saveStatus.innerHTML = '<i class="fas fa-check-circle" style="color: var(--secondary-color);"></i> 已保存';
         saveStatus.style.color = 'var(--secondary-color)';
-        
+
         setTimeout(() => {
             saveStatus.innerHTML = '<i class="fas fa-save"></i> 自动保存中...';
             saveStatus.style.color = 'var(--gray-color)';
@@ -1104,7 +1104,7 @@ function clearForm() {
         document.getElementById('patient-education').value = '';
         document.getElementById('patient-history').value = '';
         document.getElementById('patient-family').value = '';
-        
+
         document.getElementById('exercise-frequency').value = '';
         document.getElementById('sleep-duration').value = '';
         document.getElementById('diet-health').value = '';
@@ -1112,17 +1112,17 @@ function clearForm() {
         document.getElementById('smoking-status').value = '';
         document.getElementById('alcohol-consumption').value = '';
         document.getElementById('cognitive-activities').value = '';
-        
+
         // 清除localStorage
         localStorage.removeItem('adDiagnosisFormData');
-        
+
         // 清除所有验证状态
         const formInputs = document.querySelectorAll('.form-input');
         formInputs.forEach(input => {
             input.classList.remove('error', 'success');
             removeErrorMessage(input);
         });
-        
+
         showToast('表单已清空', 'success');
     }
 }
@@ -1133,14 +1133,14 @@ function loadFormData() {
     if (savedData) {
         try {
             const formData = JSON.parse(savedData);
-            
+
             document.getElementById('patient-id').value = formData.patient_id || '';
             document.getElementById('patient-age').value = formData.age || '';
             document.getElementById('patient-gender').value = formData.gender || '';
             document.getElementById('patient-education').value = formData.education || '';
             document.getElementById('patient-history').value = formData.clinical_history || '';
             document.getElementById('patient-family').value = formData.family_history || '';
-            
+
             if (formData.lifestyle) {
                 document.getElementById('exercise-frequency').value = formData.lifestyle.exercise_frequency || '';
                 document.getElementById('sleep-duration').value = formData.lifestyle.sleep_duration || '';
@@ -1150,7 +1150,7 @@ function loadFormData() {
                 document.getElementById('alcohol-consumption').value = formData.lifestyle.alcohol_consumption || '';
                 document.getElementById('cognitive-activities').value = formData.lifestyle.cognitive_activities || '';
             }
-            
+
             // 验证加载的数据
             validateForm();
         } catch (error) {
@@ -1165,24 +1165,24 @@ function validateField(field) {
     const value = field.value.trim();
     let isValid = true;
     let errorMessage = '';
-    
+
     // 移除之前的错误状态
     field.classList.remove('error', 'success');
     removeErrorMessage(field);
-    
-    switch(fieldId) {
+
+    switch (fieldId) {
         case 'patient-age':
             if (!value) {
                 isValid = false;
                 errorMessage = '请输入年龄';
-            } else if (value< 18 || value >120) {
+            } else if (value < 18 || value > 120) {
                 isValid = false;
                 errorMessage = '年龄应在18-120岁之间';
             } else {
                 isValid = true;
             }
             break;
-            
+
         case 'patient-gender':
             if (!value) {
                 isValid = false;
@@ -1191,7 +1191,7 @@ function validateField(field) {
                 isValid = true;
             }
             break;
-            
+
         case 'patient-education':
             if (!value) {
                 isValid = false;
@@ -1203,7 +1203,7 @@ function validateField(field) {
                 isValid = true;
             }
             break;
-            
+
         case 'patient-history':
             if (value.length > 200) {
                 isValid = false;
@@ -1212,7 +1212,7 @@ function validateField(field) {
                 isValid = true;
             }
             break;
-            
+
         case 'patient-family':
             if (value.length > 200) {
                 isValid = false;
@@ -1221,34 +1221,34 @@ function validateField(field) {
                 isValid = true;
             }
             break;
-            
+
         case 'exercise-frequency':
-            if (value !== '' && (value< 0 || value >7)) {
+            if (value !== '' && (value < 0 || value > 7)) {
                 isValid = false;
                 errorMessage = '运动频率应在0-7之间';
             } else {
                 isValid = true;
             }
             break;
-            
+
         case 'sleep-duration':
-            if (value !== '' && (value< 4 || value >12)) {
+            if (value !== '' && (value < 4 || value > 12)) {
                 isValid = false;
                 errorMessage = '睡眠时长应在4-12小时之间';
             } else {
                 isValid = true;
             }
             break;
-            
+
         case 'social-activities':
-            if (value !== '' && (value< 0 || value >10)) {
+            if (value !== '' && (value < 0 || value > 10)) {
                 isValid = false;
                 errorMessage = '社交活动次数应在0-10之间';
             } else {
                 isValid = true;
             }
             break;
-            
+
         case 'cognitive-activities':
             if (value.length > 100) {
                 isValid = false;
@@ -1258,7 +1258,7 @@ function validateField(field) {
             }
             break;
     }
-    
+
     if (!isValid) {
         field.classList.add('error');
         field.classList.remove('success');
@@ -1271,7 +1271,7 @@ function validateField(field) {
         field.classList.remove('error', 'success');
         removeErrorMessage(field);
     }
-    
+
     return isValid;
 }
 
@@ -1279,11 +1279,11 @@ function validateField(field) {
 function showErrorMessage(field, message) {
     // 移除现有的错误信息
     removeErrorMessage(field);
-    
+
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
     errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i>${message}`;
-    
+
     field.parentNode.appendChild(errorDiv);
 }
 
@@ -1291,11 +1291,11 @@ function showErrorMessage(field, message) {
 function showSuccessMessage(field, message = '输入有效') {
     // 移除现有的错误信息
     removeErrorMessage(field);
-    
+
     const successDiv = document.createElement('div');
     successDiv.className = 'success-message';
     successDiv.innerHTML = `<i class="fas fa-check-circle"></i>${message}`;
-    
+
     field.parentNode.appendChild(successDiv);
 }
 
@@ -1305,7 +1305,7 @@ function removeErrorMessage(field) {
     if (existingError) {
         existingError.remove();
     }
-    
+
     const existingSuccess = field.parentNode.querySelector('.success-message');
     if (existingSuccess) {
         existingSuccess.remove();
@@ -1316,17 +1316,17 @@ function removeErrorMessage(field) {
 function validateForm() {
     let isValid = true;
     const formInputs = document.querySelectorAll('.form-input');
-    
+
     formInputs.forEach(input => {
         if (!validateField(input)) {
             isValid = false;
         }
     });
-    
+
     if (!isValid) {
         showToast('请修正表单中的错误', 'error');
     }
-    
+
     return isValid;
 }
 
@@ -1350,29 +1350,29 @@ function initModal() {
         modal.classList.add('closing');
         setTimeout(() => modal.classList.remove('closing'), 300);
     });
-    
+
     closeModalBtn2.addEventListener('click', () => {
         modal.classList.remove('active');
         modal.classList.add('closing');
         setTimeout(() => modal.classList.remove('closing'), 300);
     });
-    
+
     closePdfModalBtn.addEventListener('click', () => {
         pdfModal.classList.remove('active');
         pdfModal.classList.add('closing');
         setTimeout(() => pdfModal.classList.remove('closing'), 300);
     });
-    
+
     // PDF生成按钮
-    document.getElementById('generate-pdf').addEventListener('click', function() {
+    document.getElementById('generate-pdf').addEventListener('click', function () {
         const results = window.currentResults;
         if (results) {
             generatePDFReportFromResults(results);
         }
     });
-    
+
     // PDF下载按钮
-    document.getElementById('download-pdf').addEventListener('click', function() {
+    document.getElementById('download-pdf').addEventListener('click', function () {
         const iframe = document.getElementById('pdf-preview-frame');
         const pdfUrl = iframe.src;
         if (pdfUrl) {
@@ -1391,7 +1391,7 @@ function initModal() {
             setTimeout(() => modal.classList.remove('closing'), 300);
         }
     });
-    
+
     pdfModal.addEventListener('click', (e) => {
         if (e.target === pdfModal) {
             pdfModal.classList.remove('active');
@@ -1407,11 +1407,11 @@ function openImageModal(imageSrc, imageTitle, imageType) {
     if (existingModal) {
         existingModal.remove();
     }
-    
+
     const modal = document.createElement('div');
     modal.className = 'image-zoom-modal';
     modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn 0.3s ease;';
-    
+
     let imageInfo = '';
     if (imageType === 'brain') {
         imageInfo = `
@@ -1432,7 +1432,7 @@ function openImageModal(imageSrc, imageTitle, imageType) {
             </div>
         `;
     }
-    
+
     modal.innerHTML = `
         ${imageInfo}
         <div style="position:absolute;top:20px;right:20px;display:flex;gap:10px;">
@@ -1455,60 +1455,60 @@ function openImageModal(imageSrc, imageTitle, imageType) {
         <img id="zoomable-image" src="${imageSrc}" style="max-width:95%;max-height:85vh;object-fit:contain;border-radius:10px;box-shadow:0 0 50px rgba(255,255,255,0.1);transition:transform 0.3s ease;cursor:grab;"
              onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f3f4f6%22 width=%22400%22 height=%22400%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%239ca3af%22 font-size=%2216%22>图像加载失败</text></svg>'">
     `;
-    
+
     document.body.appendChild(modal);
-    
+
     const img = document.getElementById('zoomable-image');
     let scale = 1;
     let isDragging = false;
     let startX, startY, translateX = 0, translateY = 0;
-    
+
     img.addEventListener('wheel', (e) => {
         e.preventDefault();
         const delta = e.deltaY > 0 ? 0.9 : 1.1;
         scale = Math.min(Math.max(scale * delta, 0.5), 5);
         img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
     });
-    
+
     img.addEventListener('mousedown', (e) => {
         isDragging = true;
         startX = e.clientX - translateX;
         startY = e.clientY - translateY;
         img.style.cursor = 'grabbing';
     });
-    
+
     document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         translateX = e.clientX - startX;
         translateY = e.clientY - startY;
         img.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
     });
-    
+
     document.addEventListener('mouseup', () => {
         isDragging = false;
         img.style.cursor = 'grab';
     });
-    
+
     img.addEventListener('dblclick', () => {
         scale = 1;
         translateX = 0;
         translateY = 0;
         img.style.transform = 'scale(1)';
     });
-    
+
     modal.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             modal.remove();
         }
     });
-    
+
     modal.style.display = 'flex';
 }
 
 function adjustZoom(btn) {
     const img = document.getElementById('zoomable-image');
     if (!img) return;
-    
+
     const action = btn.dataset.action;
     let currentTransform = img.style.transform;
     let scale = 1;
@@ -1516,7 +1516,7 @@ function adjustZoom(btn) {
     if (match) {
         scale = parseFloat(match[1]);
     }
-    
+
     if (action === 'zoom-in') {
         scale = Math.min(scale * 1.2, 5);
     } else if (action === 'zoom-out') {
@@ -1526,49 +1526,52 @@ function adjustZoom(btn) {
         img.style.transform = 'scale(1)';
         return;
     }
-    
+
     img.style.transform = `scale(${scale})`;
 }
 
 // 初始化数据管理
 function initDataManagement() {
+    // 加载目录结构
+    loadDirectoryStructure();
+
     // 刷新统计按钮
     document.getElementById('refresh-stats').addEventListener('click', loadSystemStats);
-    
+
     // 数据操作按钮
     document.getElementById('export-data').addEventListener('click', exportData);
-    
-    document.getElementById('clear-temp').addEventListener('click', function() {
+
+    document.getElementById('clear-temp').addEventListener('click', function () {
         if (confirm('确定要清理临时文件吗？')) {
             clearTempFiles();
         }
     });
-    
+
     document.getElementById('backup-data').addEventListener('click', backupData);
-    
+
     // 添加导入数据按钮事件
     const importButton = document.querySelector('#import-data');
     if (importButton) {
         importButton.addEventListener('click', importData);
     }
-    
+
     // 患者搜索功能
     document.getElementById('search-patients').addEventListener('click', searchPatients);
     document.getElementById('clear-search').addEventListener('click', clearSearch);
-    
+
     // 实时搜索功能
     const searchInput = document.getElementById('patient-search');
     const filterSelect = document.getElementById('patient-filter');
-    
+
     const debouncedSearch = debounce(() => {
         const searchTerm = searchInput.value;
         const diagnosisFilter = filterSelect.value;
         loadPatientList(searchTerm, diagnosisFilter);
     }, 300);
-    
+
     searchInput.addEventListener('input', debouncedSearch);
     filterSelect.addEventListener('change', debouncedSearch);
-    
+
     // 加载患者列表
     loadPatientList();
 }
@@ -1592,10 +1595,10 @@ function savePatientData(patientInfo, results) {
         analysis_time: new Date().toISOString(),
         modalities_used: results.modalities_used || []
     };
-    
+
     // 获取现有患者数据
     let patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
-    
+
     // 检查是否已存在相同患者ID
     const existingIndex = patients.findIndex(p => p.patient_id === patientData.patient_id);
     if (existingIndex >= 0) {
@@ -1603,7 +1606,7 @@ function savePatientData(patientInfo, results) {
     } else {
         patients.push(patientData);
     }
-    
+
     localStorage.setItem('adPatients', JSON.stringify(patients));
 }
 
@@ -1616,26 +1619,26 @@ let filteredPatients = [];
 function loadPatientList(filter = '', diagnosisFilter = '') {
     const patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
     const listBody = document.getElementById('patient-list-body');
-    
+
     // 过滤患者数据
     filteredPatients = patients;
     if (filter) {
-        filteredPatients = patients.filter(patient => 
+        filteredPatients = patients.filter(patient =>
             patient.patient_id.toLowerCase().includes(filter.toLowerCase()) ||
             patient.diagnosis.chinese_label.toLowerCase().includes(filter.toLowerCase()) ||
             patient.diagnosis.label.toLowerCase().includes(filter.toLowerCase())
         );
     }
-    
+
     if (diagnosisFilter) {
-        filteredPatients = filteredPatients.filter(patient => 
+        filteredPatients = filteredPatients.filter(patient =>
             patient.diagnosis.label === diagnosisFilter
         );
     }
-    
+
     // 重置分页
     currentPage = 1;
-    
+
     if (filteredPatients.length === 0) {
         listBody.innerHTML = `
             <div class="no-patients">
@@ -1647,7 +1650,7 @@ function loadPatientList(filter = '', diagnosisFilter = '') {
         updatePagination();
         return;
     }
-    
+
     // 显示当前页的数据
     displayCurrentPage();
 }
@@ -1658,12 +1661,12 @@ function displayCurrentPage() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentPatients = filteredPatients.slice(startIndex, endIndex);
-    
+
     let html = '';
     currentPatients.forEach(patient => {
         const genderText = patient.gender === 'male' ? '男' : '女';
         const analysisTime = new Date(patient.analysis_time).toLocaleString('zh-CN');
-        
+
         html += `
             <div class="list-item">
                 <div><i class="fas fa-id-card"></i> ${patient.patient_id}</div>
@@ -1689,7 +1692,7 @@ function displayCurrentPage() {
             </div>
         `;
     });
-    
+
     listBody.innerHTML = html;
     updatePagination();
 }
@@ -1706,14 +1709,14 @@ function updatePagination() {
         pagination.className = 'pagination';
         patientList.appendChild(pagination);
     }
-    
+
     const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
-    
-    if (totalPages<= 1) {
+
+    if (totalPages <= 1) {
         pagination.innerHTML = '';
         return;
     }
-    
+
     let paginationHTML = `
         <button class="btn btn-sm btn-outline" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">
             <i class="fas fa-chevron-left"></i> 上一页
@@ -1723,13 +1726,13 @@ function updatePagination() {
             下一页 <i class="fas fa-chevron-right"></i>
         </button>
     `;
-    
+
     pagination.innerHTML = paginationHTML;
 }
 
 // 切换页码
 function changePage(page) {
-    if (page > 0 && page<= Math.ceil(filteredPatients.length / itemsPerPage)) {
+    if (page > 0 && page <= Math.ceil(filteredPatients.length / itemsPerPage)) {
         currentPage = page;
         displayCurrentPage();
     }
@@ -1753,11 +1756,11 @@ function clearSearch() {
 function viewPatientDetails(patientId) {
     const patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
     const patient = patients.find(p => p.patient_id === patientId);
-    
+
     if (patient) {
         const modal = document.getElementById('results-modal');
         const modalBody = document.getElementById('modal-body');
-        
+
         let lifestyleHtml = '';
         if (patient.lifestyle) {
             lifestyleHtml = `
@@ -1774,9 +1777,9 @@ function viewPatientDetails(patientId) {
                         </div>
                         <div class="detail-item">
                             <span class="label">健康饮食频率：</span>
-                            <span class="value">${patient.lifestyle.diet_health ? 
-                                (patient.lifestyle.diet_health === 'high' ? '高' : 
-                                 patient.lifestyle.diet_health === 'medium' ? '中' : '低') : '未提供'}</span>
+                            <span class="value">${patient.lifestyle.diet_health ?
+                    (patient.lifestyle.diet_health === 'high' ? '高' :
+                        patient.lifestyle.diet_health === 'medium' ? '中' : '低') : '未提供'}</span>
                         </div>
                         <div class="detail-item">
                             <span class="label">每周社交活动次数：</span>
@@ -1784,15 +1787,15 @@ function viewPatientDetails(patientId) {
                         </div>
                         <div class="detail-item">
                             <span class="label">吸烟状况：</span>
-                            <span class="value">${patient.lifestyle.smoking_status ? 
-                                (patient.lifestyle.smoking_status === 'never' ? '从不吸烟' : 
-                                 patient.lifestyle.smoking_status === 'past' ? '曾经吸烟' : '当前吸烟') : '未提供'}</span>
+                            <span class="value">${patient.lifestyle.smoking_status ?
+                    (patient.lifestyle.smoking_status === 'never' ? '从不吸烟' :
+                        patient.lifestyle.smoking_status === 'past' ? '曾经吸烟' : '当前吸烟') : '未提供'}</span>
                         </div>
                         <div class="detail-item">
                             <span class="label">饮酒频率：</span>
-                            <span class="value">${patient.lifestyle.alcohol_consumption ? 
-                                (patient.lifestyle.alcohol_consumption === 'never' ? '从不饮酒' : 
-                                 patient.lifestyle.alcohol_consumption === 'occasional' ? '偶尔饮酒' : '经常饮酒') : '未提供'}</span>
+                            <span class="value">${patient.lifestyle.alcohol_consumption ?
+                    (patient.lifestyle.alcohol_consumption === 'never' ? '从不饮酒' :
+                        patient.lifestyle.alcohol_consumption === 'occasional' ? '偶尔饮酒' : '经常饮酒') : '未提供'}</span>
                         </div>
                         <div class="detail-item">
                             <span class="label">认知活动：</span>
@@ -1802,7 +1805,7 @@ function viewPatientDetails(patientId) {
                 </div>
             `;
         }
-        
+
         modalBody.innerHTML = `
             <div class="detailed-report">
                 <div class="report-header">
@@ -1862,7 +1865,7 @@ function viewPatientDetails(patientId) {
                 </div>
             </div>
         `;
-        
+
         modal.classList.add('active');
     }
 }
@@ -1899,12 +1902,12 @@ function showFileInfo(files) {
     const fileInfo = document.getElementById('file-info');
     fileInfo.style.display = 'block';
     fileInfo.classList.add('active');
-    
+
     let html = '<div><strong>已选择文件：</strong></div>';
     files.forEach((file, index) => {
         const fileType = file.name.split('.').pop().toUpperCase();
         const icon = getFileIcon(fileType);
-        
+
         html += `
             <div style="margin-top: 0.5rem; padding: 0.75rem; background: white; border-radius: 8px; border: 1px solid #e2e8f0;">
                 <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -1923,7 +1926,7 @@ function showFileInfo(files) {
             </div>
         `;
     });
-    
+
     fileInfo.innerHTML = html;
 }
 
@@ -1931,7 +1934,7 @@ function showFileInfo(files) {
 function removeFile(index) {
     // 从选中文件数组中移除指定索引的文件
     selectedFiles.splice(index, 1);
-    
+
     // 更新文件信息显示
     if (selectedFiles.length > 0) {
         showFileInfo(selectedFiles);
@@ -1959,7 +1962,7 @@ function getFileIcon(fileType) {
         'DICOM': '',
         'DCM': ''
     };
-    
+
     return iconMap[fileType.toUpperCase()] || '';
 }
 
@@ -1967,7 +1970,7 @@ function getFileIcon(fileType) {
 function validateForm() {
     let isValid = true;
     const errors = [];
-    
+
     // 验证必填字段
     const age = document.getElementById('patient-age').value;
     if (!age || age < 18 || age > 120) {
@@ -1977,7 +1980,7 @@ function validateForm() {
     } else {
         document.getElementById('patient-age').style.borderColor = '';
     }
-    
+
     const gender = document.getElementById('patient-gender').value;
     if (!gender) {
         errors.push('请选择性别');
@@ -1986,7 +1989,7 @@ function validateForm() {
     } else {
         document.getElementById('patient-gender').style.borderColor = '';
     }
-    
+
     const education = document.getElementById('patient-education').value;
     if (!education) {
         errors.push('请输入教育程度');
@@ -1995,7 +1998,7 @@ function validateForm() {
     } else {
         document.getElementById('patient-education').style.borderColor = '';
     }
-    
+
     const exerciseFrequency = document.getElementById('exercise-frequency').value;
     if (exerciseFrequency !== '' && (exerciseFrequency < 0 || exerciseFrequency > 7)) {
         errors.push('运动频率应在0-7之间');
@@ -2004,7 +2007,7 @@ function validateForm() {
     } else {
         document.getElementById('exercise-frequency').style.borderColor = '';
     }
-    
+
     const sleepDuration = document.getElementById('sleep-duration').value;
     if (sleepDuration !== '' && (sleepDuration < 4 || sleepDuration > 12)) {
         errors.push('睡眠时长应在4-12小时之间');
@@ -2013,7 +2016,7 @@ function validateForm() {
     } else {
         document.getElementById('sleep-duration').style.borderColor = '';
     }
-    
+
     const socialActivities = document.getElementById('social-activities').value;
     if (socialActivities !== '' && (socialActivities < 0 || socialActivities > 10)) {
         errors.push('社交活动次数应在0-10之间');
@@ -2022,11 +2025,11 @@ function validateForm() {
     } else {
         document.getElementById('social-activities').style.borderColor = '';
     }
-    
+
     if (!isValid) {
         showToast('请修正以下错误：' + errors.join('、'), 'error');
     }
-    
+
     return isValid;
 }
 
@@ -2036,7 +2039,7 @@ function startFileAnalysis(files) {
     if (!validateForm()) {
         return;
     }
-    
+
     // 检查用户是否登录
     const userInfo = getUserInfo();
     if (!userInfo || !userInfo.token) {
@@ -2044,7 +2047,7 @@ function startFileAnalysis(files) {
         showLoginPage();
         return;
     }
-    
+
     const progressDiv = document.getElementById('analysis-progress');
     const resultsDiv = document.getElementById('results-container');
     const placeholder = document.getElementById('results-placeholder');
@@ -2087,34 +2090,34 @@ function startFileAnalysis(files) {
         const headers = {
             'Authorization': `Bearer ${userInfo.token}`
         };
-        
+
         fetch('/api/analyze', {
             method: 'POST',
             headers: headers,
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                simulateProgress(100, 100);
-                setTimeout(() => {
-                    progressDiv.style.display = 'none';
-                    showResults(data);
-                }, 500);
-            } else {
-                throw new Error(data.error || '分析失败');
-            }
-        })
-        .catch(error => {
-            console.error('分析失败:', error);
-            loadingManager.showError('分析失败: ' + error.message);
-            progressDiv.style.display = 'none';
-            placeholder.style.display = 'flex';
-            const fileInfo = document.getElementById('file-info');
-            if (fileInfo) {
-                fileInfo.style.display = 'none';
-            }
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    simulateProgress(100, 100);
+                    setTimeout(() => {
+                        progressDiv.style.display = 'none';
+                        showResults(data);
+                    }, 500);
+                } else {
+                    throw new Error(data.error || '分析失败');
+                }
+            })
+            .catch(error => {
+                console.error('分析失败:', error);
+                loadingManager.showError('分析失败: ' + error.message);
+                progressDiv.style.display = 'none';
+                placeholder.style.display = 'flex';
+                const fileInfo = document.getElementById('file-info');
+                if (fileInfo) {
+                    fileInfo.style.display = 'none';
+                }
+            });
     }, 2000);
 }
 
@@ -2139,33 +2142,33 @@ function startDemoAnalysis(category = null) {
         if (category) {
             url += `?category=${category}`;
         }
-        
+
         fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP错误! 状态码: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('演示数据API返回:', data);
-            // 检查是否有诊断结果
-            if (data.results && data.results.pred_label) {
-                simulateProgress(100, 100);
-                setTimeout(() => {
-                    progressDiv.style.display = 'none';
-                    showResults(data);
-                }, 500);
-            } else {
-                throw new Error('返回的数据格式不正确');
-            }
-        })
-        .catch(error => {
-            console.error('示例分析失败:', error);
-            loadingManager.showError('示例分析失败: ' + error.message);
-            progressDiv.style.display = 'none';
-            placeholder.style.display = 'flex';
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP错误! 状态码: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('演示数据API返回:', data);
+                // 检查是否有诊断结果
+                if (data.results && data.results.pred_label) {
+                    simulateProgress(100, 100);
+                    setTimeout(() => {
+                        progressDiv.style.display = 'none';
+                        showResults(data);
+                    }, 500);
+                } else {
+                    throw new Error('返回的数据格式不正确');
+                }
+            })
+            .catch(error => {
+                console.error('示例分析失败:', error);
+                loadingManager.showError('示例分析失败: ' + error.message);
+                progressDiv.style.display = 'none';
+                placeholder.style.display = 'flex';
+            });
     }, 2000);
 }
 
@@ -2173,17 +2176,17 @@ function startDemoAnalysis(category = null) {
 function simulateProgress(totalSteps, currentStep = 0) {
     if (currentStep <= totalSteps) {
         const percentage = (currentStep / totalSteps) * 100;
-        
+
         // 使用加载管理器更新进度
         loadingManager.updateProgress('progress-fill', percentage);
-        
+
         // 计算当前步骤索引
         const steps = document.querySelectorAll('.progress-steps .step');
         const activeStepIndex = Math.floor((currentStep / totalSteps) * steps.length);
-        
+
         // 更新步骤状态
         steps.forEach((step, index) => {
-            if (index< activeStepIndex) {
+            if (index < activeStepIndex) {
                 step.classList.add('completed');
                 step.classList.remove('active');
             } else if (index === activeStepIndex) {
@@ -2195,7 +2198,7 @@ function simulateProgress(totalSteps, currentStep = 0) {
         });
 
         if (currentStep < totalSteps) {
-            setTimeout(() =>{
+            setTimeout(() => {
                 simulateProgress(totalSteps, currentStep + 2);
             }, 100);
         }
@@ -2235,7 +2238,7 @@ function showResults(data) {
             cognitive_activities: document.getElementById('cognitive-activities').value
         }
     };
-    
+
     // 颜色映射
     const colorMap = {
         'CN': '#10b981',
@@ -2250,7 +2253,7 @@ function showResults(data) {
         'LMCI': '<div class="diagnosis-icon lmci"></div>',
         'AD': '<div class="diagnosis-icon ad"></div>'
     };
-    
+
     // 标签中文映射
     const labelChinese = {
         'CN': '认知正常',
@@ -2304,7 +2307,7 @@ function showResults(data) {
         results.probabilities = {};
         const labels = ['CN', 'EMCI', 'LMCI', 'AD'];
         const baseConfidence = results.confidence || 0.85;
-        
+
         labels.forEach(label => {
             if (label === results.pred_label) {
                 results.probabilities[label] = baseConfidence;
@@ -2352,9 +2355,9 @@ function showResults(data) {
                 <h4 style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin-bottom: 1rem;"><i class="fas fa-chart-bar"></i> 诊断置信度分布</h4>
                 <div class="confidence-bars">
                     ${Object.entries(results.probabilities).map(([label, value]) => {
-                        const isPredicted = label === results.pred_label;
-                        const width = Math.min(value * 100, 100);
-                        return `
+        const isPredicted = label === results.pred_label;
+        const width = Math.min(value * 100, 100);
+        return `
                             <div class="confidence-bar" style="margin-bottom: 0.75rem;">
                                 <div class="bar-label" style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
                                     <span class="label-text" style="font-weight: ${isPredicted ? '600' : '400'}; color: #374151; font-size: 0.9rem;">${label} - ${labelChinese[label] || label}</span>
@@ -2365,7 +2368,7 @@ function showResults(data) {
                                 </div>
                             </div>
                         `;
-                    }).join('')}
+    }).join('')}
                 </div>
             </div>
             ` : ''}
@@ -2412,7 +2415,7 @@ function showResults(data) {
             ${results.monthly_risk ? `
             <div class="monthly-risk-section" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                 <h4 style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin-bottom: 1rem;"><i class="fas fa-chart-line"></i> 12个月进展风险趋势</h4>
-                <div id="risk-trend-chart" style="width: 100%; height: 280px;"></div>
+                <div id="risk-trend-chart" style="width: 100%; height: 350px; min-height: 300px;"></div>
                 <div class="risk-legend" style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; padding: 0.75rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
                     <div class="legend-item" style="display: flex; align-items: center; gap: 0.5rem;">
                         <span class="legend-color" style="width: 20px; height: 12px; background: linear-gradient(90deg, rgba(16, 185, 129, 0.5), rgba(16, 185, 129, 0.3)); border: 1px solid rgba(16, 185, 129, 0.6); border-radius: 2px;"></span>
@@ -2479,28 +2482,28 @@ function showResults(data) {
             <h4 style="font-size: 1.1rem; font-weight: 600; color: #1f2937; margin-bottom: 1rem;"><i class="fas fa-exclamation-triangle"></i> 关键风险指标</h4>
             <div class="indicators-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
                 ${Object.entries(results.risk_indicators).slice(0, 6).map(([indicator, data]) => {
-                    const riskClass = data.risk_level || 'low';
-                    const indicatorColor = {'high': '#ef4444', 'medium': '#f59e0b', 'low': '#10b981'}[riskClass] || '#64748b';
-                    const value = data.value || 50;
-                    const riskText = {'high': '高风险', 'medium': '中风险', 'low': '低风险'}[riskClass] || '未知';
-                    const description = data.description || {
-                        '海马体萎缩': '海马体是记忆形成的关键脑区，其萎缩程度是阿尔兹海默症早期诊断的重要标志物',
-                        'p-tau217浓度': '磷酸化tau蛋白217位点，是阿尔兹海默症病理过程的核心生物标志物',
-                        'Aβ42/Aβ40比率': 'β淀粉样蛋白42与40的比率，降低表明大脑中存在淀粉样斑块沉积',
-                        '脑葡萄糖代谢率': '大脑利用葡萄糖的效率，后部脑区代谢降低是阿尔兹海默症的典型特征',
-                        '白质高信号': 'MRI影像中显示的白质病变程度，与认知功能下降和血管性认知障碍相关',
-                        '脑体积减少率': '全脑或特定区域体积随时间减少的速度，阿尔兹海默症患者脑萎缩加速'
-                    }[indicator] || '该指标反映了您的健康状况';
-                    const normalRange = data.normal_range || {
-                        '海马体萎缩': '正常: <30%',
-                        'p-tau217浓度': '正常: <60 pg/mL',
-                        'Aβ42/Aβ40比率': '正常: >0.8',
-                        '脑葡萄糖代谢率': '正常: >95%',
-                        '白质高信号': '正常: <20%',
-                        '脑体积减少率': '正常: <0.5%/年'
-                    }[indicator] || '';
-                    const unit = data.unit || '';
-                    return `
+        const riskClass = data.risk_level || 'low';
+        const indicatorColor = { 'high': '#ef4444', 'medium': '#f59e0b', 'low': '#10b981' }[riskClass] || '#64748b';
+        const value = data.value || 50;
+        const riskText = { 'high': '高风险', 'medium': '中风险', 'low': '低风险' }[riskClass] || '未知';
+        const description = data.description || {
+            '海马体萎缩': '海马体是记忆形成的关键脑区，其萎缩程度是阿尔兹海默症早期诊断的重要标志物',
+            'p-tau217浓度': '磷酸化tau蛋白217位点，是阿尔兹海默症病理过程的核心生物标志物',
+            'Aβ42/Aβ40比率': 'β淀粉样蛋白42与40的比率，降低表明大脑中存在淀粉样斑块沉积',
+            '脑葡萄糖代谢率': '大脑利用葡萄糖的效率，后部脑区代谢降低是阿尔兹海默症的典型特征',
+            '白质高信号': 'MRI影像中显示的白质病变程度，与认知功能下降和血管性认知障碍相关',
+            '脑体积减少率': '全脑或特定区域体积随时间减少的速度，阿尔兹海默症患者脑萎缩加速'
+        }[indicator] || '该指标反映了您的健康状况';
+        const normalRange = data.normal_range || {
+            '海马体萎缩': '正常: <30%',
+            'p-tau217浓度': '正常: <60 pg/mL',
+            'Aβ42/Aβ40比率': '正常: >0.8',
+            '脑葡萄糖代谢率': '正常: >95%',
+            '白质高信号': '正常: <20%',
+            '脑体积减少率': '正常: <0.5%/年'
+        }[indicator] || '';
+        const unit = data.unit || '';
+        return `
                         <div class="indicator-card" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-left: 3px solid ${indicatorColor}; border-radius: 0 6px 6px 0; padding: 1rem; border: 1px solid #e2e8f0;">
                             <div class="indicator-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
                                 <span class="indicator-name" style="font-weight: 600; font-size: 0.9rem; color: #374151;">${indicator}</span>
@@ -2518,7 +2521,7 @@ function showResults(data) {
                             </div>
                         </div>
                     `;
-                }).join('')}
+    }).join('')}
             </div>
         </div>
         ` : ''}
@@ -2851,8 +2854,8 @@ function showResults(data) {
     document.head.appendChild(style);
 
     // 热力图交互功能将在HTML渲染完成后绑定
-    let bindHeatmapEvents = function() {
-        setTimeout(function() {
+    let bindHeatmapEvents = function () {
+        setTimeout(function () {
             const heatmapImg = document.getElementById('heatmap-img');
             const heatmapDownload = document.getElementById('heatmap-download');
             const heatmapZoom = document.getElementById('heatmap-zoom');
@@ -2866,7 +2869,7 @@ function showResults(data) {
 
             // 切换视图功能
             if (heatmapToggle && heatmapImg) {
-                heatmapToggle.addEventListener('click', function() {
+                heatmapToggle.addEventListener('click', function () {
                     currentViewIndex = (currentViewIndex + 1) % viewTypes.length;
                     const currentView = viewTypes[currentViewIndex];
                     heatmapToggle.innerHTML = '<i class="fas fa-exchange-alt"></i> ' + currentView;
@@ -2887,13 +2890,13 @@ function showResults(data) {
 
             // 下载热力图
             if (heatmapDownload) {
-                heatmapDownload.addEventListener('click', function() {
+                heatmapDownload.addEventListener('click', function () {
                     // 获取base64数据
                     let base64Data = heatmapImg.src;
                     if (base64Data.startsWith('data:image/png;base64,')) {
                         base64Data = base64Data.split(',')[1];
                     }
-                    
+
                     // 使用POST请求下载热力图
                     fetch('/api/download-heatmap', {
                         method: 'POST',
@@ -2922,7 +2925,7 @@ function showResults(data) {
                         });
                 });
             }
-            
+
             // 放大热力图和拖动功能
             if (heatmapZoom && heatmapImg) {
                 let isDragging = false;
@@ -2932,19 +2935,19 @@ function showResults(data) {
                 let startDistance, startScale;
                 const minScale = 0.5;
                 const maxScale = 3;
-                
+
                 // 设置图片容器样式
                 const container = heatmapImg.parentElement;
                 container.style.position = 'relative';
                 container.style.cursor = 'zoom-in';
                 container.style.overflow = 'hidden';
                 container.style.borderRadius = '12px';
-                
+
                 heatmapImg.style.transformOrigin = 'center center';
                 heatmapImg.style.transition = 'transform 0.1s ease';
                 heatmapImg.style.maxWidth = '100%';
                 heatmapImg.style.height = 'auto';
-                
+
                 // 添加缩放级别指示器
                 const zoomIndicator = document.createElement('div');
                 zoomIndicator.className = 'zoom-indicator';
@@ -2959,12 +2962,12 @@ function showResults(data) {
                 zoomIndicator.style.zIndex = '10';
                 zoomIndicator.innerHTML = '100%';
                 container.appendChild(zoomIndicator);
-                
+
                 // 更新缩放指示器
                 function updateZoomIndicator() {
                     zoomIndicator.innerHTML = `${Math.round(scale * 100)}%`;
                 }
-                
+
                 // 缩放函数
                 function zoom(factor, centerX, centerY) {
                     const newScale = Math.max(minScale, Math.min(maxScale, scale * factor));
@@ -2976,7 +2979,7 @@ function showResults(data) {
                         scale = newScale;
                         heatmapImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
                         updateZoomIndicator();
-                        
+
                         // 更新光标和按钮状态
                         if (scale > 1) {
                             heatmapImg.style.cursor = 'grab';
@@ -2989,7 +2992,7 @@ function showResults(data) {
                         }
                     }
                 }
-                
+
                 // 重置视图
                 function resetView() {
                     scale = 1;
@@ -3001,18 +3004,18 @@ function showResults(data) {
                     heatmapZoom.title = '放大热力图';
                     updateZoomIndicator();
                 }
-                
+
                 // 放大/缩小按钮
-                heatmapZoom.addEventListener('click', function() {
+                heatmapZoom.addEventListener('click', function () {
                     if (scale === 1) {
                         zoom(1.5, container.getBoundingClientRect().left + container.offsetWidth / 2, container.getBoundingClientRect().top + container.offsetHeight / 2);
                     } else {
                         resetView();
                     }
                 });
-                
+
                 // 鼠标滚轮缩放
-                container.addEventListener('wheel', function(e) {
+                container.addEventListener('wheel', function (e) {
                     e.preventDefault();
                     const rect = container.getBoundingClientRect();
                     const centerX = e.clientX;
@@ -3020,16 +3023,16 @@ function showResults(data) {
                     const delta = e.deltaY > 0 ? 0.9 : 1.1;
                     zoom(delta, centerX, centerY);
                 });
-                
+
                 // 点击图片放大
-                heatmapImg.addEventListener('click', function(e) {
+                heatmapImg.addEventListener('click', function (e) {
                     if (scale === 1) {
                         zoom(1.5, e.clientX, e.clientY);
                     }
                 });
-                
+
                 // 拖动功能
-                heatmapImg.addEventListener('mousedown', function(e) {
+                heatmapImg.addEventListener('mousedown', function (e) {
                     if (scale > 1) {
                         isDragging = true;
                         startX = e.clientX - translateX;
@@ -3038,24 +3041,24 @@ function showResults(data) {
                         e.preventDefault();
                     }
                 });
-                
-                document.addEventListener('mousemove', function(e) {
+
+                document.addEventListener('mousemove', function (e) {
                     if (isDragging && scale > 1) {
                         translateX = e.clientX - startX;
                         translateY = e.clientY - startY;
                         heatmapImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
                     }
                 });
-                
-                document.addEventListener('mouseup', function() {
+
+                document.addEventListener('mouseup', function () {
                     if (isDragging) {
                         isDragging = false;
                         heatmapImg.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
                     }
                 });
-                
+
                 // 触摸设备支持
-                heatmapImg.addEventListener('touchstart', function(e) {
+                heatmapImg.addEventListener('touchstart', function (e) {
                     if (scale > 1 && e.touches.length === 1) {
                         isDragging = true;
                         startX = e.touches[0].clientX - translateX;
@@ -3073,8 +3076,8 @@ function showResults(data) {
                         startScale = scale;
                     }
                 });
-                
-                document.addEventListener('touchmove', function(e) {
+
+                document.addEventListener('touchmove', function (e) {
                     if (isDragging && scale > 1 && e.touches.length === 1) {
                         translateX = e.touches[0].clientX - startX;
                         translateY = e.touches[0].clientY - startY;
@@ -3096,16 +3099,16 @@ function showResults(data) {
                         }
                     }
                 });
-                
-                document.addEventListener('touchend', function() {
+
+                document.addEventListener('touchend', function () {
                     isDragging = false;
                     heatmapImg.style.cursor = scale > 1 ? 'grab' : 'zoom-in';
                 });
             }
-            
+
             // 显示/隐藏热力图说明
             if (heatmapInfo && heatmapInfoPanel) {
-                heatmapInfo.addEventListener('click', function() {
+                heatmapInfo.addEventListener('click', function () {
                     if (heatmapInfoPanel.style.display === 'none') {
                         heatmapInfoPanel.style.display = 'block';
                         heatmapInfo.innerHTML = '<i class="fas fa-times"></i> 关闭说明';
@@ -3119,13 +3122,13 @@ function showResults(data) {
             }
         }, 100);
     };
-    
+
     // 添加操作按钮 - 已在showResults中提供，此处不再重复
     // 保持与快速视图一致的UI
 
     resultsContainer.innerHTML = html;
     resultsContainer.style.display = 'block';
-    
+
     // 隐藏placeholder
     const placeholder = document.getElementById('results-placeholder');
     if (placeholder) {
@@ -3140,49 +3143,49 @@ function showResults(data) {
                 openDetailedReport(results, data);
             });
         }
-        
+
         const pdfBtn = document.getElementById('generate-pdf-from-results');
         if (pdfBtn) {
             pdfBtn.addEventListener('click', () => {
                 generatePDFReportFromResults(results);
             });
         }
-        
+
         // 绑定热力图事件
         bindHeatmapEvents();
-        
+
         // 保存诊断结果到全局变量，供ECharts加载完成后使用
         window.currentDiagnosisResults = results;
-        
+
         // 渲染每月进展风险折线图
         function renderRiskTrendChart(monthlyRiskData) {
             console.log('开始渲染风险趋势图，数据:', monthlyRiskData);
-            
+
             // 等待DOM完全渲染
             setTimeout(() => {
                 console.log('等待DOM渲染完成...');
-                
+
                 // 再次检查容器
                 const chartDom = document.getElementById('risk-trend-chart');
                 console.log('图表容器:', chartDom);
                 console.log('图表容器是否存在:', !!chartDom);
-                
+
                 if (!chartDom) {
                     console.error('图表容器未找到，重试中...');
                     setTimeout(() => renderRiskTrendChart(monthlyRiskData), 200);
                     return;
                 }
-                
+
                 console.log('图表容器已找到');
                 console.log('图表容器尺寸:', chartDom.offsetWidth, 'x', chartDom.offsetHeight);
-                
+
                 // 确保容器有足够的尺寸
                 if (chartDom.offsetWidth === 0 || chartDom.offsetHeight === 0) {
                     console.error('图表容器尺寸为0，等待尺寸更新...');
                     setTimeout(() => renderRiskTrendChart(monthlyRiskData), 200);
                     return;
                 }
-                
+
                 // 检查ECharts是否已加载
                 if (typeof echarts === 'undefined') {
                     console.log('ECharts 尚未加载，等待中...');
@@ -3191,16 +3194,16 @@ function showResults(data) {
                 }
                 console.log('ECharts已加载');
                 console.log('ECharts版本:', echarts.version);
-            
+
                 try {
                     const myChart = echarts.init(chartDom);
                     console.log('图表初始化成功');
-            
+
                     // 准备数据
                     console.log('原始数据:', monthlyRiskData);
                     const months = monthlyRiskData.map(item => item.month + '月');
                     console.log('月份数据:', months);
-            
+
                     // 检查数据是否已经是百分比格式
                     const riskData = monthlyRiskData.map(item => {
                         const riskValue = parseFloat(item.risk);
@@ -3212,18 +3215,18 @@ function showResults(data) {
                         return parseFloat(riskValue.toFixed(1));
                     });
                     console.log('风险数据:', riskData);
-            
+
                     // 检查数据有效性
                     if (!riskData || riskData.length === 0) {
                         console.error('风险数据为空');
                         return;
                     }
-            
+
                     // 图表配置，添加风险区域背景和区域填充
                     const option = {
                         tooltip: {
                             trigger: 'axis',
-                            formatter: function(params) {
+                            formatter: function (params) {
                                 const value = params[0].data;
                                 let riskLevel = '';
                                 let riskColor = '';
@@ -3241,10 +3244,10 @@ function showResults(data) {
                             }
                         },
                         grid: {
-                            left: '3%',
-                            right: '4%',
-                            bottom: '3%',
-                            top: '15%',
+                            left: '8%',
+                            right: '8%',
+                            bottom: '10%',
+                            top: '10%',
                             containLabel: true
                         },
                         xAxis: {
@@ -3349,37 +3352,37 @@ function showResults(data) {
                             }
                         ]
                     };
-            
+
                     console.log('图表配置:', option);
                     console.log('设置图表选项');
                     myChart.setOption(option);
-            
+
                     console.log('图表渲染完成');
                     console.log('图表实例:', myChart);
                     console.log('图表容器尺寸:', chartDom.offsetWidth, 'x', chartDom.offsetHeight);
-            
+
                     // 响应式调整
                     window.addEventListener('resize', () => {
                         myChart.resize();
                     });
-                    
+
                     // 手动触发一次resize确保图表正确显示
                     setTimeout(() => {
                         myChart.resize();
                         console.log('手动触发resize');
                     }, 500);
-                    
+
                 } catch (error) {
                     console.error('图表渲染出错:', error);
                 }
             }, 300); // 增加延迟时间确保DOM完全渲染
         }
-        
+
         // 如果ECharts已加载，立即渲染；否则等待ECharts加载完成后自动渲染
         if (results.monthly_risk) {
             console.log('准备渲染风险趋势图，数据:', results.monthly_risk);
             console.log('ECharts是否可用:', typeof echarts !== 'undefined');
-            
+
             if (typeof echarts !== 'undefined') {
                 renderRiskTrendChart(results.monthly_risk);
             } else {
@@ -3392,7 +3395,7 @@ function showResults(data) {
                         clearInterval(checkEChartsInterval);
                     }
                 }, 500);
-                
+
                 // 最多等待10秒
                 setTimeout(() => {
                     clearInterval(checkEChartsInterval);
@@ -3404,17 +3407,17 @@ function showResults(data) {
 
     // 保存患者数据
     savePatientData(window.currentPatientInfo, results);
-    
+
     // 绑定图像切换按钮事件
     setTimeout(() => {
         const toggleButton = document.getElementById('toggle-image');
         if (toggleButton) {
-            toggleButton.addEventListener('click', function() {
+            toggleButton.addEventListener('click', function () {
                 const brainImg = document.getElementById('brain-img');
                 const originalImg = document.getElementById('original-mri-img');
                 const imageDescription = document.getElementById('image-description');
                 const riskLevels = document.getElementById('risk-levels');
-                
+
                 if (brainImg && originalImg) {
                     if (this.dataset.state === 'analyzed') {
                         // 切换到原始MRI影像
@@ -3423,7 +3426,7 @@ function showResults(data) {
                         this.dataset.state = 'original';
                         this.innerHTML = '<i class="fas fa-brain"></i> 查看分析图像';
                         this.title = '切换到分析图像';
-                        
+
                         if (imageDescription) {
                             imageDescription.textContent = '此图像显示了原始MRI扫描结果，未添加任何分析标记。';
                         }
@@ -3437,7 +3440,7 @@ function showResults(data) {
                         this.dataset.state = 'analyzed';
                         this.innerHTML = '<i class="fas fa-image"></i> 查看原始MRI';
                         this.title = '切换到原始MRI影像';
-                        
+
                         if (imageDescription) {
                             imageDescription.textContent = '此图像显示了基于诊断结果的脑部分析，标记了可能存在异常的区域。不同颜色表示不同的风险级别：';
                         }
@@ -3449,13 +3452,13 @@ function showResults(data) {
             });
         }
     }, 100);
-    
+
     setTimeout(() => {
         const brainZoomBtn = document.getElementById('brain-zoom');
         const heatmapFullscreenBtn = document.getElementById('heatmap-fullscreen');
-        
+
         if (brainZoomBtn) {
-            brainZoomBtn.addEventListener('click', function() {
+            brainZoomBtn.addEventListener('click', function () {
                 const currentImg = document.getElementById('brain-img');
                 const originalImg = document.getElementById('original-mri-img');
                 const activeImg = currentImg && currentImg.style.display !== 'none' ? currentImg : originalImg;
@@ -3464,37 +3467,37 @@ function showResults(data) {
                 }
             });
         }
-        
+
         if (heatmapFullscreenBtn) {
-            heatmapFullscreenBtn.addEventListener('click', function() {
+            heatmapFullscreenBtn.addEventListener('click', function () {
                 const heatmapImg = document.getElementById('heatmap-img');
                 if (heatmapImg) {
                     openImageModal(heatmapImg.src, '脑区风险热力图', 'heatmap');
                 }
             });
         }
-        
+
         document.querySelectorAll('.clickable-image').forEach(img => {
-            img.addEventListener('click', function() {
+            img.addEventListener('click', function () {
                 openImageModal(this.src, this.alt || '图像预览', this.dataset.imageType || 'unknown');
             });
-            
-            img.addEventListener('dblclick', function() {
+
+            img.addEventListener('dblclick', function () {
                 openImageModal(this.src, this.alt || '图像预览', this.dataset.imageType || 'unknown');
             });
         });
     }, 150);
-    
+
     showToast('多模态分析完成！', 'success');
 }
 
 // 查看详细报告
 function openDetailedReport(results, fullData) {
     console.log("正在生成详细报告...");
-    
+
     const modal = document.getElementById('results-modal');
     const modalBody = document.getElementById('modal-body');
-    
+
     // 生成报告HTML
     let html = `
         <div class="detailed-report">
@@ -3532,7 +3535,7 @@ function openDetailedReport(results, fullData) {
                 </div>
             </div>
     `;
-    
+
     // 模态信息
     if (fullData.modalities_used) {
         html += `
@@ -3541,7 +3544,7 @@ function openDetailedReport(results, fullData) {
                 <div class="modality-info">
                     <p><strong>使用的数据模态：</strong> ${fullData.modalities_used.join(', ')}</p>
         `;
-        
+
         if (fullData.modality_weights) {
             html += `<p><strong>模态融合权重：</strong></p><ul>`;
             Object.entries(fullData.modality_weights).forEach(([modality, weight]) => {
@@ -3549,10 +3552,10 @@ function openDetailedReport(results, fullData) {
             });
             html += `</ul>`;
         }
-        
+
         html += `</div></div>`;
     }
-    
+
     // 风险指标表格
     if (results.risk_indicators) {
         html += `
@@ -3571,7 +3574,7 @@ function openDetailedReport(results, fullData) {
                         </thead>
                         <tbody>
         `;
-        
+
         // 指标描述映射
         const indicatorDescriptions = {
             'MRI脑萎缩程度': '通过脑部核磁共振(MRI)扫描测量大脑总体积与正常值的差异。脑萎缩是神经元丢失的标志，萎缩程度越高，认知功能衰退的速度越快，尤其是记忆、思维和行为能力会受到明显影响。正常老年人每年脑体积减少约0.5-1%，超过这个范围提示异常。',
@@ -3591,7 +3594,7 @@ function openDetailedReport(results, fullData) {
             '白质高信号': 'MRI上显示的脑部白质病变程度，反映小血管疾病和缺血性损伤。高信号体积增加与血管性认知障碍风险相关，常见于高血压、糖尿病患者，可影响信息传递效率。',
             '脑体积减少率': '通过系列MRI扫描测量脑体积减少的年速率。正常衰老为0.5-1%/年，病理性萎缩可达2-3%/年，快速萎缩提示疾病进展较快，需要密切监测和干预。'
         };
-        
+
         const referenceRanges = {
             '海马体萎缩': '0-30%',
             'p-tau217浓度': '<40 pg/mL',
@@ -3600,7 +3603,7 @@ function openDetailedReport(results, fullData) {
             '白质高信号': '<20%',
             '脑体积减少率': '0-25%'
         };
-        
+
         Object.entries(results.risk_indicators).forEach(([indicator, data]) => {
             const riskClass = data.risk_level || 'medium';
             const riskText = {
@@ -3630,7 +3633,7 @@ function openDetailedReport(results, fullData) {
                 </tr>
             `;
         });
-        
+
         html += `
                         </tbody>
                     </table>
@@ -3638,7 +3641,7 @@ function openDetailedReport(results, fullData) {
             </div>
         `;
     }
-    
+
     // 医学建议
     if (results.medical_advice) {
         html += `
@@ -3646,7 +3649,7 @@ function openDetailedReport(results, fullData) {
                 <h4><i class="fas fa-user-md"></i> 医学建议</h4>
                 <div class="advice-list">
         `;
-        
+
         results.medical_advice.forEach((item, index) => {
             html += `
                 <div class="advice-item">
@@ -3655,13 +3658,13 @@ function openDetailedReport(results, fullData) {
                 </div>
             `;
         });
-        
+
         html += `
                 </div>
             </div>
         `;
     }
-    
+
     // 免责声明
     html += `
             <div class="report-section disclaimer">
@@ -3679,7 +3682,7 @@ function openDetailedReport(results, fullData) {
             </div>
         </div>
     `;
-    
+
     modalBody.innerHTML = html;
     modal.classList.add('active');
     console.log("详细报告已生成并显示");
@@ -3688,7 +3691,7 @@ function openDetailedReport(results, fullData) {
 // 生成PDF报告
 function generatePDFReportFromResults(results) {
     showToast('正在生成PDF报告...', 'info');
-    
+
     fetch('/api/generate-pdf', {
         method: 'POST',
         headers: {
@@ -3700,31 +3703,31 @@ function generatePDFReportFromResults(results) {
             timestamp: new Date().toISOString()
         })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showToast('PDF报告生成成功！', 'success');
-            
-            // 预览PDF
-            previewPDF(data.pdf_url);
-            
-            // 刷新报告列表
-            loadReportsList();
-        } else {
-            throw new Error(data.error || '生成PDF失败');
-        }
-    })
-    .catch(error => {
-        console.error('PDF生成失败:', error);
-        showToast('PDF生成失败: ' + error.message, 'error');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showToast('PDF报告生成成功！', 'success');
+
+                // 预览PDF
+                previewPDF(data.pdf_url);
+
+                // 刷新报告列表
+                loadReportsList();
+            } else {
+                throw new Error(data.error || '生成PDF失败');
+            }
+        })
+        .catch(error => {
+            console.error('PDF生成失败:', error);
+            showToast('PDF生成失败: ' + error.message, 'error');
+        });
 }
 
 // 预览PDF
 function previewPDF(pdfUrl) {
     const modal = document.getElementById('pdf-preview-modal');
     const iframe = document.getElementById('pdf-preview-frame');
-    
+
     iframe.src = pdfUrl;
     modal.classList.add('active');
 }
@@ -3742,19 +3745,19 @@ function generateNewPDFReport() {
 // 加载报告列表
 function loadReportsList() {
     const tableBody = document.getElementById('reports-table-body');
-    
+
     fetch('/api/reports')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success && data.reports.length > 0) {
-            let html = '';
-            
-            data.reports.forEach((report, index) => {
-                const date = new Date(report.timestamp || report.modified);
-                const formattedDate = date.toLocaleString('zh-CN');
-                const fileSize = report.size ? (report.size / 1024 / 1024).toFixed(2) + ' MB' : '未知';
-                
-                html += `
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.reports.length > 0) {
+                let html = '';
+
+                data.reports.forEach((report, index) => {
+                    const date = new Date(report.timestamp || report.modified);
+                    const formattedDate = date.toLocaleString('zh-CN');
+                    const fileSize = report.size ? (report.size / 1024 / 1024).toFixed(2) + ' MB' : '未知';
+
+                    html += `
                     <div class="report-item">
                         <div class="report-cell">${report.name}</div>
                         <div class="report-cell">${report.patient_id || '未知'}</div>
@@ -3778,29 +3781,29 @@ function loadReportsList() {
                         </div>
                     </div>
                 `;
-            });
-            
-            tableBody.innerHTML = html;
-        } else {
-            tableBody.innerHTML = `
+                });
+
+                tableBody.innerHTML = html;
+            } else {
+                tableBody.innerHTML = `
                 <div class="no-reports">
                     <i class="fas fa-file-pdf"></i>
                     <p>暂无PDF报告</p>
                     <p>请先生成报告</p>
                 </div>
             `;
-        }
-    })
-    .catch(error => {
-        console.error('加载报告列表失败:', error);
-        tableBody.innerHTML = `
+            }
+        })
+        .catch(error => {
+            console.error('加载报告列表失败:', error);
+            tableBody.innerHTML = `
             <div class="no-reports">
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>加载失败</p>
                 <p>${error.message}</p>
             </div>
         `;
-    });
+        });
 }
 
 // 预览报告
@@ -3820,24 +3823,24 @@ function downloadReport(path, filename) {
 function searchReports() {
     const searchTerm = document.getElementById('report-search').value.toLowerCase();
     const tableBody = document.getElementById('reports-table-body');
-    
+
     fetch('/api/reports')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success && data.reports.length > 0) {
-            const filteredReports = data.reports.filter(report => 
-                report.name.toLowerCase().includes(searchTerm) ||
-                (report.patient_id && report.patient_id.toLowerCase().includes(searchTerm))
-            );
-            
-            if (filteredReports.length > 0) {
-                let html = '';
-                filteredReports.forEach((report, index) => {
-                    const date = new Date(report.timestamp || report.modified);
-                    const formattedDate = date.toLocaleString('zh-CN');
-                    const fileSize = report.size ? (report.size / 1024 / 1024).toFixed(2) + ' MB' : '未知';
-                    
-                    html += `
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.reports.length > 0) {
+                const filteredReports = data.reports.filter(report =>
+                    report.name.toLowerCase().includes(searchTerm) ||
+                    (report.patient_id && report.patient_id.toLowerCase().includes(searchTerm))
+                );
+
+                if (filteredReports.length > 0) {
+                    let html = '';
+                    filteredReports.forEach((report, index) => {
+                        const date = new Date(report.timestamp || report.modified);
+                        const formattedDate = date.toLocaleString('zh-CN');
+                        const fileSize = report.size ? (report.size / 1024 / 1024).toFixed(2) + ' MB' : '未知';
+
+                        html += `
                         <div class="report-item">
                             <div class="report-cell">${report.name}</div>
                             <div class="report-cell">${report.patient_id || '未知'}</div>
@@ -3861,24 +3864,24 @@ function searchReports() {
                             </div>
                         </div>
                     `;
-                });
-                
-                tableBody.innerHTML = html;
-            } else {
-                tableBody.innerHTML = `
+                    });
+
+                    tableBody.innerHTML = html;
+                } else {
+                    tableBody.innerHTML = `
                     <div class="no-reports">
                         <i class="fas fa-search"></i>
                         <p>未找到匹配的报告</p>
                         <p>请尝试其他搜索关键词</p>
                     </div>
                 `;
+                }
             }
-        }
-    })
-    .catch(error => {
-        console.error('搜索报告失败:', error);
-        showToast('搜索报告失败: ' + error.message, 'error');
-    });
+        })
+        .catch(error => {
+            console.error('搜索报告失败:', error);
+            showToast('搜索报告失败: ' + error.message, 'error');
+        });
 }
 
 // 清除搜索
@@ -3899,19 +3902,19 @@ function deleteReport(path, filename) {
                 report_path: path
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showToast('报告删除成功！', 'success');
-                loadReportsList();
-            } else {
-                throw new Error(data.error || '删除报告失败');
-            }
-        })
-        .catch(error => {
-            console.error('删除报告失败:', error);
-            showToast('删除报告失败: ' + error.message, 'error');
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('报告删除成功！', 'success');
+                    loadReportsList();
+                } else {
+                    throw new Error(data.error || '删除报告失败');
+                }
+            })
+            .catch(error => {
+                console.error('删除报告失败:', error);
+                showToast('删除报告失败: ' + error.message, 'error');
+            });
     }
 }
 
@@ -3920,7 +3923,7 @@ function renameReport(path, currentName) {
     const newName = prompt('请输入新的报告名称:', currentName.replace('.pdf', ''));
     if (newName && newName.trim() !== '') {
         const newFilename = newName.trim() + '.pdf';
-        
+
         fetch('/api/rename-report', {
             method: 'POST',
             headers: {
@@ -3931,19 +3934,19 @@ function renameReport(path, currentName) {
                 new_name: newFilename
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                showToast('报告重命名成功！', 'success');
-                loadReportsList();
-            } else {
-                throw new Error(data.error || '重命名报告失败');
-            }
-        })
-        .catch(error => {
-            console.error('重命名报告失败:', error);
-            showToast('重命名报告失败: ' + error.message, 'error');
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('报告重命名成功！', 'success');
+                    loadReportsList();
+                } else {
+                    throw new Error(data.error || '重命名报告失败');
+                }
+            })
+            .catch(error => {
+                console.error('重命名报告失败:', error);
+                showToast('重命名报告失败: ' + error.message, 'error');
+            });
     }
 }
 
@@ -3953,14 +3956,14 @@ let diagnosisChart = null;
 // 初始化诊断类别分布图表
 function initDiagnosisChart(data) {
     console.log('开始初始化诊断类别分布图表...');
-    
+
     const ctx = document.getElementById('diagnosisChart');
     if (!ctx) {
         console.error('图表容器未找到');
         return;
     }
     console.log('图表容器找到:', ctx);
-    
+
     // 检查Chart对象是否已加载
     if (typeof Chart === 'undefined') {
         console.log('Chart.js 尚未加载，等待中...');
@@ -3969,13 +3972,13 @@ function initDiagnosisChart(data) {
         return;
     }
     console.log('Chart.js 已加载');
-    
+
     // 销毁现有图表
     if (diagnosisChart) {
         console.log('销毁现有图表');
         diagnosisChart.destroy();
     }
-    
+
     // 诊断类别数据
     const labels = ['CN - 认知正常', 'EMCI - 早期轻度认知障碍', 'LMCI - 晚期轻度认知障碍', 'AD - 阿尔兹海默病'];
     const colors = [
@@ -3984,7 +3987,7 @@ function initDiagnosisChart(data) {
         'rgba(249, 115, 22, 0.8)',   // LMCI - 橙色
         'rgba(239, 68, 68, 0.8)'     // AD - 红色
     ];
-    
+
     // 首先尝试从服务器数据获取诊断分布
     let diagnosisCounts = {
         'CN': data.cn_count || 0,
@@ -3992,23 +3995,23 @@ function initDiagnosisChart(data) {
         'LMCI': data.lmci_count || 0,
         'AD': data.ad_count || 0
     };
-    
+
     console.log('服务器诊断计数:', diagnosisCounts);
-    
+
     // 如果服务器没有提供数据，从localStorage获取患者数据
     if (diagnosisCounts.CN === 0 && diagnosisCounts.EMCI === 0 && diagnosisCounts.LMCI === 0 && diagnosisCounts.AD === 0) {
         console.log('服务器没有提供诊断数据，从localStorage获取');
         const patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
         console.log('患者数据:', patients);
         console.log('患者数量:', patients.length);
-        
+
         diagnosisCounts = {
             'CN': 0,
             'EMCI': 0,
             'LMCI': 0,
             'AD': 0
         };
-        
+
         patients.forEach(patient => {
             if (patient.diagnosis && patient.diagnosis.label) {
                 const label = patient.diagnosis.label;
@@ -4022,18 +4025,18 @@ function initDiagnosisChart(data) {
             }
         });
     }
-    
+
     console.log('最终诊断计数:', diagnosisCounts);
-    
+
     const values = [
         diagnosisCounts.CN,
         diagnosisCounts.EMCI,
         diagnosisCounts.LMCI,
         diagnosisCounts.AD
     ];
-    
+
     console.log('图表数据:', labels, values);
-    
+
     // 如果没有数据，使用测试数据
     if (values.every(v => v === 0)) {
         console.log('没有真实数据，使用测试数据');
@@ -4042,7 +4045,7 @@ function initDiagnosisChart(data) {
         values[2] = 5;  // LMCI
         values[3] = 3;  // AD
     }
-    
+
     diagnosisChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -4086,17 +4089,17 @@ function initDiagnosisChart(data) {
                     cornerRadius: 8,
                     displayColors: true,
                     callbacks: {
-                        title: function(context) {
+                        title: function (context) {
                             return context[0].label;
                         },
-                        label: function(context) {
+                        label: function (context) {
                             const label = context.label || '';
                             const value = context.raw || 0;
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
                             const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
                             return `数量: ${value} | 占比: ${percentage}%`;
                         },
-                        afterLabel: function(context) {
+                        afterLabel: function (context) {
                             const value = context.raw || 0;
                             let status = '';
                             if (value === 0) {
@@ -4140,11 +4143,11 @@ function initDiagnosisChart(data) {
                     const label = labels[index];
                     const value = values[index];
                     const diagnosisType = label.split(' - ')[0];
-                    
+
                     // 根据诊断类型筛选患者列表
                     document.getElementById('patient-filter').value = diagnosisType;
                     loadPatientList('', diagnosisType);
-                    
+
                     showToast(`已筛选 ${label}: ${value} 例`, 'success');
                 }
             },
@@ -4159,66 +4162,139 @@ function initDiagnosisChart(data) {
             }
         }
     });
-    
+
     console.log('诊断类别分布图表创建完成');
+}
+
+// 加载目录结构
+function loadDirectoryStructure() {
+    fetch('/api/directory')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const container = document.getElementById('dynamic-directory-tree');
+                if (!container) return;
+                container.innerHTML = renderDirectoryTree(data.data, '', 0);
+            } else {
+                const container = document.getElementById('dynamic-directory-tree');
+                if (container) {
+                    container.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> 加载目录结构失败</div>';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('加载目录结构失败:', error);
+            const container = document.getElementById('dynamic-directory-tree');
+            if (container) {
+                container.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> 加载目录结构失败: ' + error.message + '</div>';
+            }
+        });
+}
+
+function renderDirectoryTree(structure, parentPath, depth) {
+    if (!structure || typeof structure !== 'object') return '';
+
+    let html = '<ul class="tree-list" style="list-style: none; padding-left: ' + (depth * 20) + 'px;">';
+
+    for (const [key, item] of Object.entries(structure)) {
+        const currentPath = parentPath ? parentPath + '/' + key : key;
+        const isFolder = item.type === 'folder';
+        const hasChildren = item.subdirectories && Object.keys(item.subdirectories).length > 0;
+
+        if (isFolder && hasChildren) {
+            html += '<li class="tree-item folder">';
+            html += '<details open>';
+            html += '<summary>';
+            html += '<i class="fas fa-folder tree-icon"></i>';
+            html += '<span class="tree-name">' + key + '</span>';
+            html += '<span class="tree-desc"> - ' + (item.description || '') + '</span>';
+            if (item.path) {
+                html += '<span class="tree-path" style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(' + item.path + ')</span>';
+            }
+            html += '</summary>';
+            html += renderDirectoryTree(item.subdirectories, currentPath, depth + 1);
+            html += '</details>';
+            html += '</li>';
+        } else if (isFolder) {
+            html += '<li class="tree-item folder-empty">';
+            html += '<i class="fas fa-folder tree-icon"></i>';
+            html += '<span class="tree-name">' + key + '</span>';
+            html += '<span class="tree-desc"> - ' + (item.description || '') + '</span>';
+            if (item.path) {
+                html += '<span class="tree-path" style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(' + item.path + ')</span>';
+            }
+            html += '</li>';
+        } else {
+            html += '<li class="tree-item file">';
+            html += '<i class="fas fa-file tree-icon"></i>';
+            html += '<span class="tree-name">' + key + '</span>';
+            if (item.path) {
+                html += '<span class="tree-path" style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(' + item.path + ')</span>';
+            }
+            html += '</li>';
+        }
+    }
+
+    html += '</ul>';
+    return html;
 }
 
 // 加载系统统计
 function loadSystemStats() {
     fetch('/api/stats')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('total-patients').textContent = data.total_patients || '0';
-            document.getElementById('total-reports').textContent = data.total_reports || '0';
-            document.getElementById('analysis-count').textContent = data.analysis_count || '0';
-            document.getElementById('data-size').textContent = data.data_size || '0 GB';
-            
-            // 初始化诊断类别分布图表
-            initDiagnosisChart(data);
-        }
-    })
-    .catch(error => {
-        console.error('加载统计失败:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('total-patients').textContent = data.total_patients || '0';
+                document.getElementById('total-reports').textContent = data.total_reports || '0';
+                document.getElementById('analysis-count').textContent = data.analysis_count || '0';
+                document.getElementById('data-size').textContent = data.data_size || '0 GB';
+
+                // 初始化诊断类别分布图表
+                initDiagnosisChart(data);
+            }
+        })
+        .catch(error => {
+            console.error('加载统计失败:', error);
+        });
 }
 
 // 清理临时文件
 function clearTempFiles() {
     const button = document.getElementById('clear-temp');
     const originalText = button.innerHTML;
-    
+
     // 显示加载状态
     button.disabled = true;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 清理中...';
-    
+
     fetch('/api/clear-temp', {
         method: 'POST'
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            showToast('临时文件清理完成', 'success');
-            // 重新加载系统统计
-            loadSystemStats();
-        } else {
-            throw new Error(data.error || '清理失败');
-        }
-    })
-    .catch(error => {
-        console.error('清理失败:', error);
-        showToast('清理失败: ' + error.message, 'error');
-    })
-    .finally(() => {
-        // 恢复按钮状态
-        button.disabled = false;
-        button.innerHTML = originalText;
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                showToast('临时文件清理完成', 'success');
+                // 重新加载系统统计
+                loadSystemStats();
+            } else {
+                throw new Error(data.error || '清理失败');
+            }
+        })
+        .catch(error => {
+            console.error('清理失败:', error);
+            showToast('清理失败: ' + error.message, 'error');
+        })
+        .finally(() => {
+            // 恢复按钮状态
+            button.disabled = false;
+            button.innerHTML = originalText;
+        });
 }
 
 // 数据备份功能
@@ -4226,14 +4302,99 @@ function backupData() {
     if (confirm('确定要创建数据备份吗？这将备份所有系统数据。')) {
         const button = document.getElementById('backup-data');
         const originalText = button.innerHTML;
-        
+
         // 显示加载状态
         button.disabled = true;
         button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 备份中...';
         showToast('正在创建数据备份...', 'info');
-        
+
         // 获取系统统计数据
         fetch('/api/stats')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(statsData => {
+                // 获取报告列表
+                return fetch('/api/reports')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(reportsData => {
+                        return { stats: statsData, reports: reportsData };
+                    });
+            })
+            .then(data => {
+                // 获取患者数据
+                const patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
+
+                // 创建备份数据对象
+                const backupData = {
+                    backup_info: {
+                        name: 'AD-CPredSys Backup',
+                        version: '4.0.0',
+                        backup_date: new Date().toISOString(),
+                        backup_type: 'full',
+                        system_version: '4.0.0',
+                        data_size: (new Blob([JSON.stringify({
+                            patients: patients,
+                            reports: data.reports.reports || []
+                        })]).size / 1024).toFixed(2) + ' KB'
+                    },
+                    statistics: data.stats,
+                    patients: patients,
+                    reports: data.reports.reports || [],
+                    settings: {
+                        report_settings: JSON.parse(localStorage.getItem('reportSettings') || '{}'),
+                        user_preferences: JSON.parse(localStorage.getItem('userPreferences') || '{}')
+                    }
+                };
+
+                // 转换为JSON字符串
+                const jsonString = JSON.stringify(backupData, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+
+                // 创建下载链接
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ad_cpredsys_backup_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showToast('数据备份创建成功', 'success');
+            })
+            .catch(error => {
+                console.error('数据备份失败:', error);
+                showToast('数据备份失败: ' + error.message, 'error');
+            })
+            .finally(() => {
+                // 恢复按钮状态
+                button.disabled = false;
+                button.innerHTML = originalText;
+            });
+    }
+}
+
+// 导出数据功能
+function exportData() {
+    const button = document.getElementById('export-data');
+    const originalText = button.innerHTML;
+
+    // 显示加载状态
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 保存中...';
+    showToast('正在准备导出数据...', 'info');
+
+    // 获取系统统计数据
+    fetch('/api/stats')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -4243,28 +4404,28 @@ function backupData() {
         .then(statsData => {
             // 获取报告列表
             return fetch('/api/reports')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(reportsData => {
-                return { stats: statsData, reports: reportsData };
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(reportsData => {
+                    return { stats: statsData, reports: reportsData };
+                });
         })
         .then(data => {
             // 获取患者数据
             const patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
-            
-            // 创建备份数据对象
-            const backupData = {
-                backup_info: {
-                    name: 'AD-CPredSys Backup',
+
+            // 创建导出数据对象
+            const exportData = {
+                system_info: {
+                    name: 'AD-CPredSys',
                     version: '4.0.0',
-                    backup_date: new Date().toISOString(),
-                    backup_type: 'full',
-                    system_version: '4.0.0',
+                    export_date: new Date().toISOString(),
+                    export_by: 'System',
+                    export_type: 'comprehensive',
                     data_size: (new Blob([JSON.stringify({
                         patients: patients,
                         reports: data.reports.reports || []
@@ -4273,177 +4434,92 @@ function backupData() {
                 statistics: data.stats,
                 patients: patients,
                 reports: data.reports.reports || [],
-                settings: {
-                    report_settings: JSON.parse(localStorage.getItem('reportSettings') || '{}'),
-                    user_preferences: JSON.parse(localStorage.getItem('userPreferences') || '{}')
+                summary: {
+                    total_patients: patients.length,
+                    total_reports: (data.reports.reports || []).length,
+                    diagnosis_distribution: {
+                        CN: patients.filter(p => p.diagnosis && p.diagnosis.label === 'CN').length,
+                        EMCI: patients.filter(p => p.diagnosis && p.diagnosis.label === 'EMCI').length,
+                        LMCI: patients.filter(p => p.diagnosis && p.diagnosis.label === 'LMCI').length,
+                        AD: patients.filter(p => p.diagnosis && p.diagnosis.label === 'AD').length
+                    }
                 }
             };
-            
-            // 转换为JSON字符串
-            const jsonString = JSON.stringify(backupData, null, 2);
-            const blob = new Blob([jsonString], { type: 'application/json' });
-            
-            // 创建下载链接
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ad_cpredsys_backup_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            showToast('数据备份创建成功', 'success');
-        })
-        .catch(error => {
-            console.error('数据备份失败:', error);
-            showToast('数据备份失败: ' + error.message, 'error');
-        })
-        .finally(() => {
-            // 恢复按钮状态
-            button.disabled = false;
-            button.innerHTML = originalText;
-        });
-    }
-}
 
-// 导出数据功能
-function exportData() {
-    const button = document.getElementById('export-data');
-    const originalText = button.innerHTML;
-    
-    // 显示加载状态
-    button.disabled = true;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 保存中...';
-    showToast('正在准备导出数据...', 'info');
-    
-    // 获取系统统计数据
-    fetch('/api/stats')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(statsData => {
-        // 获取报告列表
-        return fetch('/api/reports')
+            // 将数据发送到服务器保存
+            return fetch('/api/save-export', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(exportData)
+            });
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return response.json();
         })
-        .then(reportsData => {
-            return { stats: statsData, reports: reportsData };
-        });
-    })
-    .then(data => {
-        // 获取患者数据
-        const patients = JSON.parse(localStorage.getItem('adPatients') || '[]');
-        
-        // 创建导出数据对象
-        const exportData = {
-            system_info: {
-                name: 'AD-CPredSys',
-                version: '4.0.0',
-                export_date: new Date().toISOString(),
-                export_by: 'System',
-                export_type: 'comprehensive',
-                data_size: (new Blob([JSON.stringify({
-                    patients: patients,
-                    reports: data.reports.reports || []
-                })]).size / 1024).toFixed(2) + ' KB'
-            },
-            statistics: data.stats,
-            patients: patients,
-            reports: data.reports.reports || [],
-            summary: {
-                total_patients: patients.length,
-                total_reports: (data.reports.reports || []).length,
-                diagnosis_distribution: {
-                    CN: patients.filter(p => p.diagnosis && p.diagnosis.label === 'CN').length,
-                    EMCI: patients.filter(p => p.diagnosis && p.diagnosis.label === 'EMCI').length,
-                    LMCI: patients.filter(p => p.diagnosis && p.diagnosis.label === 'LMCI').length,
-                    AD: patients.filter(p => p.diagnosis && p.diagnosis.label === 'AD').length
-                }
+        .then(result => {
+            if (result.success) {
+                showToast(`数据已成功保存到项目目录: ${result.filename}`, 'success');
+            } else {
+                throw new Error(result.error || '保存失败');
             }
-        };
-        
-        // 将数据发送到服务器保存
-        return fetch('/api/save-export', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(exportData)
+        })
+        .catch(error => {
+            console.error('数据导出失败:', error);
+            showToast('数据导出失败: ' + error.message, 'error');
+        })
+        .finally(() => {
+            // 恢复按钮状态
+            button.disabled = false;
+            button.innerHTML = originalText;
         });
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(result => {
-        if (result.success) {
-            showToast(`数据已成功保存到项目目录: ${result.filename}`, 'success');
-        } else {
-            throw new Error(result.error || '保存失败');
-        }
-    })
-    .catch(error => {
-        console.error('数据导出失败:', error);
-        showToast('数据导出失败: ' + error.message, 'error');
-    })
-    .finally(() => {
-        // 恢复按钮状态
-        button.disabled = false;
-        button.innerHTML = originalText;
-    });
 }
 
 // 导入数据功能
 function importData() {
     const button = document.getElementById('import-data');
     const originalText = button.innerHTML;
-    
+
     // 创建文件选择器
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json';
-    
-    input.onchange = function(e) {
+
+    input.onchange = function (e) {
         const file = e.target.files[0];
         if (!file) {
             button.disabled = false;
             button.innerHTML = originalText;
             return;
         }
-        
+
         // 显示加载状态
         button.disabled = true;
         button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 导入中...';
         showToast('正在导入数据...', 'info');
-        
+
         const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = function (event) {
             try {
                 const importData = JSON.parse(event.target.result);
-                
+
                 // 验证数据格式
                 if (!importData.system_info || !importData.system_info.name) {
                     throw new Error('无效的数据格式：缺少系统信息');
                 }
-                
+
                 let importedCount = 0;
-                
+
                 // 处理导入的患者数据
                 if (importData.patients && importData.patients.length > 0) {
                     // 合并患者数据
                     const existingPatients = JSON.parse(localStorage.getItem('adPatients') || '[]');
                     const importedPatients = importData.patients;
-                    
+
                     // 合并数据（避免重复）
                     const mergedPatients = [...existingPatients];
                     importedPatients.forEach(patient => {
@@ -4457,21 +4533,21 @@ function importData() {
                             importedCount++;
                         }
                     });
-                    
+
                     localStorage.setItem('adPatients', JSON.stringify(mergedPatients));
                 }
-                
+
                 // 处理导入的报告数据（如果有）
                 if (importData.reports && importData.reports.length > 0) {
                     importedCount += importData.reports.length;
                 }
-                
+
                 // 重新加载数据
                 loadPatientList();
                 loadSystemStats();
-                
+
                 showToast(`成功导入 ${importedCount} 条数据`, 'success');
-                
+
             } catch (error) {
                 console.error('数据导入失败:', error);
                 showToast('数据导入失败: ' + error.message, 'error');
@@ -4481,22 +4557,22 @@ function importData() {
                 button.innerHTML = originalText;
             }
         };
-        
-        reader.onerror = function() {
+
+        reader.onerror = function () {
             showToast('文件读取失败', 'error');
             button.disabled = false;
             button.innerHTML = originalText;
         };
-        
-        reader.onabort = function() {
+
+        reader.onabort = function () {
             showToast('文件读取被取消', 'warning');
             button.disabled = false;
             button.innerHTML = originalText;
         };
-        
+
         reader.readAsText(file);
     };
-    
+
     input.click();
 }
 
@@ -4510,7 +4586,7 @@ function startNewDiagnosis() {
     document.getElementById('results-container').style.display = 'none';
     document.getElementById('results-placeholder').style.display = 'flex';
     document.getElementById('analysis-progress').style.display = 'none';
-    
+
     // 清空表单
     document.getElementById('patient-id').value = '';
     document.getElementById('patient-age').value = '';
@@ -4525,7 +4601,7 @@ function startNewDiagnosis() {
     document.getElementById('smoking-status').value = '';
     document.getElementById('alcohol-consumption').value = '';
     document.getElementById('cognitive-activities').value = '';
-    
+
     // 清除全局变量
     window.currentResults = null;
     window.currentPatientInfo = null;
@@ -4649,7 +4725,7 @@ function initReportSettingsModal() {
     cancelBtn.addEventListener('click', closeReportSettingsModal);
 
     // 点击模态框外部关闭
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             closeReportSettingsModal();
         }

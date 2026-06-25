@@ -1,5 +1,10 @@
 # Render.com 一键部署配置
 # 使用方法：在Render.com导入此GitHub仓库即可自动部署
+# 此版本包含所有问题修复：
+# - 修复注册登录功能
+# - 修复所有中文乱码问题（可视化和PDF报告）
+# - 修复风险趋势图显示不全问题
+# - 添加完整ADNI图像数据支持
 
 services:
   - type: web
@@ -7,7 +12,11 @@ services:
     env: python
     plan: free
     region: singapore
-    buildCommand: mkdir -p data results reports uploaded_img temp demodata logs static/fonts && python -c "
+    buildCommand: |
+      pip install --upgrade pip && 
+      pip install -r requirements.txt && 
+      mkdir -p data results reports uploaded_img temp demodata logs static/fonts && 
+      python -c "
 import os, urllib.request
 os.makedirs('static/fonts', exist_ok=True)
 font_path = 'static/fonts/NotoSansCJKsc-Regular.otf'
@@ -20,8 +29,9 @@ if not os.path.exists(font_path):
         print(f'Font download failed: {e}')
 else:
     print('Font already exists')
-"
-    startCommand: uvicorn src.app:app --host 0.0.0.0 --port $PORT
+" &&
+      python -m src.database.init_db
+    startCommand: uvicorn src.app:app --host 0.0.0.0 --port $PORT --workers $WORKERS
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
@@ -37,3 +47,7 @@ else:
       - key: WORKERS
         value: "2"
     autoDeploy: true
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1

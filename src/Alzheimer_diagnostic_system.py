@@ -22,22 +22,61 @@ try:
     from PIL import Image as PILImage
     import io
     IMAGE_LIBS_AVAILABLE = True
-    # 注册中文字体
+    # 注册中文字体 - Windows系统优先使用系统字体文件
     import matplotlib.font_manager as fm
     CHINESE_FONT_PATH = None
-    for font in fm.fontManager.ttflist:
-        if 'SimHei' in font.name:
-            CHINESE_FONT_PATH = font.fname
-            plt.rcParams['font.sans-serif'] = [font.name]
-            plt.rcParams['axes.unicode_minus'] = False
-            break
+
+    # Windows系统优先使用系统字体文件直接加载
+    if os.name == 'nt':
+        windows_font_paths = [
+            'C:\\Windows\\Fonts\\msyh.ttc',
+            'C:\\Windows\\Fonts\\msyh.ttf',
+            'C:\\Windows\\Fonts\\simhei.ttf',
+            'C:\\Windows\\Fonts\\simsun.ttc',
+            'C:\\Windows\\Fonts\\simkai.ttf',
+        ]
+        for font_path in windows_font_paths:
+            if os.path.exists(font_path):
+                try:
+                    fm.fontManager.addfont(font_path)
+                    font_prop = fm.FontProperties(fname=font_path)
+                    font_name = font_prop.get_name()
+                    CHINESE_FONT_PATH = font_path
+                    plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
+                    plt.rcParams['axes.unicode_minus'] = False
+                    logger.info(f"AlzheimerDiagnosticSystem: 使用Windows系统字体 {font_name} ({font_path})")
+                    break
+                except Exception as e:
+                    logger.warning(f"AlzheimerDiagnosticSystem: 加载Windows字体失败 {font_path}: {e}")
+
     if not CHINESE_FONT_PATH:
         for font in fm.fontManager.ttflist:
-            if 'YaHei' in font.name:
+            if 'SimHei' in font.name or 'Microsoft YaHei' in font.name:
                 CHINESE_FONT_PATH = font.fname
                 plt.rcParams['font.sans-serif'] = [font.name]
                 plt.rcParams['axes.unicode_minus'] = False
                 break
+
+    if not CHINESE_FONT_PATH:
+        for font in fm.fontManager.ttflist:
+            if 'YaHei' in font.name or 'SimSun' in font.name or 'KaiTi' in font.name:
+                CHINESE_FONT_PATH = font.fname
+                plt.rcParams['font.sans-serif'] = [font.name]
+                plt.rcParams['axes.unicode_minus'] = False
+                break
+
+    if not CHINESE_FONT_PATH:
+        for font in fm.fontManager.ttflist:
+            if any(k in font.name for k in ['WenQuanYi', 'Noto Sans CJK', 'Noto Sans SC', 'PingFang', 'Heiti', 'AR PL']):
+                CHINESE_FONT_PATH = font.fname
+                plt.rcParams['font.sans-serif'] = [font.name]
+                plt.rcParams['axes.unicode_minus'] = False
+                break
+
+    if not CHINESE_FONT_PATH:
+        plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'sans-serif']
+        plt.rcParams['axes.unicode_minus'] = False
+        logger.warning("AlzheimerDiagnosticSystem: 未找到中文字体，中文可能显示为乱码")
 except ImportError as e:
     logger.warning(f"图像库导入失败: {e}")
     IMAGE_LIBS_AVAILABLE = False
@@ -264,6 +303,12 @@ class PDFReportGenerator:
             # 注册中文字体（跨平台支持）
             chinese_font_name = 'Helvetica'
             font_paths = [
+                # Windows 优先
+                'C:\\Windows\\Fonts\\msyh.ttc',
+                'C:\\Windows\\Fonts\\msyh.ttf',
+                'C:\\Windows\\Fonts\\simhei.ttf',
+                'C:\\Windows\\Fonts\\simsun.ttc',
+                'C:\\Windows\\Fonts\\simkai.ttf',
                 # Linux
                 '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
                 '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
@@ -273,22 +318,27 @@ class PDFReportGenerator:
                 '/System/Library/Fonts/PingFang.ttc',
                 '/System/Library/Fonts/STHeiti Light.ttc',
                 '/Library/Fonts/Arial Unicode.ttf',
-                # Windows
-                'C:\\Windows\\Fonts\\simhei.ttf',
-                'C:\\Windows\\Fonts\\simsun.ttc',
-                'C:\\Windows\\Fonts\\msyh.ttc',
             ]
             for font_path in font_paths:
                 if os.path.exists(font_path):
                     try:
                         font_name = os.path.splitext(os.path.basename(font_path))[0]
-                        pdfmetrics.registerFont(TTFont(font_name, font_path))
+                        # TTC文件需要特殊处理
+                        if font_path.lower().endswith('.ttc'):
+                            try:
+                                pdfmetrics.registerFont(TTFont(font_name, font_path, subfontIndex=0))
+                            except Exception:
+                                pdfmetrics.registerFont(TTFont(font_name, font_path))
+                        else:
+                            pdfmetrics.registerFont(TTFont(font_name, font_path))
                         chinese_font_name = font_name
+                        logger.info(f"PDFReportGenerator: 使用字体 {font_name} ({font_path})")
                         break
-                    except Exception:
+                    except Exception as e:
+                        logger.warning(f"PDFReportGenerator: 注册字体失败 {font_path}: {e}")
                         continue
             if chinese_font_name == 'Helvetica':
-                logger.warning("未找到中文字体，将使用默认字体")
+                logger.warning("PDFReportGenerator: 未找到中文字体，将使用默认字体，中文可能显示为乱码")
             
             # 生成文件名
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -447,7 +497,7 @@ class PDFReportGenerator:
                     ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#e0f2fe')),
                     ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#0369a1')),
                     ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTNAME', (0, 0), (-1, 0), chinese_font_name),
                     ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
                     ('TOPPADDING', (0, 0), (-1, 0), 10),
                     ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),
@@ -461,7 +511,7 @@ class PDFReportGenerator:
                 ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#dbeafe')),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#1e40af')),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTNAME', (0, 0), (-1, 0), chinese_font_name),
                 ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
                 ('TOPPADDING', (0, 0), (-1, 0), 10),
                 ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),
@@ -518,7 +568,7 @@ class PDFReportGenerator:
                 ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#fef3c7')),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#92400e')),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTNAME', (0, 0), (-1, 0), chinese_font_name),
                 ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
                 ('TOPPADDING', (0, 0), (-1, 0), 10),
                 ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),
@@ -646,7 +696,7 @@ class PDFReportGenerator:
                     ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#fee2e2')),
                     ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#991b1b')),
                     ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTNAME', (0, 0), (-1, 0), chinese_font_name),
                     ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
                     ('TOPPADDING', (0, 0), (-1, 0), 10),
                     ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),
@@ -710,7 +760,7 @@ class PDFReportGenerator:
                     ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#dcfce7')),
                     ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#15803d')),
                     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTNAME', (0, 0), (-1, 0), chinese_font_name),
                     ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
                     ('TOPPADDING', (0, 0), (-1, 0), 8),
                     ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),
@@ -770,7 +820,7 @@ class PDFReportGenerator:
                 ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#ede9fe')),
                 ('TEXTCOLOR', (0, 0), (-1, 0), colors.HexColor('#5b21b6')),
                 ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTNAME', (0, 0), (-1, 0), chinese_font_name),
                 ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
                 ('TOPPADDING', (0, 0), (-1, 0), 10),
                 ('GRID', (0, 0), (-1, -1), 1, colors.lightgrey),

@@ -20,7 +20,30 @@ import random
 
 
 def _setup_chinese_font():
-    # 首先尝试加载项目内置字体文件
+    # Windows系统优先使用系统字体
+    if os.name == 'nt':
+        # Windows系统字体路径
+        windows_font_paths = [
+            'C:\\Windows\\Fonts\\msyh.ttc',
+            'C:\\Windows\\Fonts\\msyh.ttf',
+            'C:\\Windows\\Fonts\\simhei.ttf',
+            'C:\\Windows\\Fonts\\simsun.ttc',
+            'C:\\Windows\\Fonts\\simkai.ttf',
+        ]
+        for font_path in windows_font_paths:
+            if os.path.exists(font_path):
+                try:
+                    fm.fontManager.addfont(font_path)
+                    font_prop = fm.FontProperties(fname=font_path)
+                    font_name = font_prop.get_name()
+                    plt.rcParams['font.sans-serif'] = [font_name, 'SimHei', 'Microsoft YaHei', 'sans-serif']
+                    plt.rcParams['axes.unicode_minus'] = False
+                    logger.info(f"DiagnosisEngine: 使用Windows系统字体 {font_name} ({font_path})")
+                    return font_name
+                except Exception as e:
+                    logger.warning(f"DiagnosisEngine: 加载Windows字体失败 {font_path}: {e}")
+    
+    # 尝试加载项目内置字体文件
     font_paths = [
         os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
         os.path.join(os.path.dirname(__file__), '..', '..', 'static', 'fonts', 'NotoSansCJKsc-Regular.ttf'),
@@ -43,8 +66,9 @@ def _setup_chinese_font():
     
     # 尝试系统已安装的中文字体
     font_names = [
-        'SimHei', 'Microsoft YaHei', 'WenQuanYi Micro Hei',
-        'WenQuanYi Zen Hei', 'Noto Sans CJK SC', 'Noto Sans SC',
+        'Microsoft YaHei', 'SimHei', 'SimSun', 'KaiTi',
+        'WenQuanYi Micro Hei', 'WenQuanYi Zen Hei',
+        'Noto Sans CJK SC', 'Noto Sans SC',
         'PingFang SC', 'STHeiti', 'Heiti SC', 'AR PL UMing CN',
         'DejaVu Sans', 'Arial Unicode MS', 'sans-serif'
     ]
@@ -55,9 +79,11 @@ def _setup_chinese_font():
             plt.rcParams['axes.unicode_minus'] = False
             logger.info(f"DiagnosisEngine: 使用系统字体 {font_name}")
             return font_name
-    logger.warning("DiagnosisEngine: 未找到中文字体，使用默认字体，中文可能显示为乱码")
-    plt.rcParams['font.sans-serif'] = ['sans-serif']
+    
+    # 最后的备用方案
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'sans-serif']
     plt.rcParams['axes.unicode_minus'] = False
+    logger.warning("DiagnosisEngine: 未找到中文字体，使用默认字体，中文可能显示为乱码")
     return 'sans-serif'
 
 

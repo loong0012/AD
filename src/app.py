@@ -83,6 +83,9 @@ app = FastAPI(
 @app.on_event("startup")
 async def startup_event():
     init_db()
+    # 创建默认用户（如果不存在）
+    from src.database.init_db import create_default_users
+    create_default_users()
     logger.info("数据库初始化完成")
 
 # 配置CORS
@@ -97,6 +100,7 @@ app.add_middleware(
 # 挂载静态文件
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 app.mount("/uploaded_img", StaticFiles(directory="./uploaded_img"), name="uploaded_img")
+app.mount("/data", StaticFiles(directory="./data"), name="data")
 
 # 初始化系统组件
 def get_system_instance():
@@ -720,10 +724,7 @@ async def login(data: dict):
         api_handler = get_api_handler()
         response = api_handler.handle_login_request(data)
         
-        if response.get('success'):
-            return response
-        else:
-            raise HTTPException(status_code=401, detail=response.get('message', '登录失败'))
+        return response
     except Exception as e:
         logger.error("登录请求处理失败", e)
         raise HTTPException(status_code=500, detail=str(e))
@@ -739,10 +740,7 @@ async def register(data: dict):
         api_handler = get_api_handler()
         response = api_handler.handle_register_request(data)
         
-        if response.get('success'):
-            return response
-        else:
-            raise HTTPException(status_code=400, detail=response.get('message', '注册失败'))
+        return response
     except Exception as e:
         logger.error("注册请求处理失败", e)
         raise HTTPException(status_code=500, detail=str(e))

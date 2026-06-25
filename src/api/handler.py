@@ -25,13 +25,17 @@ class APIHandler:
         logger.info("API处理器初始化完成")
     
     def get_db(self):
-        if not hasattr(self, '_db') or self._db is None:
-            self._db = SessionLocal()
-        return self._db
+        return SessionLocal()
     
     @property
     def db(self):
-        return self.get_db()
+        if not hasattr(self, '_db') or self._db is None:
+            self._db = SessionLocal()
+        try:
+            self._db.execute("SELECT 1")
+        except Exception:
+            self._db = SessionLocal()
+        return self._db
     
     def handle_diagnosis_request(self, request_data):
         """
@@ -493,6 +497,33 @@ class APIHandler:
             self.db.commit()
             self.db.refresh(new_user)
             
+            # 如果是患者角色，同时创建患者信息记录和生活方式数据
+            if role == 'patient':
+                patient = Patient(
+                    user_id=new_user.id,
+                    name=username,
+                    age=0,
+                    gender='未知',
+                    education_years=0,
+                    contact_info=''
+                )
+                self.db.add(patient)
+                self.db.commit()
+                self.db.refresh(patient)
+                
+                # 创建默认生活方式数据
+                lifestyle_data = LifestyleData(
+                    patient_id=patient.id,
+                    exercise_frequency=3,
+                    sleep_duration=7.0,
+                    diet_health='medium',
+                    social_activities=2,
+                    smoking_status='never',
+                    alcohol_consumption='occasional'
+                )
+                self.db.add(lifestyle_data)
+                self.db.commit()
+            
             logger.info(f"新用户注册成功: {username} ({role})")
             
             return {
@@ -544,6 +575,33 @@ class APIHandler:
                     'description': '数据根目录',
                     'type': 'folder',
                     'subdirectories': {
+                        'augmented_balanced_ADNI_v3': {
+                            'path': 'data/augmented_balanced_ADNI_v3',
+                            'description': 'ADNI增强平衡数据集 (MRI图像)',
+                            'type': 'folder',
+                            'subdirectories': {
+                                'AD': {
+                                    'path': 'data/augmented_balanced_ADNI_v3/AD',
+                                    'description': '阿尔茨海默病 MRI图像',
+                                    'type': 'folder'
+                                },
+                                'CN': {
+                                    'path': 'data/augmented_balanced_ADNI_v3/CN',
+                                    'description': '认知正常 MRI图像',
+                                    'type': 'folder'
+                                },
+                                'EMCI': {
+                                    'path': 'data/augmented_balanced_ADNI_v3/EMCI',
+                                    'description': '早期轻度认知障碍 MRI图像',
+                                    'type': 'folder'
+                                },
+                                'LMCI': {
+                                    'path': 'data/augmented_balanced_ADNI_v3/LMCI',
+                                    'description': '晚期轻度认知障碍 MRI图像',
+                                    'type': 'folder'
+                                }
+                            }
+                        },
                         'demo': {
                             'path': 'data/demo',
                             'description': '演示数据',
