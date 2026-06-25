@@ -45,8 +45,10 @@ requests==2.31.0
 python-dateutil==2.9.0.post0
 httpx==0.26.0
 
-# 深度学习（buildCommand中从CPU源安装）
-# torch / torchvision 在 render.yaml buildCommand 中单独安装
+# 深度学习（CPU版本）
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
 
 # 医学影像处理
 nibabel==5.2.1

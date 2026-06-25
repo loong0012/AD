@@ -7,7 +7,7 @@ services:
     env: python
     plan: free
     region: singapore
-    buildCommand: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu && mkdir -p data results reports uploaded_img temp demodata logs
+    buildCommand: mkdir -p data results reports uploaded_img temp demodata logs
     startCommand: uvicorn src.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
