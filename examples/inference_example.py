@@ -13,8 +13,8 @@ import numpy as np
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from models.model import MultiModalADModel
-from config.config import CONFIG
+from src.models.model import MultiModalADModel
+from src.config.config import CONFIG
 
 def load_model(model_path='checkpoints/model_best.pth'):
     """
@@ -95,7 +95,7 @@ def predict(model, data):
     predicted_class = torch.argmax(probabilities, dim=1).item()
     
     return {
-        'predicted_class': CONFIG['output_classes'][predicted_class],
+        'predicted_class': CONFIG['diagnosis']['output_classes'][predicted_class],
         'probabilities': probabilities.cpu().numpy()[0],
         'risk_score': risk_score.cpu().numpy()[0][0],
         'class_logits': class_logits.cpu().numpy()[0]
@@ -129,7 +129,7 @@ def main():
     print(f"风险评分: {result['risk_score']:.4f}")
     
     print("\n各类别概率:")
-    for i, cls in enumerate(CONFIG['output_classes']):
+    for i, cls in enumerate(CONFIG['diagnosis']['output_classes']):
         print(f"  {cls}: {result['probabilities'][i]:.4f}")
     
     # 解释结果

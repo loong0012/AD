@@ -21,7 +21,6 @@ alembic==1.13.1
 
 # Redis缓存（可选）
 redis==5.0.1
-django-redis==5.4.0
 
 # 安全
 python-jose[cryptography]==3.3.0
@@ -35,7 +34,7 @@ opencv-python==4.9.0.80
 imageio==2.34.0
 
 # 科学计算
-sciPy==1.12.0
+scipy==1.12.0
 
 # 配置管理
 python-dotenv==1.0.1

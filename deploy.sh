@@ -6,6 +6,8 @@
 # 配置参数
 SERVER_IP="115.29.202.86"
 PROJECT_DIR="/opt/alzheimer-diagnostic-system"
+# 请在部署前将下方URL替换为你的实际GitHub仓库地址
+PROJECT_REPO="${GITHUB_REPO_URL:-https://github.com/YOUR_USERNAME/alzheimer-diagnostic-system.git}"
 
 # 颜色定义
 RED='\033[0;31m'
@@ -139,9 +141,22 @@ echo ""
 
 # 复制项目文件
 print_info "[7/7] 复制项目文件..."
-print_warning "请将项目文件复制到: $PROJECT_DIR"
-print_info "或者使用以下命令克隆仓库:"
-echo "  git clone <your-repo-url> $PROJECT_DIR"
+if [ -d "$PROJECT_DIR/.git" ]; then
+    print_info "项目目录已存在，尝试更新..."
+    cd "$PROJECT_DIR"
+    git pull origin main 2>/dev/null || {
+        print_warning "无法更新，将重新克隆仓库..."
+        cd /opt
+        rm -rf "$PROJECT_DIR"
+        git clone "$PROJECT_REPO" "$PROJECT_DIR"
+    }
+else
+    print_info "正在克隆仓库: $PROJECT_REPO"
+    git clone "$PROJECT_REPO" "$PROJECT_DIR" || {
+        print_warning "克隆仓库失败，请手动将项目文件复制到: $PROJECT_DIR"
+        print_info "或者运行: git clone $PROJECT_REPO $PROJECT_DIR"
+    }
+fi
 echo ""
 
 # 配置环境变量

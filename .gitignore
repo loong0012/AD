@@ -1,2 +1,92 @@
-__pycache__
-.idea
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+.Python
+
+# 虚拟环境
+.conda/
+venv/
+env/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 日志文件
+logs/
+*.log
+temp/logs/
+training.log
+
+# 临时文件
+temp/
+*.tmp
+*.temp
+
+# 上传的图片
+uploaded_img/
+
+# 生成的报告
+reports/*.pdf
+results/reports/*.pdf
+
+# 结果文件
+results/individual/
+results/batch_results/
+results/statistics/
+results/*.json
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 模型文件（大型文件，建议用Git LFS或单独存储）
+models/*.pth
+models/*.h5
+models/*.pb
+models/*.onnx
+
+# 测试结果
+test_results/
+
+# 环境变量
+.env
+.env.local
+.env.production
+.deployment.env
+
+# Docker
+docker-compose.override.yml
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# 覆盖率报告
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# 备份文件
+*.bak
+*.backup
+*_backup/

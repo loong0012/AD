@@ -15,7 +15,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone <repository-url>
+git clone https://github.com/YOUR_USERNAME/alzheimer-diagnostic-system.git
 cd alzheimer-diagnostic-system
 
 # 2. 复制并配置环境变量

@@ -1,0 +1,5 @@
+# SSL证书目录
+# 请将以下文件放置在此目录中：
+#   - fullchain.pem   (SSL证书完整链)
+#   - privkey.pem     (SSL私钥)
+# 可以使用 Let's Encrypt 免费获取SSL证书

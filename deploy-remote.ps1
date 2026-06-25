@@ -9,7 +9,8 @@ Write-Host ""
 # 配置参数
 $ServerIP = "115.29.202.86"
 $ProjectDir = "C:\AlzheimerDiagnosticSystem"
-$ProjectRepo = "https://github.com/your-username/alzheimer-diagnostic-system.git"
+# 请在部署前将下方URL替换为你的实际GitHub仓库地址
+$ProjectRepo = if ($env:GITHUB_REPO_URL) { $env:GITHUB_REPO_URL } else { "https://github.com/YOUR_USERNAME/alzheimer-diagnostic-system.git" }
 
 # 远程服务器信息
 $RemoteServer = $ServerIP
@@ -85,10 +86,26 @@ Write-Host "✓ 项目目录已创建: $ProjectDir" -ForegroundColor Green
 # 下载项目文件
 Write-Host ""
 Write-Host "[4/5] 下载项目文件..." -ForegroundColor Yellow
-# 注意：您需要将项目文件上传到服务器，或使用以下方法克隆仓库
-# git clone <your-repo-url> $ProjectDir
-Write-Host "请将项目文件复制到: $ProjectDir" -ForegroundColor Yellow
-Write-Host "或者运行: git clone <your-repo-url> `"$ProjectDir`"" -ForegroundColor Yellow
+if (Test-Path $ProjectDir) {
+    Write-Host "项目目录已存在，尝试更新..." -ForegroundColor Yellow
+    Set-Location $ProjectDir
+    git pull origin main 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "无法更新，将重新克隆仓库..." -ForegroundColor Yellow
+        Set-Location C:\
+        Remove-Item -Path $ProjectDir -Recurse -Force -ErrorAction SilentlyContinue
+        git clone $ProjectRepo $ProjectDir
+    }
+} else {
+    Write-Host "正在克隆仓库: $ProjectRepo" -ForegroundColor Yellow
+    git clone $ProjectRepo $ProjectDir
+}
+if (Test-Path $ProjectDir) {
+    Write-Host "✓ 项目文件已下载" -ForegroundColor Green
+} else {
+    Write-Host "请将项目文件复制到: $ProjectDir" -ForegroundColor Yellow
+    Write-Host "或者运行: git clone $ProjectRepo `"$ProjectDir`"" -ForegroundColor Yellow
+}
 
 # 配置环境变量
 Write-Host ""

@@ -261,14 +261,34 @@ class PDFReportGenerator:
             from reportlab.pdfbase import pdfmetrics
             from reportlab.pdfbase.ttfonts import TTFont
             
-            # 注册中文字体
-            try:
-                pdfmetrics.registerFont(TTFont('SimHei', 'C:\\Windows\\Fonts\\simhei.ttf'))
-                pdfmetrics.registerFont(TTFont('SimSun', 'C:\\Windows\\Fonts\\simsun.ttc'))
-                chinese_font_name = 'SimHei'
-            except Exception as e:
-                logger.warning(f"注册中文字体失败: {e}")
-                chinese_font_name = 'Helvetica'
+            # 注册中文字体（跨平台支持）
+            chinese_font_name = 'Helvetica'
+            font_paths = [
+                # Linux
+                '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',
+                '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+                '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+                '/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf',
+                # macOS
+                '/System/Library/Fonts/PingFang.ttc',
+                '/System/Library/Fonts/STHeiti Light.ttc',
+                '/Library/Fonts/Arial Unicode.ttf',
+                # Windows
+                'C:\\Windows\\Fonts\\simhei.ttf',
+                'C:\\Windows\\Fonts\\simsun.ttc',
+                'C:\\Windows\\Fonts\\msyh.ttc',
+            ]
+            for font_path in font_paths:
+                if os.path.exists(font_path):
+                    try:
+                        font_name = os.path.splitext(os.path.basename(font_path))[0]
+                        pdfmetrics.registerFont(TTFont(font_name, font_path))
+                        chinese_font_name = font_name
+                        break
+                    except Exception:
+                        continue
+            if chinese_font_name == 'Helvetica':
+                logger.warning("未找到中文字体，将使用默认字体")
             
             # 生成文件名
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -290,12 +310,12 @@ class PDFReportGenerator:
             toc_style = ParagraphStyle('TocEntry', parent=styles['Normal'], fontName=chinese_font_name, fontSize=11, leading=16, textColor=colors.HexColor('#333333'))
             
             # ========== 添加封面页（带背景图片）==========
-            cover_image_path = r"d:\Desktop\Alzheimer-diagnostic system\uploaded_img\阿尔兹海默症封面图.png"
-            
+            cover_image_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploaded_img', '阿尔兹海默症封面图.png')
+
             # 创建封面页面模板
             from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame
             from reportlab.lib.units import inch
-            
+
             # 定义封面页面模板
             def cover_page(canvas, doc):
                 canvas.saveState()
