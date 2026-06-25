@@ -16,8 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     libpq-dev \
-    nginx \
-    supervisor \
     && rm -rf /var/lib/apt/lists/*
 
 # 创建应用目录
@@ -49,9 +47,8 @@ RUN chmod -R 755 /app && \
     chmod -R 775 /app/reports && \
     chmod -R 775 /app/temp
 
-# 复制Nginx和Supervisor配置
+# 复制Nginx配置（可选，仅Docker部署使用）
 COPY deployment/nginx.conf /etc/nginx/nginx.conf
-COPY deployment/supervisord.conf /etc/supervisord.conf
 COPY deployment/gunicorn_config.py /app/gunicorn_config.py
 
 # 暴露端口
@@ -62,4 +59,6 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8888/health || exit 1
 
 # 启动命令
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+CMD ["/app/start.sh"]
