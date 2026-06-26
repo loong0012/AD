@@ -272,7 +272,7 @@ class PDFReportGenerator:
             toc_style = ParagraphStyle('TocEntry', parent=styles['Normal'], fontName=chinese_font_name, fontSize=11, leading=16, textColor=colors.HexColor('#333333'))
             
             # ========== 添加封面页（带背景图片）==========
-            cover_image_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploaded_img', '阿尔兹海默症封面图.png')
+            cover_image_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '图片1.png')
 
             # 创建封面页面模板
             from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame

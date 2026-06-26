@@ -881,14 +881,13 @@ async def create_patient(data: dict, current_user: dict = Depends(get_current_us
     try:
         logger.info("创建患者")
         
-        # 使用API处理器
         api_handler = get_api_handler()
         response = api_handler.handle_patient_create_request(data)
         
         if response.get('success'):
             return response
         else:
-            raise HTTPException(status_code=500, detail=response.get('message', '创建患者失败'))
+            return JSONResponse(status_code=400, content=response)
     except Exception as e:
         logger.error("创建患者失败", e)
         raise HTTPException(status_code=500, detail=str(e))
@@ -900,14 +899,13 @@ async def update_patient(patient_id: int, data: dict, current_user: dict = Depen
     try:
         logger.info(f"更新患者信息: {patient_id}")
         
-        # 使用API处理器
         api_handler = get_api_handler()
         response = api_handler.handle_patient_update_request(patient_id, data)
         
         if response.get('success'):
             return response
         else:
-            raise HTTPException(status_code=500, detail=response.get('message', '更新患者信息失败'))
+            return JSONResponse(status_code=400, content=response)
     except Exception as e:
         logger.error("更新患者信息失败", e)
         raise HTTPException(status_code=500, detail=str(e))
@@ -1056,14 +1054,13 @@ async def update_patient_lifestyle(patient_id: int, data: dict, current_user: di
     try:
         logger.info(f"更新患者生活方式数据: {patient_id}")
         
-        # 使用API处理器
         api_handler = get_api_handler()
         response = api_handler.handle_lifestyle_data_update_request(patient_id, data)
         
         if response.get('success'):
             return response
         else:
-            raise HTTPException(status_code=500, detail=response.get('message', '更新生活方式数据失败'))
+            return JSONResponse(status_code=400, content=response)
     except Exception as e:
         logger.error("更新生活方式数据失败", e)
         raise HTTPException(status_code=500, detail=str(e))
@@ -1075,14 +1072,13 @@ async def get_patient_by_user(user_id: int, current_user: dict = Depends(get_cur
     try:
         logger.info(f"根据用户ID获取患者信息: {user_id}")
         
-        # 使用API处理器
         api_handler = get_api_handler()
         response = api_handler.handle_patient_by_user_id_request(user_id)
         
         if response.get('success'):
             return response
         else:
-            raise HTTPException(status_code=500, detail=response.get('message', '获取患者信息失败'))
+            return JSONResponse(status_code=404, content=response)
     except Exception as e:
         logger.error("根据用户ID获取患者信息失败", e)
         raise HTTPException(status_code=500, detail=str(e))

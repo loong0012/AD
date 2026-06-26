@@ -789,9 +789,9 @@ class APIHandler:
             # 创建新患者
             new_patient = Patient(
                 user_id=request_data['user_id'],
-                name=request_data['name'],
-                age=request_data['age'],
-                gender=request_data['gender'],
+                name=request_data.get('name') or '未命名患者',
+                age=request_data.get('age') or 0,
+                gender=request_data.get('gender') or '未知',
                 education_years=request_data.get('education_years'),
                 contact_info=request_data.get('contact_info'),
                 medical_history=request_data.get('medical_history')
