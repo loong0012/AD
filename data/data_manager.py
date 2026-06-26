@@ -21,6 +21,12 @@ class MultiModalDataManager:
             'lifestyle': './clinical_data/lifestyle_data',
             'neuropsych': './clinical_data/neuropsychological'
         }
+        self._ensure_directories()
+
+    def _ensure_directories(self):
+        """确保所有数据目录存在"""
+        for dir_name, dir_path in self.data_directories.items():
+            os.makedirs(dir_path, exist_ok=True)
 
     def save_patient_data(self, patient_id, data_dict):
         """保存患者的多模态数据"""

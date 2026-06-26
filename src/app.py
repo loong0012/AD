@@ -104,6 +104,7 @@ app.mount("/static", StaticFiles(directory="./static"), name="static")
 app.mount("/uploaded_img", StaticFiles(directory="./uploaded_img"), name="uploaded_img")
 app.mount("/data", StaticFiles(directory="./data"), name="data")
 app.mount("/demodata", StaticFiles(directory="./demodata"), name="demodata")
+app.mount("/reports", StaticFiles(directory="./reports"), name="reports")
 
 # 初始化系统组件
 def get_system_instance():
@@ -767,7 +768,7 @@ async def get_directory_structure():
         logger.error("获取目录结构失败", e)
         raise HTTPException(status_code=500, detail=str(e))
 
-# 获取目录文件列表
+# 获取目录文件列表 (新版路径格式)
 @app.get("/api/directory/files/{path:path}")
 async def get_directory_files(path: str):
     """获取目录文件列表"""
@@ -775,7 +776,6 @@ async def get_directory_files(path: str):
         path = unquote(path)
         logger.info(f"获取目录文件列表: {path}")
         
-        # 使用API处理器
         api_handler = get_api_handler()
         response = api_handler.handle_directory_files_request(path)
         
@@ -785,6 +785,25 @@ async def get_directory_files(path: str):
             raise HTTPException(status_code=500, detail=response.get('message', '获取目录文件失败'))
     except Exception as e:
         logger.error("获取目录文件失败", e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 获取目录文件列表 (兼容旧版路径格式 - index.html使用)
+@app.get("/api/directory/{path:path}")
+async def get_directory_files_legacy(path: str):
+    """获取目录文件列表 (兼容旧版)"""
+    try:
+        path = unquote(path)
+        logger.info(f"获取目录文件列表(旧版): {path}")
+        
+        api_handler = get_api_handler()
+        response = api_handler.handle_directory_files_request(path)
+        
+        if response.get('success'):
+            return response
+        else:
+            raise HTTPException(status_code=500, detail=response.get('message', '获取目录文件失败'))
+    except Exception as e:
+        logger.error("获取目录文件失败(旧版)", e)
         raise HTTPException(status_code=500, detail=str(e))
 
 # 获取文件内容

@@ -1,1 +1,1 @@
-web: uvicorn src.app:app --host 0.0.0.0 --port $PORT
+web: python pre_start.py && uvicorn src.app:app --host 0.0.0.0 --port $PORT --workers $WORKERS

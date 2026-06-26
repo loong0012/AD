@@ -4,6 +4,7 @@ PDF报告生成模块
 """
 
 import os
+import sys
 import random
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
@@ -15,6 +16,9 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
 
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, PROJECT_ROOT)
+
 
 class PDFReportGenerator:
     def __init__(self):
@@ -23,45 +27,48 @@ class PDFReportGenerator:
         self.setup_styles()
 
     def setup_fonts(self):
-        """设置字体"""
+        """设置字体 - 使用统一字体管理器"""
+        CHINESE_FONT_REGISTERED_NAME = 'ChineseFont'
+
         try:
-            # 尝试注册中文字体
-            font_paths = [
-                "C:/Windows/Fonts/simhei.ttf",  # 黑体
-                "C:/Windows/Fonts/simsun.ttc",  # 宋体
-                "C:/Windows/Fonts/msyh.ttc",  # 微软雅黑
-                "C:/Windows/Fonts/msyhbd.ttc",  # 微软雅黑粗体
-            ]
+            from src.utils.font_manager import font_manager as _font_mgr
+            chinese_font_name, chinese_font_path = _font_mgr.setup_reportlab()
 
-            for font_path in font_paths:
-                if os.path.exists(font_path):
-                    try:
-                        if "simhei" in font_path.lower():
-                            # 注册常规字体
-                            pdfmetrics.registerFont(TTFont('ChineseFont', font_path))
-                            addMapping('ChineseFont', 0, 0, 'ChineseFont')
-                            print(f"✅ 已注册中文字体: {font_path}")
-
-                            # 注册相同的字体为粗体字体（实际上使用同一个文件）
-                            pdfmetrics.registerFont(TTFont('ChineseFont-Bold', font_path))
-                            addMapping('ChineseFont-Bold', 1, 0, 'ChineseFont-Bold')
-                            print(f"✅ 已注册中文字体粗体变体: {font_path}")
-                            break
-                    except Exception as e:
-                        print(f"⚠️ 注册字体 {font_path} 失败: {e}")
-                        continue
-
-            # 使用默认字体作为后备
-            font_names = pdfmetrics.getRegisteredFontNames()
-            if 'ChineseFont' in font_names:
-                self.chinese_font = 'ChineseFont'
-            else:
-                self.chinese_font = 'Helvetica'
-                print("⚠️ 使用默认字体 Helvetica")
+            if chinese_font_name and chinese_font_name != 'Helvetica':
+                self.chinese_font = chinese_font_name
+                print(f"已注册中文字体: {chinese_font_name} ({chinese_font_path})")
+                return
 
         except Exception as e:
-            print(f"⚠️ 字体设置失败: {e}")
-            self.chinese_font = 'Helvetica'
+            print(f"字体管理器设置失败: {e}")
+
+        fallback_paths = [
+            os.path.join(PROJECT_ROOT, 'static', 'fonts', 'NotoSansCJKsc-Regular.otf'),
+            'C:/Windows/Fonts/msyh.ttc',
+            'C:/Windows/Fonts/simhei.ttf',
+            'C:/Windows/Fonts/simsun.ttc',
+            '/usr/share/fonts/truetype/wqy/wqy-microhei.ttc',
+        ]
+        for font_path in fallback_paths:
+            if os.path.exists(font_path) and os.path.getsize(font_path) > 1000:
+                try:
+                    if font_path.lower().endswith('.ttc'):
+                        pdfmetrics.registerFont(TTFont(CHINESE_FONT_REGISTERED_NAME, font_path, subfontIndex=0))
+                    else:
+                        pdfmetrics.registerFont(TTFont(CHINESE_FONT_REGISTERED_NAME, font_path))
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 0, 0, CHINESE_FONT_REGISTERED_NAME)
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 0, 1, CHINESE_FONT_REGISTERED_NAME)
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 1, 0, CHINESE_FONT_REGISTERED_NAME)
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 1, 1, CHINESE_FONT_REGISTERED_NAME)
+                    self.chinese_font = CHINESE_FONT_REGISTERED_NAME
+                    print(f"已注册中文字体(后备): {CHINESE_FONT_REGISTERED_NAME} ({font_path})")
+                    return
+                except Exception as e2:
+                    print(f"字体注册失败 {font_path}: {e2}")
+                    continue
+
+        self.chinese_font = 'Helvetica'
+        print("所有字体注册失败，使用默认字体 Helvetica，中文将显示为乱码")
 
     def setup_styles(self):
         """设置PDF样式"""

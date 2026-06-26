@@ -1,6 +1,5 @@
 # Render.com 一键部署配置
-# v3.2.2 - 强制触发Render全新部署
-# 构建时下载字体 + 清除matplotlib缓存 + 启动前验证
+# v3.4.0 - 彻底修复PDF中文乱码（统一字体名ChineseFont） + 数据管理动态扫描文件系统
 
 services:
   - type: web

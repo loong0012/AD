@@ -278,23 +278,30 @@ class PDFReportGenerator:
             from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame
             from reportlab.lib.units import inch
 
-            # 定义封面页面模板
-            def cover_page(canvas, doc):
+            # 封面背景仅在第1页绘制
+            _page_num = [0]
+            from reportlab.platypus.doctemplate import PageTemplate as _PT, Frame as _Frame
+            from reportlab.lib.units import inch as _inch
+
+            def on_first_page(canvas, doc):
+                _page_num[0] += 1
+                if _page_num[0] != 1:
+                    return
                 canvas.saveState()
-                # 添加背景图片
                 if os.path.exists(cover_image_path):
                     try:
                         canvas.drawImage(cover_image_path, 0, 0, width=595, height=842)
-                        # 添加半透明遮罩
                         canvas.setFillColor(colors.HexColor('#000000'), alpha=0.3)
                         canvas.rect(0, 0, 595, 842, fill=1, stroke=0)
                     except Exception as e:
                         logger.warning(f"添加封面背景图片失败: {e}")
                 canvas.restoreState()
-            
-            # 应用封面页面模板
-            cover_template = PageTemplate(frames=[Frame(1*inch, 1*inch, 6*inch, 9*inch)], onPage=cover_page)
-            doc.addPageTemplates([cover_template])
+
+            cover_frame = _Frame(1*_inch, 1*_inch, 6*_inch, 9*_inch, id='cover_frame')
+            normal_frame = _Frame(1*_inch, 1*_inch, 6*_inch, 9*_inch, id='normal_frame')
+            cover_template = _PT(id='Cover', frames=[cover_frame], onPage=on_first_page)
+            normal_template = _PT(id='Normal', frames=[normal_frame])
+            doc.addPageTemplates([cover_template, normal_template])
             
             # 封面内容
             cover_content = []
@@ -340,6 +347,8 @@ class PDFReportGenerator:
                 cover_content.append(toc_text)
             
             elements.extend(cover_content)
+            from reportlab.platypus import NextPageTemplate
+            elements.append(NextPageTemplate('Normal'))
             elements.append(PageBreak())
             
             # ========== 添加标题 ==========
@@ -493,38 +502,32 @@ class PDFReportGenerator:
 
             if IMAGE_LIBS_AVAILABLE:
                 try:
-                    # 检查是否有实际的MRI图像数据
+                    import base64 as _b64
+                    from io import BytesIO as _BytesIO
+
                     brain_image = None
-                    # 检查results中是否有brain_image字段
+
+                    def _decode_brain_image(brain_image_data):
+                        if not brain_image_data or not isinstance(brain_image_data, str):
+                            return None
+                        try:
+                            if brain_image_data.startswith('data:image'):
+                                img_data = _b64.b64decode(brain_image_data.split(',')[1])
+                            else:
+                                img_data = _b64.b64decode(brain_image_data)
+                            img_stream = _BytesIO(img_data)
+                            return Image(img_stream, width=400, height=300)
+                        except Exception:
+                            return None
+
                     if 'brain_image' in results:
-                        # 处理实际的MRI图像数据
-                        brain_image_data = results['brain_image']
-                        if isinstance(brain_image_data, str) and brain_image_data.startswith('data:image'):
-                            # 处理base64编码的图像
-                            import base64
-                            from io import BytesIO
-                            img_data = base64.b64decode(brain_image_data.split(',')[1])
-                            img_stream = BytesIO(img_data)
-                            brain_image = Image(img_stream, width=400, height=300)
-                        elif isinstance(brain_image_data, str) and os.path.exists(brain_image_data):
-                            # 处理图像文件路径
-                            brain_image = Image(brain_image_data, width=400, height=300)
-                    # 检查results['results']中是否有brain_image字段
-                    elif 'results' in results and 'brain_image' in results['results']:
-                        # 处理实际的MRI图像数据
-                        brain_image_data = results['results']['brain_image']
-                        if isinstance(brain_image_data, str) and brain_image_data.startswith('data:image'):
-                            # 处理base64编码的图像
-                            import base64
-                            from io import BytesIO
-                            img_data = base64.b64decode(brain_image_data.split(',')[1])
-                            img_stream = BytesIO(img_data)
-                            brain_image = Image(img_stream, width=400, height=300)
-                        elif isinstance(brain_image_data, str) and os.path.exists(brain_image_data):
-                            # 处理图像文件路径
-                            brain_image = Image(brain_image_data, width=400, height=300)
-                    
-                    # 如果没有实际MRI图像，使用生成的示意图
+                        brain_image = _decode_brain_image(results['brain_image'])
+                    if not brain_image and 'original_mri_image' in results:
+                        brain_image = _decode_brain_image(results['original_mri_image'])
+                    if not brain_image and 'results' in results and isinstance(results.get('results'), dict):
+                        if 'brain_image' in results['results']:
+                            brain_image = _decode_brain_image(results['results']['brain_image'])
+
                     if not brain_image:
                         brain_image = self._generate_brain_analysis_image(pred_label)
                     
@@ -784,10 +787,14 @@ class PDFReportGenerator:
             return None
         
         try:
-            # 使用全局字体设置
-            if CHINESE_FONT_PATH:
-                from matplotlib.font_manager import FontProperties
-                font_prop = FontProperties(fname=CHINESE_FONT_PATH)
+            from reportlab.platypus import Image as ReportLabImage
+            from matplotlib.font_manager import FontProperties
+
+            if _font_mgr.mpl_font_path:
+                plt.rcParams['font.family'] = 'sans-serif'
+                plt.rcParams['font.sans-serif'] = [_font_mgr.mpl_font_name or 'SimHei']
+                plt.rcParams['axes.unicode_minus'] = False
+                font_prop = FontProperties(fname=_font_mgr.mpl_font_path)
             else:
                 font_prop = None
             
@@ -868,13 +875,17 @@ class PDFReportGenerator:
             return None
         
         try:
-            # 使用全局字体设置
-            if CHINESE_FONT_PATH:
-                from matplotlib.font_manager import FontProperties
-                font_prop = FontProperties(fname=CHINESE_FONT_PATH)
+            from reportlab.platypus import Image as ReportLabImage
+            from matplotlib.font_manager import FontProperties
+
+            if _font_mgr.mpl_font_path:
+                plt.rcParams['font.family'] = 'sans-serif'
+                plt.rcParams['font.sans-serif'] = [_font_mgr.mpl_font_name or 'SimHei']
+                plt.rcParams['axes.unicode_minus'] = False
+                font_prop = FontProperties(fname=_font_mgr.mpl_font_path)
             else:
                 font_prop = None
-            
+
             # 创建脑区风险数据
             brain_regions = ['额叶', '颞叶', '顶叶', '枕叶', '海马体', '扣带回']
             
@@ -938,10 +949,14 @@ class PDFReportGenerator:
             return None
 
         try:
-            # 使用全局字体设置
-            if CHINESE_FONT_PATH:
-                from matplotlib.font_manager import FontProperties
-                font_prop = FontProperties(fname=CHINESE_FONT_PATH)
+            from reportlab.platypus import Image as ReportLabImage
+            from matplotlib.font_manager import FontProperties
+
+            if _font_mgr.mpl_font_path:
+                plt.rcParams['font.family'] = 'sans-serif'
+                plt.rcParams['font.sans-serif'] = [_font_mgr.mpl_font_name or 'SimHei']
+                plt.rcParams['axes.unicode_minus'] = False
+                font_prop = FontProperties(fname=_font_mgr.mpl_font_path)
             else:
                 font_prop = None
 

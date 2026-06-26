@@ -275,24 +275,62 @@ class FontManager:
         try:
             from reportlab.pdfbase import pdfmetrics
             from reportlab.pdfbase.ttfonts import TTFont
+            from reportlab.pdfbase.cidfonts import UnicodeCIDFont
+            from reportlab.lib.fonts import addMapping
+
+            CHINESE_FONT_REGISTERED_NAME = 'ChineseFont'
 
             path = self.pdf_font_path
             if not path or not os.path.exists(path):
-                return 'Helvetica', None
+                for test_path in [
+                    'C:/Windows/Fonts/msyh.ttc',
+                    'C:/Windows/Fonts/msyh.ttf',
+                    'C:/Windows/Fonts/simhei.ttf',
+                    'C:/Windows/Fonts/simsun.ttc',
+                    'C:/Windows/Fonts/simkai.ttf',
+                    'C:/Windows/Fonts/simfang.ttf',
+                ]:
+                    if os.path.exists(test_path) and os.path.getsize(test_path) > 1000:
+                        path = test_path
+                        break
 
-            name = self.pdf_font_name
+            if not path or not os.path.exists(path):
+                project_root = self._get_project_root()
+                fonts_dir = os.path.join(project_root, 'static', 'fonts')
+                for fname in os.listdir(fonts_dir) if os.path.isdir(fonts_dir) else []:
+                    if fname.lower().endswith(('.ttf', '.ttc', '.otf')):
+                        fpath = os.path.join(fonts_dir, fname)
+                        if os.path.getsize(fpath) > 1000:
+                            path = fpath
+                            break
+
+            if path and os.path.exists(path):
+                try:
+                    if path.lower().endswith('.ttc'):
+                        pdfmetrics.registerFont(TTFont(CHINESE_FONT_REGISTERED_NAME, path, subfontIndex=0))
+                    else:
+                        pdfmetrics.registerFont(TTFont(CHINESE_FONT_REGISTERED_NAME, path))
+
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 0, 0, CHINESE_FONT_REGISTERED_NAME)
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 0, 1, CHINESE_FONT_REGISTERED_NAME)
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 1, 0, CHINESE_FONT_REGISTERED_NAME)
+                    addMapping(CHINESE_FONT_REGISTERED_NAME, 1, 1, CHINESE_FONT_REGISTERED_NAME)
+
+                    self._pdf_font_path = path
+                    self._pdf_font_name = CHINESE_FONT_REGISTERED_NAME
+
+                    logger.info(f"FontManager: reportlab 注册中文字体 {CHINESE_FONT_REGISTERED_NAME} ({path})")
+                    return CHINESE_FONT_REGISTERED_NAME, path
+                except Exception as e:
+                    logger.warning(f"FontManager: reportlab TTFont注册失败: {e}")
+
+            logger.warning("FontManager: 未找到PDF中文字体文件，尝试使用CID字体")
             try:
-                if path.lower().endswith('.ttc'):
-                    try:
-                        pdfmetrics.registerFont(TTFont(name, path, subfontIndex=0))
-                    except Exception:
-                        pdfmetrics.registerFont(TTFont(name, path))
-                else:
-                    pdfmetrics.registerFont(TTFont(name, path))
-                logger.info(f"FontManager: reportlab 注册字体 {name}")
-                return name, path
-            except Exception as e:
-                logger.warning(f"FontManager: reportlab 注册失败: {e}")
+                pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
+                logger.info("FontManager: reportlab 注册CID字体 STSong-Light")
+                return 'STSong-Light', None
+            except Exception:
+                logger.warning("FontManager: CID字体注册也失败，中文将显示为乱码")
                 return 'Helvetica', None
         except ImportError:
             return 'Helvetica', None

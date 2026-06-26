@@ -555,208 +555,69 @@ class APIHandler:
     
     def handle_directory_structure_request(self):
         """
-        获取项目数据目录结构
+        获取项目数据目录结构 - 动态扫描实际文件系统
         :return: 目录结构数据
         """
         try:
             import os
-            
-            # 定义数据目录路径 - 与项目实际目录结构完全匹配
-            data_directories = {
-                'checkpoints': {
-                    'path': 'checkpoints',
-                    'description': '模型检查点',
-                    'type': 'folder'
-                },
-                'config': {
-                    'path': 'config',
-                    'description': '配置文件',
-                    'type': 'folder'
-                },
-                'data': {
-                    'path': 'data',
-                    'description': '数据根目录',
-                    'type': 'folder',
-                    'subdirectories': {
-                        'augmented_balanced_ADNI_v3': {
-                            'path': 'data/augmented_balanced_ADNI_v3',
-                            'description': 'ADNI增强平衡数据集 (MRI图像)',
-                            'type': 'folder',
-                            'subdirectories': {
-                                'AD': {
-                                    'path': 'data/augmented_balanced_ADNI_v3/AD',
-                                    'description': '阿尔茨海默病 MRI图像',
-                                    'type': 'folder'
-                                },
-                                'CN': {
-                                    'path': 'data/augmented_balanced_ADNI_v3/CN',
-                                    'description': '认知正常 MRI图像',
-                                    'type': 'folder'
-                                },
-                                'EMCI': {
-                                    'path': 'data/augmented_balanced_ADNI_v3/EMCI',
-                                    'description': '早期轻度认知障碍 MRI图像',
-                                    'type': 'folder'
-                                },
-                                'LMCI': {
-                                    'path': 'data/augmented_balanced_ADNI_v3/LMCI',
-                                    'description': '晚期轻度认知障碍 MRI图像',
-                                    'type': 'folder'
-                                }
-                            }
-                        },
-                        'demo': {
-                            'path': 'data/demo',
-                            'description': '演示数据',
-                            'type': 'folder',
-                            'subdirectories': {
-                                'clinical': {
-                                    'path': 'data/demo/Clinical',
-                                    'description': '临床演示数据',
-                                    'type': 'folder'
-                                },
-                                'lifestyle': {
-                                    'path': 'data/demo/Lifestyle',
-                                    'description': '生活方式演示数据',
-                                    'type': 'folder'
-                                },
-                                'mri': {
-                                    'path': 'data/demo/MRI',
-                                    'description': 'MRI演示数据',
-                                    'type': 'folder'
-                                },
-                                'molecular': {
-                                    'path': 'data/demo/Molecular',
-                                    'description': '分子演示数据',
-                                    'type': 'folder'
-                                }
-                            }
-                        },
-                        'real': {
-                            'path': 'data/real',
-                            'description': '真实数据',
-                            'type': 'folder',
-                            'subdirectories': {
-                                'adni': {
-                                    'path': 'data/real/adni',
-                                    'description': 'ADNI数据集',
-                                    'type': 'folder',
-                                    'subdirectories': {
-                                        'clinical': {
-                                            'path': 'data/real/adni/clinical',
-                                            'description': '临床数据',
-                                            'type': 'folder'
-                                        }
-                                    }
-                                },
-                                'adrc': {
-                                    'path': 'data/real/adrc',
-                                    'description': 'ADRC数据集',
-                                    'type': 'folder',
-                                    'subdirectories': {
-                                        'clinical': {
-                                            'path': 'data/real/adrc/clinical',
-                                            'description': '临床数据',
-                                            'type': 'folder'
-                                        }
-                                    }
-                                },
-                                'miriad': {
-                                    'path': 'data/real/miriad',
-                                    'description': 'MIRIAD数据集',
-                                    'type': 'folder',
-                                    'subdirectories': {
-                                        'mri': {
-                                            'path': 'data/real/miriad/mri',
-                                            'description': 'MRI数据',
-                                            'type': 'folder'
-                                        }
-                                    }
-                                },
-                                'nacc': {
-                                    'path': 'data/real/nacc',
-                                    'description': 'NACC数据集',
-                                    'type': 'folder',
-                                    'subdirectories': {
-                                        'clinical': {
-                                            'path': 'data/real/nacc/clinical',
-                                            'description': '临床数据',
-                                            'type': 'folder'
-                                        }
-                                    }
-                                },
-                                'ucsd': {
-                                    'path': 'data/real/ucsd',
-                                    'description': 'UCSD数据集',
-                                    'type': 'folder',
-                                    'subdirectories': {
-                                        'mri': {
-                                            'path': 'data/real/ucsd/mri',
-                                            'description': 'MRI数据',
-                                            'type': 'folder'
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-            },
-            'demodata': {
-                'path': 'demodata',
-                'description': '演示数据源',
-                'type': 'folder',
-                'subdirectories': {
-                    'clinical': {
-                        'path': 'demodata/Clinical',
-                        'description': '临床演示数据',
-                        'type': 'folder'
-                    },
-                    'lifestyle': {
-                        'path': 'demodata/Lifestyle',
-                        'description': '生活方式演示数据',
-                        'type': 'folder'
-                    },
-                    'mri': {
-                        'path': 'demodata/MRI',
-                        'description': 'MRI演示数据',
-                        'type': 'folder'
-                    },
-                    'molecular': {
-                        'path': 'demodata/Molecular',
-                        'description': '分子演示数据',
-                        'type': 'folder'
-                    }
-                }
+
+            TOP_LEVEL_DIRS = {
+                'checkpoints': '模型检查点',
+                'config': '配置文件',
+                'data': '数据根目录',
+                'demodata': '演示数据源',
+                'models': 'AI模型',
+                'results': '分析结果',
+                'reports': 'PDF报告',
+                'uploaded_img': '上传图像',
+                'static': '静态资源',
             }
-        }
-            
-            # 检查目录是否存在并统计文件数量
-            def check_directory_recursive(dir_info):
-                if os.path.exists(os.path.join(PROJECT_ROOT, dir_info['path'])):
-                    dir_info['exists'] = True
-                    file_count = 0
-                    for root, dirs, files in os.walk(os.path.join(PROJECT_ROOT, dir_info['path'])):
-                        file_count += len(files)
-                    dir_info['file_count'] = file_count
-                else:
-                    dir_info['exists'] = False
-                    dir_info['file_count'] = 0
-                
-                # 递归检查子目录
-                if 'subdirectories' in dir_info:
-                    for subdir_name, subdir_info in dir_info['subdirectories'].items():
-                        check_directory_recursive(subdir_info)
-            
-            # 检查所有目录
-            for dir_name, dir_info in data_directories.items():
-                check_directory_recursive(dir_info)
-            
+
+            def count_files_recursive(dir_path):
+                count = 0
+                try:
+                    for root, dirs, files in os.walk(dir_path):
+                        count += len(files)
+                except Exception:
+                    pass
+                return count
+
+            def build_dir_info(rel_path, description, name=None):
+                abs_path = os.path.join(PROJECT_ROOT, rel_path)
+                exists = os.path.isdir(abs_path)
+                info = {
+                    'path': rel_path.replace('\\', '/'),
+                    'description': description,
+                    'type': 'folder',
+                    'exists': exists,
+                    'file_count': count_files_recursive(abs_path) if exists else 0,
+                }
+
+                if exists:
+                    subdirs = {}
+                    try:
+                        for entry in sorted(os.listdir(abs_path)):
+                            entry_path = os.path.join(abs_path, entry)
+                            if os.path.isdir(entry_path) and not entry.startswith('.') and not entry.startswith('__'):
+                                sub_rel = os.path.join(rel_path, entry).replace('\\', '/')
+                                subdirs[entry] = build_dir_info(sub_rel, f'{name or rel_path}/{entry}', entry)
+                    except Exception:
+                        pass
+                    if subdirs:
+                        info['subdirectories'] = subdirs
+
+                return info
+
+            data_directories = {}
+            for dir_name, description in TOP_LEVEL_DIRS.items():
+                data_directories[dir_name] = build_dir_info(dir_name, description, dir_name)
+
             return {
                 'success': True,
                 'data': data_directories,
                 'message': '目录结构获取成功'
             }
-            
+
         except Exception as e:
             logger.error("获取目录结构失败", e)
             return self._create_error_response(500, [str(e)])
@@ -776,33 +637,42 @@ class APIHandler:
                 return self._create_error_response(403, ['仅支持相对路径'])
 
             if not os.path.exists(abs_dir):
-                return self._create_error_response(404, ['目录不存在'])
+                logger.warning(f"目录不存在: {abs_dir}")
+                return {
+                    'success': True,
+                    'data': [],
+                    'message': '目录不存在，暂无文件'
+                }
 
             if not os.path.isdir(abs_dir):
-                return self._create_error_response(400, ['路径不是目录'])
+                return {
+                    'success': True,
+                    'data': [],
+                    'message': '路径不是目录'
+                }
 
             files = []
-            for filename in os.listdir(abs_dir):
-                file_path = os.path.join(abs_dir, filename)
-                if os.path.isfile(file_path):
-                    file_info = {
-                        'name': filename,
-                        'path': os.path.relpath(file_path, PROJECT_ROOT).replace('\\', '/'),
-                        'size': os.path.getsize(file_path),
-                        'modified': os.path.getmtime(file_path),
-                        'is_image': filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))
-                    }
-                    files.append(file_info)
-            
-            # 按文件名排序
-            files.sort(key=lambda x: x['name'])
-            
+            try:
+                for filename in sorted(os.listdir(abs_dir)):
+                    file_path = os.path.join(abs_dir, filename)
+                    if os.path.isfile(file_path):
+                        file_info = {
+                            'name': filename,
+                            'path': os.path.relpath(file_path, PROJECT_ROOT).replace('\\', '/'),
+                            'size': os.path.getsize(file_path),
+                            'modified': os.path.getmtime(file_path),
+                            'is_image': filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))
+                        }
+                        files.append(file_info)
+            except PermissionError:
+                logger.warning(f"无权限访问目录: {abs_dir}")
+
             return {
                 'success': True,
                 'data': files,
                 'message': '文件列表获取成功'
             }
-            
+
         except Exception as e:
             logger.error("获取目录文件失败", e)
             return self._create_error_response(500, [str(e)])
